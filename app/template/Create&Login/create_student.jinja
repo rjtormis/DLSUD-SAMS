@@ -1,0 +1,102 @@
+{% extends 'Create&Login/CLBase.jinja'%}
+
+{% block css %} <link rel="stylesheet" href="{{url_for('static',filename= 'styles/Create&Login/create_student.css')}}"> {% endblock %}
+
+{% block title%} DLSUD SAMS | CREATE STUDENT ACCOUNT{% endblock %}
+
+{% block choice%}
+<div class="cont">Already have an account?</div>
+<a href="{{url_for('login_page')}}" class="signUp">Login</a>
+{% endblock %}
+
+{% block content %}
+        <main>
+            <div class="container">
+                <div class="head">
+                    <section class="d-flex justify-content-center"><b>CREATE AN
+                            ACCOUNT</b></section>
+                    <section class="d-flex justify-content-center">Fill in your
+                        required details to register in the
+                        attendance portal</section>
+                </div>
+                <div class="form_container d-flex justify-content-center">
+                    <form action="">
+                        <div class="mb-4 d-flex">
+                            <div class="lastName">
+                                <label for="lastName" class="form-label"><b>Last
+                                        name</b></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                        id="lastName"
+                                        placeholder="Last name">
+                                </div>
+                            </div>
+                            <div class="firstName">
+                                <label for="firstName" class="form-label"><b>First
+                                        name</b></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                        id="firstName"
+                                        placeholder="First name">
+                                </div>
+                            </div>
+                            <div class="middleInitial">
+                                <label for="middleInitial" class="form-label"><b>Middle
+                                        Initial</b></label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                        id="middleInitial"
+                                        placeholder="Middle initial">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <!-- <label for="datepicker"><b>Birthdate</b></label> -->
+                            <div class="input-group">
+                                <img src="{{url_for('static',filename ='img/person-badge.svg')}}" alt=""
+                                    class="input-group-text bg-white">
+                                <input type="text" class="form-control
+                                    border-start-0"
+                                    id="datepicker" placeholder="ID Number">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <!-- <label for="emailAddress"><b>Email</b></label> -->
+                            <div class="input-group">
+                                <img src="{{url_for('static',filename ='img/envelope.svg')}}" alt=""
+                                    class="input-group-text bg-white">
+                                <input type="email" class="form-control
+                                    border-start-0"
+                                    id="emailAddress" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <div class="input-group">
+                                <img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt=""
+                                    class="input-group-text bg-white">
+                                <input type="password" id="password"
+                                    class="form-control border-start-0"
+                                    placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="justify-content-center text-center">
+                            <button class="btn btn-primary">REGISTER</button>
+                        </div>
+                    </form>
+                    <div class="temp d-flex align-items-end">
+                        <a href="{{url_for('professor_page')}}" class="temp1 d-flex justify-content-center
+                            align-items-center flex-column">
+                            <img src="{{url_for('static',filename ='img/person-circle.svg')}}" alt="">
+                            PROFESSOR
+                        </a>
+
+                    </div>
+
+                </div>
+                <div class="btmFiller d-flex justify-content-center">Already
+                    have
+                    an account?<a href="{{url_for('login_page')}}" class="ms-2 text-white">Login!</a></div>
+            </div>
+
+        </main>
+{% endblock %}
