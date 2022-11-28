@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,800;1,700&display=swap');
+* {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+html {
+	font-size: 16px;
+}
+body {
+	width: 100%;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-image: url('../../img/clbg.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+}
+
+/* =============================
+			HEADER
+   =============================
+*/
+.signUp {
+	text-decoration: none;
+	color: white;
+	padding: 8px;
+	margin-left: 15px;
+	border: 2px green solid;
+	border-radius: 5px;
+	background-color: green;
+	transition: all 0.2s ease-in;
+}
+.signUp:hover {
+	border-radius: 10px;
+	color: white;
+}
+
+/* =============================
+			FORM CONTAINER
+   =============================
+*/
+/* DEFAULT 40 - 80 */
+.form {
+	width: 40%;
+	padding: 10px;
+	background: #fff;
+	box-shadow: 0 24px 64px #26214a1a;
+	border-radius: 12px;
+	margin-bottom: 5px;
+}
+form {
+	padding: 10px;
+	margin: auto;
+	width: 80%;
+	display: flex;
+	flex-direction: column;
+}
+
+.registerBtn {
+	padding: 10px;
+	align-self: center;
+	color: white;
+	border: 1px green solid;
+	border-radius: 5px;
+	background-color: green;
+	transition: all 0.2s ease-in;
+}
+.registerBtn:hover {
+	border-radius: 10px;
+}
+
+.acctType {
+	text-align: center;
+}
+.acctType a {
+	text-decoration: none;
+}
+.acctType a:hover {
+	color: white;
+}
+
+/* 
+==============
+  FOOTER
+==============
+*/
+footer {
+	text-align: center;
+}
