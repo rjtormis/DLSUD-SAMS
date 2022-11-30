@@ -22,5 +22,18 @@ def login_page():
     return render_template('Create&Login/login.jinja')
 
 @app.route('/dashboard')
-def method_name():
-    pass
+def dashboard_page():
+    return render_template('Dashboard/main.jinja')
+
+@app.route('/classroom')
+def classroom_page():
+    return render_template('Dashboard/classroom.jinja')
+
+@app.route('/profile')
+def profile_page():
+    return render_template('Dashboard/profile.jinja')
+
+@app.route('/upload')
+def upload_page():
+    return render_template('Dashboard/upload.jinja')
+
