@@ -1,4 +1,4 @@
-{% extends 'DBase.jinja'%}
+{% extends 'Dashboard/DBase.jinja'%}
 {% block css%} <link rel="stylesheet" href="{{url_for('static',filename= 'styles/Dashboard/dashboard_main.css')}}" /> {% endblock %}
 {% block title %} <title>DLSUD SAMS | DASHBOARD</title> {% endblock %}
 
@@ -26,7 +26,7 @@
 					<div class="col">
 						<div class="total">
 							<div class="total-img">
-								<img src="{{url_for('static',filename='img/tc.png')}}}" alt="" />
+								<img src="{{url_for('static',filename='img/tc.png')}}" alt="" />
 							</div>
 							<div class="total-type">
 								<h4 class="mb-0"><b>TOTAL CLASSROOM</b></h4>
@@ -37,7 +37,7 @@
 					<div class="col">
 						<div class="total">
 							<div class="total-img">
-								<img src="{{url_for('static',filename = 'img/te.png')}}img/te.png" alt="" />
+								<img src="{{url_for('static',filename = 'img/te.png')}}" alt="" />
 							</div>
 							<div class="total-type">
 								<h4 class="mb-0"><b>TOTAL STUDENTS ENROLLED</b></h4>
