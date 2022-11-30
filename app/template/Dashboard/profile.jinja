@@ -1,0 +1,73 @@
+{% extends 'DBase.jinja'%}
+{% block css %} <link rel="stylesheet" href="../../styles/Dashboard/dashboard_classroom.css" /> {% endblock %}
+{% block title %} DLSUD SAMS | PROFILE {% endblock %}
+
+{%block content %}
+<div class="main-content container-fluid">
+    <div class="profile-header">
+        <div class="profile-type">
+            <p class="mb-0">Faculty</p>
+        </div>
+        <div class="profile-background"></div>
+        <div class="profile-details">
+            <div class="profile-img">
+                <img src="../../img/profile.jfif" alt="" />
+            </div>
+            <div class="profile-name">
+                <h1 class="mb-0"><b>Mang Juan</b></h1>
+                <p class="mb-0">Department of Agriculture</p>
+            </div>
+            <div class="profile-option">
+                <button type="button">EDIT</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-display mt-2">
+        <div class="p-intro">
+            <h2>Intro</h2>
+            <div class="intro-details location">
+                <div class="icon">
+                    <span class="material-icons-round"> place </span>
+                </div>
+                <div class="intro-details description">
+                    <p>From DLSUD</p>
+                </div>
+            </div>
+            <div class="intro-details department">
+                <div class="icon">
+                    <span class="material-icons-round"> apartment </span>
+                </div>
+                <div class="description">
+                    <p>Department of Agriculture</p>
+                </div>
+            </div>
+            <div class="intro-details motto">
+                <div class="icon">
+                    <span class="material-icons-round"> auto_stories </span>
+                </div>
+                <div class="description">
+                    <p>We may encounter many defeats but we must not be defeated. – Maya Angelou</p>
+                </div>
+            </div>
+            <div class="intro-details consultation">
+                <div class="icon">
+                    <span class="material-icons-round"> watch_later </span>
+                </div>
+                <div class="description">
+                    <p>MWF 10-am - 1 pm</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-about">
+            <h2>About</h2>
+            <div class="about-content">
+                <p>
+                    il obcaecati tempora quaerat corrupti aut magnam distinctio voluptatum omnis dolores quisquam
+                    repudiandae eos velit, ipsum facere! Repudiandae!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

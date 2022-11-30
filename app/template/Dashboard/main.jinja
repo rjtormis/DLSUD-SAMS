@@ -1,0 +1,71 @@
+{% extends 'DBase.jinja'%}
+{% block css%} <link rel="stylesheet" href="../../styles/Dashboard/dashboard_main.css" /> {% endblock %}
+{% block title %} DLSUD SAMS | DASHBOARD {% endblock %}
+
+{%block content%}
+<div class="main-content container-fluid">
+				<div class="main-header">
+					<div class="db-header">
+						<h1 class="mb-0">DASHBOARD</h1>
+					</div>
+					<a href="" class="profile-container">
+						<div class="profile">
+							<div class="profile-name">
+								<p class="mb-0">Mang Juan</p>
+							</div>
+							<div class="profile-img">
+								<img src="../../img/profile.jfif" alt="" />
+							</div>
+						</div>
+					</a>
+				</div>
+				<div class="db-greetings mb-3">
+					<h6 class="mb-0"><i>Welcome Mang Juan!</i></h6>
+				</div>
+				<div class="row mb-3">
+					<div class="col">
+						<div class="total">
+							<div class="total-img">
+								<img src="../../img/tc.png" alt="" />
+							</div>
+							<div class="total-type">
+								<h4 class="mb-0"><b>TOTAL CLASSROOM</b></h4>
+								<p class="mb-0">123456</p>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="total">
+							<div class="total-img">
+								<img src="../../img/te.png" alt="" />
+							</div>
+							<div class="total-type">
+								<h4 class="mb-0"><b>TOTAL STUDENTS ENROLLED</b></h4>
+								<p class="mb-0">123456</p>
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="total">
+							<div class="total-img">
+								<img src="../../img/tl.png" alt="" />
+							</div>
+							<div class="total-type">
+								<h4 class="mb-0"><b>TOTAL LECTURES CONDUCTED</b></h4>
+								<p class="mb-0">123456</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="analytics">
+					<div class="monthly">
+						<h2>Monthly Analytics</h2>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+{% endblock %}
