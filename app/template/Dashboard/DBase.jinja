@@ -27,7 +27,7 @@
 			<div class="side-bar p-1">
 				<div class="logo">
 					<div class="logo-img">
-						<img src="../../img/_previmg (1).png" alt="" />
+						<img src="{{url_for('static',filename ='img/sams.png')}}" alt="" />
 					</div>
 					<div class="logo-text item-name">
 						<h5 class="mb-0">DLSUD</h5>
@@ -40,31 +40,31 @@
 				</div>
 				<ul class="items nav flex-column p-1">
 					<li class="nav-item p-1">
-						<a href="" class="nav-link active">
+						<a href="{{url_for('dashboard_page')}}" class="nav-link active">
 							<span class="item-icon material-icons-round"> dashboard </span>
 							<span class="item-name">DASHBOARD</span>
 						</a>
 					</li>
 					<li class="nav-item p-1">
-						<a href="" class="nav-link active">
+						<a href="{{url_for('classroom_page')}}" class="nav-link active">
 							<span class="item-icon material-icons-round"> school </span>
 							<span class="item-name">CLASSROOM</span>
 						</a>
 					</li>
 					<li class="nav-item p-1">
-						<a href="" class="nav-link active">
+						<a href="{{url_for('profile_page')}}" class="nav-link active">
 							<span class="item-icon material-icons-round"> account_circle </span>
 							<span class="item-name">PROFILE</span>
 						</a>
 					</li>
 					<li class="nav-item p-1">
-						<a href="" class="nav-link active">
+						<a href="{{url_for('upload_page')}}" class="nav-link active">
 							<span class="item-icon material-icons-round"> add_photo_alternate </span>
-							<span class="item-name">ADD IMAGE</span>
+							<span class="item-name">UPLOAD IMAGE</span>
 						</a>
 					</li>
 					<li class="nav-item p-1">
-						<a href="" class="nav-link active">
+						<a href="{{url_for('home_page')}}" class="nav-link active">
 							<span class="item-icon material-icons-round"> logout </span>
 							<span class="item-name">LOGOUT</span>
 						</a>
@@ -84,6 +84,6 @@
 			integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
 			crossorigin="anonymous"></script>
 		<!-- DASHBOARD JS -->
-		<script src="../../html/Dashboard/side-nav.js"></script>
+		<script src="{{url_for('static',filename = js/side-nav.js)}}"></script>
 	</body>
 </html>

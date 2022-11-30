@@ -1,6 +1,6 @@
 {% extends 'DBase.jinja'%}
-{% block css%} <link rel="stylesheet" href="../../styles/Dashboard/dashboard_main.css" /> {% endblock %}
-{% block title %} DLSUD SAMS | DASHBOARD {% endblock %}
+{% block css%} <link rel="stylesheet" href="{{url_for('static',filename= 'styles/Dashboard/dashboard_main.css')}}" /> {% endblock %}
+{% block title %} <title>DLSUD SAMS | DASHBOARD</title> {% endblock %}
 
 {%block content%}
 <div class="main-content container-fluid">
@@ -14,7 +14,7 @@
 								<p class="mb-0">Mang Juan</p>
 							</div>
 							<div class="profile-img">
-								<img src="../../img/profile.jfif" alt="" />
+								<img src="{{url_for('static',filename = 'img/profile.jfif')}}" alt="" />
 							</div>
 						</div>
 					</a>
@@ -26,7 +26,7 @@
 					<div class="col">
 						<div class="total">
 							<div class="total-img">
-								<img src="../../img/tc.png" alt="" />
+								<img src="{{url_for('static',filename='img/tc.png')}}}" alt="" />
 							</div>
 							<div class="total-type">
 								<h4 class="mb-0"><b>TOTAL CLASSROOM</b></h4>
@@ -37,7 +37,7 @@
 					<div class="col">
 						<div class="total">
 							<div class="total-img">
-								<img src="../../img/te.png" alt="" />
+								<img src="{{url_for('static',filename = 'img/te.png')}}img/te.png" alt="" />
 							</div>
 							<div class="total-type">
 								<h4 class="mb-0"><b>TOTAL STUDENTS ENROLLED</b></h4>
@@ -48,7 +48,7 @@
 					<div class="col">
 						<div class="total">
 							<div class="total-img">
-								<img src="../../img/tl.png" alt="" />
+								<img src="{{url_for('static',filename='img/tl.png')}}" alt="" />
 							</div>
 							<div class="total-type">
 								<h4 class="mb-0"><b>TOTAL LECTURES CONDUCTED</b></h4>
