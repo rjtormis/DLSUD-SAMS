@@ -37,3 +37,6 @@ def profile_page():
 def upload_page():
     return render_template('Dashboard/upload.jinja')
 
+
+if __name__ == '__main__':
+    app.run(debug = True)
