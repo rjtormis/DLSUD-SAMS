@@ -1,0 +1,43 @@
+{% extends 'Dashboard/DBase.jinja'%} {% block css %}
+<link rel="stylesheet" href="{{url_for('static',filename='styles/Dashboard/dashboard_classroom.css')}}" />
+{% endblock%}
+<!--  -->
+{% block title %} <title>DLSUD SAMS | CLASSROOM</title> {% endblock %} {% block content%}
+<div class="main-content container-fluid">
+	<div class="main-header">
+		<div class="db-header">
+			<h1 class="mb-0">CLASSROOM</h1>
+		</div>
+	</div>
+	<div class="queryInput">
+		<div class="create">
+			<button type="button">+ CLASSROOM</button>
+		</div>
+		<form action="">
+			<input type="text" class="form-control" placeholder="Search" />
+			<button type="submit" class="input-group-text"><span class="material-icons-round"> search </span></button>
+		</form>
+	</div>
+	<br />
+	<div class="classrooms">
+		<a href="">
+			<div class="rooms card">
+				<div class="card-body">
+					<span class="material-icons-round"> school </span>
+					<h2 class="mb-0">BCS 43</h2>
+					<p>5/43</p>
+				</div>
+			</div>
+		</a>
+		<a href="">
+			<div class="rooms card">
+				<div class="card-body">
+					<span class="material-icons-round"> school </span>
+					<h2 class="mb-0">BCS 43</h2>
+					<p>5/43</p>
+				</div>
+			</div>
+		</a>
+	</div>
+</div>
+{% endblock %}

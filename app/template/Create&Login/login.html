@@ -1,0 +1,52 @@
+{% extends 'Create&Login/CLBase.jinja'%} {% block css %}
+<link rel="stylesheet" href="{{url_for('static',filename = 'styles/Create&Login/login.css')}}" /> {% endblock %} {%
+block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
+<div class="col-xl-6 d-flex align-items-baseline justify-content-end gap-2">
+	<p>Don't have an account?</p>
+	<a href="{{url_for('student_page')}}" class="signUp">Sign Up</a>
+</div>
+{% endblock %} {% block content%}
+<div class="login container mt-3">
+	<div class="loginheader">
+		<h5 class="text-center text-light"><b>LOG IN TO YOUR ACCOUNT</b></h5>
+		<h6 class="text-center text-light"><b>Fill in your required details to log in to the attendance portal</b></h6>
+	</div>
+	<br />
+	<div class="form container">
+		{# TEMPORARY #}
+		<form action="{{url_for('dashboard_page')}}">
+			<b>EMAIL</b>
+			<div class="input-group">
+				<span class="input-group-text bg-white">
+					<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="" />
+				</span>
+				<div class="form-floating">
+					<input type="email" class="form-control border-start-0" placeholder="Email Address" id="email_input" />
+					<label for="email_input">Email Address</label>
+				</div>
+			</div>
+			<b class="mt-2">PASSWORD</b>
+			<div class="input-group">
+				<span class="input-group-text bg-white">
+					<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
+				</span>
+				<div class="form-floating">
+					<input
+						type="password"
+						class="form-control border-start-0 border-end-0"
+						placeholder="Email Address"
+						id="password_input" />
+					<label for="password_input">Password</label>
+				</div>
+				<span class="input-group-text bg-white">
+					<a href=""><img src="{{url_for('static',filename ='img/eye-slash.svg')}}" alt="" /></a>
+				</span>
+			</div>
+			<div class="forgot-password mt-2">
+				<a href="">Forgot Password</a>
+			</div>
+			<button class="loginBtn">LOGIN</button>
+		</form>
+	</div>
+</div>
+{% endblock %}
