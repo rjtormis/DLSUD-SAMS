@@ -1,0 +1,32 @@
+                            ===================
+                                DEPENDENCIES
+                            ===================
+click==8.1.3
+colorama==0.4.6
+cssbeautifier==1.14.7
+EditorConfig==0.12.3
+Flask==2.2.2
+Flask-SQLAlchemy==3.0.2         FLASK DATABASE
+Flask-WTF==1.0.1                FLASK FORMS
+greenlet==2.0.1
+html-tag-names==0.1.2
+html-void-elements==0.1.0
+importlib-metadata==5.1.0
+itsdangerous==2.1.2
+Jinja2==3.1.2
+jsbeautifier==1.14.7
+MarkupSafe==2.1.1
+mysql-connector==2.2.9          MYSQL CONNECTOR
+mysql-connector-python==8.0.31  MYSQL CONNECTOR FOR PYTHON
+pathspec==0.10.2
+protobuf==3.20.1
+python-dotenv==0.21.0           PYTHON .ENV (hiding keys)
+PyYAML==6.0
+regex==2022.10.31
+six==1.16.0
+SQLAlchemy==1.4.45
+tomli==2.0.1
+tqdm==4.64.1
+Werkzeug==2.2.2
+WTForms==3.0.1                  PYTHON FORMS
+zipp==3.11.0
