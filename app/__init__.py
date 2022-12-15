@@ -11,9 +11,11 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__,template_folder = 'template')
 # Initialize secret key for user session protection
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
-
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
 
 # Initialize database
-#db = SQLAlchemy(app)
+db = SQLAlchemy(app)
 
+# Essential imports!
 from app import routes
+from app.models.models import User,Classroom
