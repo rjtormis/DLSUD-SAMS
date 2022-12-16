@@ -18,4 +18,4 @@ db = SQLAlchemy(app)
 
 # Essential imports!
 from app import routes
-from app.models.models import User,Classroom
+from app.models.models import User,Student
