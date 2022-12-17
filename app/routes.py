@@ -2,35 +2,56 @@ from app import app,db
 from flask import render_template,request,redirect,url_for,flash,get_flashed_messages
 
 
-from app.models.forms import RegisterStudent
-from app.models.models import Student
+from app.models.forms import RegisterStudent,RegisterProfessor
+from app.models.models import Student,Professor,Collegiate
 
 @app.route('/')
 @app.route('/home')
 def home_page():
     return render_template('Landing/landing_page.html')
 
+# TODO: ADD FLASHES, ERROR HANDLING
+# DATE: DECEMBER 17 2022
 @app.route('/create-account/student',methods = ['GET','POST'])
 def student_page():
     student_form = RegisterStudent()
 
-    if request.method == 'POST':
-        if student_form.validate_on_submit():
-            student_account = Student(idNumber = student_form.idNumber.data,firstName = student_form.firstName.data,middleName = student_form.middleName.data,lastName = student_form.lastName.data,emailAddress = student_form.emailAddress.data,password = student_form.password1.data)
-            db.session.add(student_account)
-            db.session.commit()
-        if student_form.errors != {}:
-            # Iterates through the error message
-            for err_msg in student_form.errors.values():
-                print(err_msg)
+
+    if student_form.validate_on_submit():
+        student_account = Student(idNumber = student_form.idNumber.data,firstName = student_form.firstName.data,middleName = student_form.middleName.data,lastName = student_form.lastName.data,emailAddress = student_form.emailAddress.data,password = student_form.password1.data)
+        db.session.add(student_account)
+        db.session.commit()
         return redirect(url_for('student_page'))
 
-    else:
-        return render_template('Create&Login/create_student.html',student_form = student_form)
+    if student_form.errors != {}:
+        for err_msg in student_form.errors.values():
+            print(err_msg)
+    
 
-@app.route('/create-account/professor')
+    return render_template('Create&Login/create_student.html',student_form = student_form)
+
+# TODO: ADD FLASHES, ERROR HANDLING
+# DATE: DECEMBER 17 2022
+@app.route('/create-account/professor',methods = ['GET','POST'])
 def professor_page():
-    return render_template('Create&Login/create_professor.html')
+    professor_form = RegisterProfessor()
+    collegiates = [(row.collegiate_name) for row in db.session.query(Collegiate).all()]
+    professor_form.collegiate.choices = collegiates
+    
+
+    if professor_form.validate_on_submit():
+        professor_account = Professor(firstName = professor_form.firstName.data , middleName = professor_form.middleName.data,lastName = professor_form.lastName.data,emailAddress = professor_form.emailAddress.data,password = professor_form.password1.data,collegiate_name = professor_form.collegiate.data, birthDate = professor_form.birthDate.data)
+        db.session.add(professor_account)
+        db.session.commit()
+        return redirect(url_for('professor_page'))
+
+    if professor_form.errors != {}:
+        for err_msg in professor_form.errors.values():
+            
+            print(err_msg)
+        
+
+    return render_template('Create&Login/create_professor.html',professor_form = professor_form)
 
 @app.route('/login')
 def login_page():
