@@ -21,24 +21,26 @@
 				<!-- FORM CONTAINER -->
 				<!-- FN,MI,LN -->
 				<div class="form container">
-					<form action="">
+					<form action="" method="POST">
+						{{professor_form.hidden_tag()}}
 						<h6 class="text-center"><b>PROFESSOR ACCOUNT DETAILS</b></h6>
+						
 						<div class="row">
 							<div class="col">
 								<div class="form-floating">
-									<input type="text" class="form-control" placeholder="First name",id='first_name'>
+									{{professor_form.firstName(class = "form-control",placeholder = "First name",id = first_name)}}
 									<label for="first_name">First name</label>
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-floating">
-									<input type="text" class="form-control" placeholder="First name",id='initial'>
-									<label for="initial">M.I</label>
+									{{professor_form.middleName(class = "form-control",placeholder = "Middle Initial",id = initial)}}
+									<label for="initial">Middle I.</label>
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-floating">
-									<input type="text" class="form-control" placeholder="First name",id='last_name'>
+									{{professor_form.lastName(class = "form-control",placeholder = "Last name",id = last_name)}}
 									<label for="last_name">Last name</label>
 								</div>
 							</div>
@@ -50,8 +52,8 @@
 								<img src="{{url_for('static',filename ='img/mortarboard.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-							<input type="text" class="form-control" placeholder="ID Number" id = collegiate_input>
-							<label for="collegiate_input">Collegiate</label>
+								{{professor_form.collegiate(class = "form-control",placeholder = "Collegiate",id = collegiate_input)}}
+								<label for="collegiate_input">Collegiate</label>
 							</div>
 						</div>
 
@@ -61,7 +63,7 @@
 								<img src="{{url_for('static',filename ='img/calendar-date.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-							<input type="date" class="form-control" placeholder="ID Number" id = date_input>
+							{{professor_form.birthDate(type = "date",class = "form-control",placeholder = "Last name",id = date_input)}}
 							<label for="date_input">Birthdate</label>
 							</div>
 						</div>
@@ -72,7 +74,7 @@
 								<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-							<input type="email" class="form-control" placeholder="ID Number" id = email_input>
+							{{professor_form.emailAddress(type ="email",class = "form-control",placeholder = "Email Address",id = email_input)}}
 							<label for="email_input">Email</label>
 							</div>
 						</div>
@@ -83,12 +85,21 @@
 								<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-							<input type="password" class="form-control" placeholder="ID Number" id = password_input>
+							{{professor_form.password1(type ="password",class = "form-control",placeholder = "Password",id = password_input)}}
 							<label for="password_input">Password</label>
 							</div>
 						</div>
+						<div class="input-group mt-3">
+							<span class="input-group-text">
+								<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
+							</span>
+							<div class="form-floating">
+							{{professor_form.password2(type ="password",class = "form-control",placeholder = "Password",id = password_confirm)}}
+							<label for="password_input">Confirm Password</label>
+							</div>
+						</div>
 						<br>
-						<button class="registerBtn">Register</button>
+						{{professor_form.submit(class = "registerBtn")}}
 					</form>
 				</div>
 

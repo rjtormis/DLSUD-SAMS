@@ -36,7 +36,7 @@
                 <div class="col">
                     <div class="form-floating">
                         {{student_form.middleName(class = "form-control",placeholder = "Middle name",id = initial)}}
-                        <label for="initial">M.I</label>
+                        <label for="initial">Middle I.</label>
                     </div>
                 </div>
                 <div class="col">
@@ -64,7 +64,7 @@
                     <img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="">
                 </span>
                 <div class="form-floating">
-                    {{student_form.emailAddress(class = "form-control",placeholder = "Email Address",id = email_input)}}
+                    {{student_form.emailAddress(type = "email",class = "form-control",placeholder = "Email Address",id = email_input)}}
                     <label for="email_input">Email</label>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                     <img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
                 </span>
                 <div class="form-floating">
-                    {{student_form.password1(class = "form-control",placeholder = "Password",id = password_input)}}
+                    {{student_form.password1(type = "password",class = "form-control",placeholder = "Password",id = password_input)}}
                     <label for="password_input">Password</label>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     <img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
                 </span>
                 <div class="form-floating">
-                    {{student_form.password2(class = "form-control",placeholder = "Confirm Password",id = password_confirm)}}
+                    {{student_form.password2(type = "password",class = "form-control",placeholder = "Confirm Password",id = password_confirm)}}
                     <label for="password_confirm">Confirm Password</label>
                 </div>
             </div>
