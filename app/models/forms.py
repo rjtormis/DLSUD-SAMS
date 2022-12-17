@@ -1,13 +1,15 @@
 # Import Flask Forms Modules
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField
+from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField
 from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError
 
 # Import Flask Models
 from app.models.models import Student
 
-# Student Register
-class RegisterStudent(FlaskForm):
+
+# TODO: RESTRUCTURE USER FORM. 
+# DATE: DECEMBER 17 2022
+class RegisterUser(FlaskForm):
 
      # Email Validation
     def validate_emailAddress(self,emailAddress_to_validate):
@@ -25,9 +27,15 @@ class RegisterStudent(FlaskForm):
     middleName = StringField(validators = [Length(max = 1),DataRequired()])
     lastName = StringField(validators = [Length(min = 4 , max = 20),DataRequired()])
     emailAddress = StringField(validators = [Email(),DataRequired()])
-    idNumber = StringField(validators = [Length(min = 9),DataRequired()])
     password1 = PasswordField(validators = [Length(min = 8),DataRequired()])
     password2 = PasswordField(validators = [EqualTo('password1'),DataRequired()])
+
+class RegisterStudent(RegisterUser):
+    idNumber = StringField(validators = [Length(min = 9),DataRequired()])
     submit = SubmitField(label ="Register")
 
    
+class RegisterProfessor(RegisterUser):
+    collegiate = SelectField('Label', choices=[])
+    birthDate = DateField(format = '%Y-%m-%d',validators = [DataRequired()])
+    submit = SubmitField(label ="Register")
