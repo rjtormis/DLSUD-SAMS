@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 class User():
-    idNumber = db.Column(db.String(length = 9),primary_key = True)
+    idNumber = db.Column(db.Integer(),primary_key = True,autoincrement = True)
     firstName = db.Column(db.String(length = 20),nullable = False)
     middleName = db.Column(db.String(length = 2),nullable = False)
     lastName = db.Column(db.String(length = 20),nullable = False)
@@ -28,17 +28,20 @@ class Student(db.Model,User):
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
-
-
+"""
+TO BE RESTRUCTURED
+"""
 class Professor(db.Model,User):
-    collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiate.collegiate_id'))
+    collegiate_name = db.Column(db.String(length =50),db.ForeignKey('collegiate.collegiate_name'))
+    birthDate = db.Column(db.DateTime())
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
 
 class Collegiate(db.Model):
-    collegiate_id  = db.Column(db.Integer(),primary_key = True)
-    collegiate_name = db.Column(db.String(length = 100),nullable = False)
+    collegiate_id  = db.Column(db.Integer(),nullable = False,unique = True)
+    collegiate_shorten = db.Column(db.String(length = 10),nullable = False,unique = True)
+    collegiate_name = db.Column(db.String(length = 100),primary_key = True)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
     
