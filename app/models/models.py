@@ -1,21 +1,34 @@
 """
 TESTING PURPOSES
 """
-from app import db
+from app import db,bcrypt
 from datetime import datetime
 
 
 class User():
-    id = db.Column(db.String(length = 20),primary_key = True)
+    idNumber = db.Column(db.String(length = 9),primary_key = True)
     firstName = db.Column(db.String(length = 20),nullable = False)
     middleName = db.Column(db.String(length = 2),nullable = False)
     lastName = db.Column(db.String(length = 20),nullable = False)
     emailAddress = db.Column(db.String(length = 20),unique = True,nullable = False)
     passwordHash = db.Column(db.String(length = 16),nullable = False)
     
+
+    # Password Getter
+    @property
+    def password(self):
+        return self.password
+
+    # Password Setter
+    @password.setter
+    def password(self,input_password):
+        self.passwordHash = bcrypt.generate_password_hash(input_password).decode('utf-8')
+
 class Student(db.Model,User):
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
+
+
 
 class Professor(db.Model,User):
     collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiate.collegiate_id'))
@@ -39,12 +52,11 @@ class Section(db.Model):
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
-    subjects = db.relationship('Subject',backref = 'subjects',lazy = True)
-
+    subjects = db.relationship('Subject',backref = 'subject',lazy = True)
 
 ## Needs to be fixed =)
 class Subject(db.Model):
-    section_id = db.column(db.Integer(),db.ForeignKey('section.section_id'))
+    section_id = db.Column(db.Integer(),db.ForeignKey('section.section_id'))
     subject_id = db.Column(db.Integer(),primary_key = True)
     subject_name = db.Column(db.String(length = 20),unique = True,nullable = False)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
