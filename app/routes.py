@@ -2,7 +2,7 @@ from app import app,db
 from flask import render_template,request,redirect,url_for,flash,get_flashed_messages
 
 
-from app.models.forms import RegisterStudent,RegisterProfessor
+from app.models.forms import StudentForm,ProfessorForm
 from app.models.models import Student,Professor,Collegiate
 
 @app.route('/')
@@ -14,7 +14,7 @@ def home_page():
 # DATE: DECEMBER 17 2022
 @app.route('/create-account/student',methods = ['GET','POST'])
 def student_page():
-    student_form = RegisterStudent()
+    student_form = StudentForm()
 
 
     if student_form.validate_on_submit():
@@ -34,8 +34,8 @@ def student_page():
 # DATE: DECEMBER 17 2022
 @app.route('/create-account/professor',methods = ['GET','POST'])
 def professor_page():
-    professor_form = RegisterProfessor()
-    collegiates = [(row.collegiate_name) for row in db.session.query(Collegiate).all()]
+    professor_form = ProfessorForm()
+    collegiates = [(row.collegiate_name,row.collegiate_shorten) for row in db.session.query(Collegiate).all()]
     professor_form.collegiate.choices = collegiates
     
 
@@ -50,7 +50,6 @@ def professor_page():
             
             print(err_msg)
         
-
     return render_template('Create&Login/create_professor.html',professor_form = professor_form)
 
 @app.route('/login')
