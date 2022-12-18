@@ -18,8 +18,8 @@ class RegisterUser(FlaskForm):
             raise ValidationError('Email Address Already Exists!')
     
     # ID Number Validation
-    def validate_idNumber(self,idNumber_to_validate):
-        student_id = Student.query.filter_by(idNumber = idNumber_to_validate.data).first()
+    def validate_idNumber(self,id_to_validate):
+        student_id = Student.query.filter_by(id = id_to_validate.data).first()
         if student_id:
             raise ValidationError('ID Number Already Exists!')
 
