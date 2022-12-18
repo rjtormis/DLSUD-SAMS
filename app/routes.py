@@ -40,7 +40,14 @@ def professor_page():
     
 
     if professor_form.validate_on_submit():
-        professor_account = Professor(firstName = professor_form.firstName.data , middleName = professor_form.middleName.data,lastName = professor_form.lastName.data,emailAddress = professor_form.emailAddress.data,password = professor_form.password1.data,collegiate_name = professor_form.collegiate.data, birthDate = professor_form.birthDate.data)
+        professor_account = Professor(firstName = professor_form.firstName.data ,
+         middleName = professor_form.middleName.data,
+         lastName = professor_form.lastName.data,
+         emailAddress = professor_form.emailAddress.data,
+         password = professor_form.password1.data,
+         collegiate_name = professor_form.collegiate.data,
+         birthDate = professor_form.birthDate.data)
+        
         db.session.add(professor_account)
         db.session.commit()
         return redirect(url_for('professor_page'))
@@ -54,6 +61,7 @@ def professor_page():
 
 @app.route('/login')
 def login_page():
+
     return render_template('Create&Login/login.html')
 
 @app.route('/dashboard')
