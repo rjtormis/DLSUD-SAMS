@@ -30,12 +30,17 @@ class RegisterUser(FlaskForm):
     password1 = PasswordField(validators = [Length(min = 8),DataRequired()])
     password2 = PasswordField(validators = [EqualTo('password1'),DataRequired()])
 
-class RegisterStudent(RegisterUser):
+class StudentForm(RegisterUser):
     idNumber = StringField(validators = [Length(min = 9),DataRequired()])
     submit = SubmitField(label ="Register")
 
    
-class RegisterProfessor(RegisterUser):
+class ProfessorForm(RegisterUser):
     collegiate = SelectField('Label', choices=[])
     birthDate = DateField(format = '%Y-%m-%d',validators = [DataRequired()])
     submit = SubmitField(label ="Register")
+
+
+class LoginForm(FlaskForm):
+    emailAddress = StringField(validators = [DataRequired()])
+    password = PasswordField(validators = [DataRequired()])
