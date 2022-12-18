@@ -10,6 +10,7 @@ EditorConfig==0.12.3
 email-validator==1.3.0          FLASK VALIDATOR FOR EMAIL
 Flask==2.2.2
 Flask-Bcrypt==1.0.1             FLASK BCRYPT ALGORITHM 
+Flask-Login==0.6.2              FLASK LOGIN MANAGER
 Flask-SQLAlchemy==3.0.2         FLASK DATABASE
 Flask-WTF==1.0.1                FLASK FORMS
 greenlet==2.0.1
