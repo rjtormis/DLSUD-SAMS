@@ -14,14 +14,16 @@ block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
 	<br />
 	<div class="form container">
 		{# TEMPORARY #}
-		<form action="{{url_for('dashboard_page')}}">
+		<form action="" method="POST">
+			{{login_form.hidden_tag()}}
 			<b>EMAIL</b>
 			<div class="input-group">
 				<span class="input-group-text bg-white">
 					<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="" />
 				</span>
 				<div class="form-floating">
-					<input type="email" class="form-control border-start-0" placeholder="Email Address" id="email_input" />
+					{{login_form.emailAddress(class = "form-control border-start-0" , placeholder = "Email Address",id =
+					"email_input" )}}
 					<label for="email_input">Email Address</label>
 				</div>
 			</div>
@@ -31,11 +33,8 @@ block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
 					<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
 				</span>
 				<div class="form-floating">
-					<input
-						type="password"
-						class="form-control border-start-0 border-end-0"
-						placeholder="Email Address"
-						id="password_input" />
+					{{login_form.password(class = "form-control border-start-0 border-end-0" , placeholder = "Password",id =
+					"password_input" )}}
 					<label for="password_input">Password</label>
 				</div>
 				<span class="input-group-text bg-white">

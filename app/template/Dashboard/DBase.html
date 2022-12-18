@@ -1,3 +1,4 @@
+{% if current_user.is_authenticated %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -18,8 +19,7 @@
 			href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
 			rel="stylesheet" />
 		<!-- MAIN CSS -->
-		{% block css %} {% endblock %}
-		{% block title %} {% endblock%}
+		{% block css %} {% endblock %} {% block title %} {% endblock%}
 	</head>
 	<body>
 		<!-- HEADER -->
@@ -64,7 +64,7 @@
 						</a>
 					</li>
 					<li class="nav-item p-1">
-						<a href="{{url_for('home_page')}}" class="nav-link active">
+						<a href="{{url_for('logout_page')}}" class="nav-link active">
 							<span class="item-icon material-icons-round"> logout </span>
 							<span class="item-name">LOGOUT</span>
 						</a>
@@ -74,10 +74,8 @@
 		</header>
 
 		<!-- MAIN CONTENT -->
-		<main>
-			{% block content%} {% endblock %}
-		</main>
-        
+		<main>{% block content%} {% endblock %}</main>
+
 		<!-- BOOTSTRAP JS -->
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
@@ -87,3 +85,4 @@
 		<script src="{{url_for('static',filename = 'js/side-nav.js')}}"></script>
 	</body>
 </html>
+{% endif %}

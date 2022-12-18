@@ -6,10 +6,10 @@ block title %} <title>DLSUD SAMS | DASHBOARD</title> {% endblock %} {%block cont
 		<div class="db-header">
 			<h1 class="mb-0">DASHBOARD</h1>
 		</div>
-		<a href="" class="profile-container">
+		<a href="{{url_for('profile_page')}}" class="profile-container">
 			<div class="profile">
 				<div class="profile-name">
-					<p class="mb-0">Mang Juan</p>
+					<p class="mb-0">{{current_user.fullName}}</p>
 				</div>
 				<div class="profile-img">
 					<img src="{{url_for('static',filename = 'img/profile.jfif')}}" alt="" />
@@ -18,7 +18,7 @@ block title %} <title>DLSUD SAMS | DASHBOARD</title> {% endblock %} {%block cont
 		</a>
 	</div>
 	<div class="db-greetings mb-3">
-		<h6 class="mb-0"><i>Welcome Mang Juan!</i></h6>
+		<h6 class="mb-0"><i>Welcome {{current_user.fullName}}!</i></h6>
 	</div>
 	<div class="row mb-3">
 		<div class="col">
@@ -39,7 +39,7 @@ block title %} <title>DLSUD SAMS | DASHBOARD</title> {% endblock %} {%block cont
 				</div>
 				<div class="total-type">
 					<h4 class="mb-0"><b>TOTAL STUDENTS ENROLLED</b></h4>
-					<p class="mb-0">123456</p>
+					<p class="mb-0">{{ts}}</p>
 				</div>
 			</div>
 		</div>
