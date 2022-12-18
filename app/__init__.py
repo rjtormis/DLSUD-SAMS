@@ -6,6 +6,7 @@ load_dotenv()
 from flask import Flask,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 
 
 app = Flask(__name__,template_folder = 'template')
@@ -19,6 +20,8 @@ db = SQLAlchemy(app)
 # Initialize BCrypt
 bcrypt = Bcrypt(app)
 
+# Initialize Login Manager
+login_manager = LoginManager(app)
 
 
 # Essential imports!
