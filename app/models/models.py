@@ -1,6 +1,5 @@
-"""
-TESTING PURPOSES
-"""
+import string,random
+
 from app import db,bcrypt,login_manager
 from datetime import datetime
 from flask_login import UserMixin
@@ -11,6 +10,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 class User(db.Model,UserMixin):
+
     __tablename__ = 'users'
 
     id = db.Column(db.Integer(),primary_key = True)
@@ -46,27 +46,35 @@ class User(db.Model,UserMixin):
 
 
 class Student(User):
+
     __tablename__ = 'students'
 
-    id = db.Column(db.Integer(),db.ForeignKey('users.id'),primary_key = True)
-    student_id = db.Column(db.Integer(),unique = True,nullable = False)
+    id = db.Column(db.Integer(),db.ForeignKey('users.id'))
+    student_id = db.Column(db.Integer(),primary_key = True)
+    collegiate_name = db.Column(db.String(length =50),db.ForeignKey('collegiates.collegiate_name'))
 
+    # FLASK JOINED TABLE INHERITANCE
     __mapper_args__ = {
-        'polymorphic_identity': 'student'
+        'polymorphic_identity': 'Student'
     }
 
-class Professor(User):
-    __tablename__ = 'professors'
+class Faculty(User):
 
-    id = db.Column(db.Integer(),db.ForeignKey('users.id'),primary_key = True)
-    collegiate_name = db.Column(db.String(length =50),db.ForeignKey('collegiates.collegiate_name'))
+    __tablename__ = 'faculties'
+
+    id = db.Column(db.Integer(),db.ForeignKey('users.id'))
+    faculty_id = db.Column(db.Integer(),primary_key = True)
+    collegiate_name = db.Column(db.String(length =50),db.ForeignKey('collegiates.collegiate_name'),nullable = False)
+    section_id = db.Column(db.Integer(),db.ForeignKey('sections.section_id'))
     birthDate = db.Column(db.DateTime())
     
+    # FLASK JOINED TABLE INHERITANCE
     __mapper_args__ = {
-        'polymorphic_identity':'professor',
+        'polymorphic_identity':'Faculty',
     }
 
 class Collegiate(db.Model):
+
     __tablename__ = 'collegiates'
 
     collegiate_id  = db.Column(db.Integer(),nullable = False,unique = True)
@@ -75,19 +83,52 @@ class Collegiate(db.Model):
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
     
-    professors = db.relationship('Professor',backref = 'collegiate',lazy=  True)
-
+    # One to many
+    faculty = db.relationship('Faculty',backref = 'collegiate',lazy=  True)
+    student = db.relationship('Student',backref = 'collegiate',lazy = True)
+    section = db.relationship('Section',backref = 'collegiate',lazy = True)
 
 class Section(db.Model):
+    
     __tablename__ = 'sections'
 
     section_id  = db.Column(db.Integer(),primary_key = True)
     section_code = db.Column(db.String(length = 20),unique = True,nullable = False)
     section_name = db.Column(db.String(length = 20),unique = True,nullable = False)
+    collegiate_name = db.Column(db.String(length = 100),db.ForeignKey('collegiates.collegiate_name'))
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
+    # One to many
+    faculty = db.relationship('Faculty',backref = 'faculty',lazy = True)
     subjects = db.relationship('Subject',backref = 'subject',lazy = True)
+
+    # Unique code getter for section code
+    @property
+    def uniqueSectionCode(self):
+        return self.uniqueCode
+    
+    # Unique Code setter for section code
+    @uniqueSectionCode.setter
+    def uniqueSectionCode(self,uniqueCode):
+        self.section_code = uniqueCode
+
+    # ASCII generator
+    # Reference: https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
+    def id_generator(self,size,chars = string.ascii_uppercase + string.digits):
+        uCode1 =  ''.join(random.choice(chars) for _ in range(size))   
+        uCode2 = ''.join(random.choice(chars) for _ in range(size))
+        return f'{uCode1}-{uCode2}'
+
+    # Queries the availability of name and section code in database.
+    def checkSection(self,sectionName,sectionCode):
+        checkSectionName = Section.query.filter_by(section_name = sectionName).first()
+        checkSectionCode = Section.query.filter_by(section_code = sectionCode).first()
+        if checkSectionName and checkSectionCode:
+            return False
+        else:
+            return True
+
 
 ## Needs to be fixed =)
 class Subject(db.Model):

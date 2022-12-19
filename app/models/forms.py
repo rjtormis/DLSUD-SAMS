@@ -35,7 +35,7 @@ class StudentForm(RegisterUser):
     submit = SubmitField(label ="Register")
 
    
-class ProfessorForm(RegisterUser):
+class FacultyForm(RegisterUser):
     collegiate = SelectField('Label', choices=[])
     birthDate = DateField(format = '%Y-%m-%d',validators = [DataRequired()])
     submit = SubmitField(label ="Register")
@@ -44,3 +44,10 @@ class ProfessorForm(RegisterUser):
 class LoginForm(FlaskForm):
     emailAddress = StringField(validators = [DataRequired()])
     password = PasswordField(validators = [DataRequired()])
+
+
+class ClassroomForm(FlaskForm):
+    courseName = SelectField(choices = ['BCS','IT'],validators = [DataRequired()])
+    yearLevel = SelectField(choices = [1,2,3,4],validators = [DataRequired()])
+    section = SelectField(choices = [1,2,3,4],validators =[DataRequired()])
+    submit = SubmitField(label = 'Create')
