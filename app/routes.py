@@ -4,10 +4,9 @@ from flask_login import login_user,login_required,current_user,logout_user
 
 
 # Models
-from app.models.forms import StudentForm,ProfessorForm,LoginForm
-from app.models.models import User,Student,Professor,Collegiate
+from app.models.forms import StudentForm,FacultyForm,LoginForm,ClassroomForm
+from app.models.models import User,Student,Faculty,Collegiate,Section
 
-from sqlalchemy.sql.functions import func
 
 @app.route('/')
 @app.route('/home')
@@ -47,36 +46,36 @@ def student_page():
 
 # TODO: ADD FLASHES, ERROR HANDLING
 # ISSUE DATE: DECEMBER 17 2022
-@app.route('/create-account/professor',methods = ['GET','POST'])
-def professor_page():
+@app.route('/create-account/faculty',methods = ['GET','POST'])
+def faculty_page():
 
-    professor_form = ProfessorForm()
+    faculty_form = FacultyForm()
 
     collegiates = [(row.collegiate_name,row.collegiate_shorten) for row in db.session.query(Collegiate).all()]
-    professor_form.collegiate.choices = collegiates
+    faculty_form.collegiate.choices = collegiates
     
-    if professor_form.validate_on_submit():
-        professor_account = Professor(firstName = professor_form.firstName.data ,
-         middleName = professor_form.middleName.data+".",
-         lastName = professor_form.lastName.data,
-         emailAddress = professor_form.emailAddress.data,
-         fullName = f'{professor_form.firstName.data} {professor_form.middleName.data+"."} {professor_form.lastName.data} ',
-         password = professor_form.password1.data,
-         collegiate_name = professor_form.collegiate.data,
-         birthDate = professor_form.birthDate.data)
+    if faculty_form.validate_on_submit():
+        faculty_account = Faculty(firstName = faculty_form.firstName.data ,
+         middleName = faculty_form.middleName.data+".",
+         lastName = faculty_form.lastName.data,
+         emailAddress = faculty_form.emailAddress.data,
+         fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data} ',
+         password = faculty_form.password1.data,
+         collegiate_name = faculty_form.collegiate.data,
+         birthDate = faculty_form.birthDate.data)
         
-        db.session.add(professor_account)
+        db.session.add(faculty_account)
         db.session.commit()
 
-        return redirect(url_for('professor_page'))
+        return redirect(url_for('faculty_page'))
 
-    if professor_form.errors != {}:
+    if faculty_form.errors != {}:
 
-        for err_msg in professor_form.errors.values():
+        for err_msg in faculty_form.errors.values():
             
             print(err_msg)
         
-    return render_template('Create&Login/create_professor.html',professor_form = professor_form)
+    return render_template('Create&Login/create_faculty.html',faculty_form = faculty_form)
 
 @app.route('/login',methods = ['GET','POST'])
 def login_page():
@@ -93,22 +92,47 @@ def login_page():
 
     return render_template('Create&Login/login.html',login_form = login_form)
 
-
+# TODO: TOTAL CLASSROOM,TOTAL LECTURES, MONTHLY ANALYTICS, PROFILE IMAGE
+# ISSUE DATE: DECEMBER 19 2022
 @app.route('/dashboard')
 @login_required
 def dashboard_page():
     total_students = Student.query.count()
-    return render_template('Dashboard/main.html',ts = total_students)
+    total_classroom = Section.query.count()
+    return render_template('Dashboard/main.html',ts = total_students,tc = total_classroom)
 
-@app.route('/classroom')
+# TODO: CHANGE NAMES TO SECTION, TOTAL ADD SECTION SEARCH SECTION, CLICK SECTION
+# ISSUE DATE: DECEMBER 19 2022
+@app.route('/classroom',methods = ['GET','POST'])
+@login_required
 def classroom_page():
-    return render_template('Dashboard/classroom.html')
+    classroom_form = ClassroomForm()
+
+    if classroom_form.validate_on_submit():
+        uniqueCode = Section.id_generator(Section,4)
+        addSection = Section(uniqueSectionCode = uniqueCode ,section_name =f'{classroom_form.courseName.data} {classroom_form.yearLevel.data}{classroom_form.section.data}',collegiate_name = current_user.collegiate_name)
+        if addSection.checkSection(sectionName = addSection.section_name,sectionCode = addSection.section_code):
+            db.session.add(addSection)
+            db.session.commit()
+        else:
+            print('error occured in db.')
+    
+    if classroom_form.errors != {}:
+
+        for err_msg in classroom_form.errors.values():
+            
+            print(err_msg)
+    
+    return render_template('Dashboard/classroom.html',classroom_form = classroom_form)
+
 
 @app.route('/profile')
+@login_required
 def profile_page():
     return render_template('Dashboard/profile.html')
 
 @app.route('/upload')
+@login_required
 def upload_page():
     return render_template('Dashboard/upload.html')
 
