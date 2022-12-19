@@ -1,6 +1,6 @@
 {% extends 'Create&Login/CLBase.html'%}
 {% block css %} <link rel="stylesheet" href="{{url_for('static',filename= 'styles/Create&Login/create_p.css')}}" /> {% endblock %}
-{% block title %} DLSUD SAMS | CREATE PROFESSOR ACCOUNT {% endblock %} 
+{% block title %} DLSUD SAMS | CREATE FACULTY ACCOUNT {% endblock %} 
 
 {% block account %}
 <div class="col-xl-6 d-flex align-items-baseline justify-content-end gap-2">
@@ -22,25 +22,25 @@
 				<!-- FN,MI,LN -->
 				<div class="form container">
 					<form action="" method="POST">
-						{{professor_form.hidden_tag()}}
-						<h6 class="text-center"><b>PROFESSOR ACCOUNT DETAILS</b></h6>
+						{{faculty_form.hidden_tag()}}
+						<h6 class="text-center"><b>FACULTY ACCOUNT DETAILS</b></h6>
 						
 						<div class="row">
 							<div class="col">
 								<div class="form-floating">
-									{{professor_form.firstName(class = "form-control",placeholder = "First name",id = first_name)}}
+									{{faculty_form.firstName(class = "form-control",placeholder = "First name",id = first_name)}}
 									<label for="first_name">First name</label>
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-floating">
-									{{professor_form.middleName(class = "form-control",placeholder = "Middle Initial",id = initial)}}
+									{{faculty_form.middleName(class = "form-control",placeholder = "Middle Initial",id = initial)}}
 									<label for="initial">Middle I.</label>
 								</div>
 							</div>
 							<div class="col">
 								<div class="form-floating">
-									{{professor_form.lastName(class = "form-control",placeholder = "Last name",id = last_name)}}
+									{{faculty_form.lastName(class = "form-control",placeholder = "Last name",id = last_name)}}
 									<label for="last_name">Last name</label>
 								</div>
 							</div>
@@ -52,7 +52,7 @@
 								<img src="{{url_for('static',filename ='img/mortarboard.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-								{{professor_form.collegiate(class = "form-control",placeholder = "Collegiate",id = collegiate_input)}}
+								{{faculty_form.collegiate(class = "form-control",placeholder = "Collegiate",id = collegiate_input)}}
 								<label for="collegiate_input">Collegiate</label>
 							</div>
 						</div>
@@ -63,7 +63,7 @@
 								<img src="{{url_for('static',filename ='img/calendar-date.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-							{{professor_form.birthDate(type = "date",class = "form-control",placeholder = "Last name",id = date_input)}}
+							{{faculty_form.birthDate(type = "date",class = "form-control",placeholder = "Last name",id = date_input)}}
 							<label for="date_input">Birthdate</label>
 							</div>
 						</div>
@@ -74,7 +74,7 @@
 								<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-							{{professor_form.emailAddress(type ="email",class = "form-control",placeholder = "Email Address",id = email_input)}}
+							{{faculty_form.emailAddress(type ="email",class = "form-control",placeholder = "Email Address",id = email_input)}}
 							<label for="email_input">Email</label>
 							</div>
 						</div>
@@ -85,7 +85,7 @@
 								<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-							{{professor_form.password1(type ="password",class = "form-control",placeholder = "Password",id = password_input)}}
+							{{faculty_form.password1(type ="password",class = "form-control",placeholder = "Password",id = password_input)}}
 							<label for="password_input">Password</label>
 							</div>
 						</div>
@@ -94,12 +94,12 @@
 								<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
 							</span>
 							<div class="form-floating">
-							{{professor_form.password2(type ="password",class = "form-control",placeholder = "Password",id = password_confirm)}}
+							{{faculty_form.password2(type ="password",class = "form-control",placeholder = "Password",id = password_confirm)}}
 							<label for="password_input">Confirm Password</label>
 							</div>
 						</div>
 						<br>
-						{{professor_form.submit(class = "registerBtn")}}
+						{{faculty_form.submit(type ='button',class = "registerBtn")}}
 					</form>
 				</div>
 

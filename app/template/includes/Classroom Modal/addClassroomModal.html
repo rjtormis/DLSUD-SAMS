@@ -1,0 +1,41 @@
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header border -0">
+				<h1 class="modal-title fs-5" id="exampleModalLabel">CREATE A CLASSROOM</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<form action="" method="POST">
+				{{classroom_form.hidden_tag()}}
+				<div class="modal-body border-0">
+					<div class="input-group mt-3">
+						<div class="form-floating">
+							{{classroom_form.courseName(type ="email",class = "form-control",placeholder = "Email Address",id =
+							email_input)}}
+							<label for="email_input">Course</label>
+						</div>
+					</div>
+					<div class="input-group mt-3">
+						<div class="form-floating">
+							{{classroom_form.yearLevel(type ="email",class = "form-control",placeholder = "Email Address",id =
+							email_input)}}
+							<label for="email_input">Year level</label>
+						</div>
+					</div>
+					<div class="input-group mt-3">
+						<div class="form-floating">
+							{{classroom_form.section(type ="email",class = "form-control",placeholder = "Email Address",id =
+							email_input)}}
+							<label for="email_input">Section</label>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer border-0">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					{{classroom_form.submit(class ='btn')}}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

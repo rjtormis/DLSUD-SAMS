@@ -90,13 +90,13 @@
                 </div>
             </div>
             <br>
-            {{student_form.submit(class = "registerBtn")}}
+            {{student_form.submit(type = 'button',class = "registerBtn")}}
         </form>
     </div>
 
     <!-- CHANGE TO PROFESSOR -->
     <div class="acctType">
-        <a href="{{url_for('professor_page')}}">Create Account as Professor</a>
+        <a href="{{url_for('faculty_page')}}">Create Account as Faculty</a>
     </div>
 </div>
 {% endblock %}
