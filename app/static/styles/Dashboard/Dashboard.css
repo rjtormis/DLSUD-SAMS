@@ -1,0 +1,66 @@
+@import url('../Dashboard/Base.css');
+/* ==========================================================================
+									MAIN CONTENT
+   ==========================================================================
+*/
+
+main.content {
+	flex-direction: column;
+	margin: 0 0 0 0;
+	height: calc(100vh - var(--header-height));
+	overflow-y: auto;
+	width: 100%;
+}
+	.content > * {
+		margin: 0 1rem 0 1rem;
+	}
+	div.content-header {
+		height: 90px;
+	}
+		.content-header h1 {
+			color: var(--main-color);
+		}
+	/* GRID */
+	div.content-grid {
+		height: 120px;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 10rem;
+	}
+	div.grid-item {
+		margin: 5px;
+		padding: 10px;
+		background: rgba(0, 114, 42, 0.5);
+		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+		backdrop-filter: blur(5px);
+		-webkit-backdrop-filter: blur(5px);
+		border-radius: 3px;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+	}
+		div.grid-details h5 {
+			color: #fafafa;
+		}
+
+		img.grid-img {
+			margin-right: 1rem;
+			width: 80px;
+			height: 80px;
+		}
+	/* MONTHLY ANALYSIS */
+	div.content-analysis {
+		padding: 5px;
+		height: var(--main-content-graph-container);
+	}
+		.content-analysis-monthly {
+			height: 40px;
+		}
+			.content-graph {
+				width: 50%;
+				height: calc(var(--main-content-graph-container) - 50px);
+				background: rgba(0, 114, 42, 0.5);
+				box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+				backdrop-filter: blur(5px);
+				-webkit-backdrop-filter: blur(5px);
+				border-radius: 3px;
+				border: 1px solid rgba(255, 255, 255, 0.18);
+			}
