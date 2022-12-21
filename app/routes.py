@@ -99,7 +99,7 @@ def login_page():
 def dashboard_page():
     total_students = Student.query.count()
     total_classroom = Section.query.count()
-    return render_template('Dashboard/main.html',ts = total_students,tc = total_classroom)
+    return render_template('Dashboard/Dashboard.html',ts = total_students,tc = total_classroom)
 
 # TODO: CHANGE NAMES TO SECTION, TOTAL ADD SECTION SEARCH SECTION, CLICK SECTION
 # ISSUE DATE: DECEMBER 19 2022
@@ -123,13 +123,13 @@ def classroom_page():
             
             print(err_msg)
     
-    return render_template('Dashboard/classroom.html',classroom_form = classroom_form)
+    return render_template('Dashboard/Classroom.html',classroom_form = classroom_form)
 
 
 @app.route('/profile')
 @login_required
 def profile_page():
-    return render_template('Dashboard/profile.html')
+    return render_template('Dashboard/Profile.html')
 
 @app.route('/upload')
 @login_required
