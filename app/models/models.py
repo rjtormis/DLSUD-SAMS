@@ -122,12 +122,7 @@ class Section(db.Model):
 
     # Queries the availability of name and section code in database.
     def checkSection(self,sectionName,sectionCode):
-        checkSectionName = Section.query.filter_by(section_name = sectionName).first()
-        checkSectionCode = Section.query.filter_by(section_code = sectionCode).first()
-        if checkSectionName and checkSectionCode:
-            return False
-        else:
-            return True
+        return Section.query.filter_by(section_name = sectionName).first() and Section.query.filter_by(section_code = sectionCode).first()
 
 
 ## Needs to be fixed =)
