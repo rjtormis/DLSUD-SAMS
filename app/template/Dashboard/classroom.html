@@ -1,44 +1,39 @@
-{% extends 'Dashboard/DBase.html'%} {% block css %}
-<link rel="stylesheet" href="{{url_for('static',filename='styles/Dashboard/dashboard_classroom.css')}}" />
-{% endblock%}
-<!--  -->
-{% block title %} <title>DLSUD SAMS | CLASSROOM</title> {% endblock %} {% block content%}
-<div class="main-content container-fluid">
-	{% include 'includes/Classroom Modal/addClassroomModal.html'%}
-	<div class="main-header">
-		<div class="db-header">
-			<h1 class="mb-0">CLASSROOM</h1>
+{% extends 'Dashboard/Base.html'%}
+<!-- CSS -->
+{% block css %} <link rel="stylesheet" href="{{url_for('static',filename = 'styles/Dashboard/Classroom.css')}}" /> {%
+endblock %}
+<!-- CONTENT -->
+{% block content %}
+<main class="content d-flex">
+	{% include 'includes/Classroom/ClassroomModal.html' %}
+	<div class="content-header">
+		<h1 class="mb-0">CLASSROOM</h1>
+	</div>
+	<div class="content-search d-flex">
+		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">CREATE</button>
+		<div class="input-group">
+			<input
+				type="text"
+				class="form-control"
+				placeholder="Recipient's username"
+				aria-label="Recipient's username"
+				aria-describedby="button-addon2" />
+			<button class="btn btn-success" type="button" id="button-addon2">Button</button>
 		</div>
 	</div>
-	<div class="queryInput">
-		<div class="create">
-			<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">+ CLASSROOM</button>
+	<div class="content-rooms">
+		<div class="rooms-cont">
+			<div class="card" style="width: 15rem">
+				<img src="{{url_for('static',filename='img/sblogo.png')}}" class="card-img" alt="..." />
+				<div class="card-body d-flex">
+					<h5 class="card-title"><b>Card title</b></h5>
+					<h6 class="card-subtitle mb-2 text-muted">Department: CSCS</h6>
+					<h6 class="card-subtitle mb-2 text-muted">Adviser: Some name</h6>
+					<a href="#" class="btn btn-success">Go somewhere</a>
+				</div>
+			</div>
 		</div>
-		<form action="">
-			<input type="text" class="form-control" placeholder="Search" />
-			<button type="submit" class="input-group-text"><span class="material-icons-round"> search </span></button>
-		</form>
 	</div>
-	<br />
-	<div class="classrooms">
-		<a href="">
-			<div class="rooms card">
-				<div class="card-body">
-					<span class="material-icons-round"> school </span>
-					<h2 class="mb-0">BCS 43</h2>
-					<p>5/43</p>
-				</div>
-			</div>
-		</a>
-		<a href="">
-			<div class="rooms card">
-				<div class="card-body">
-					<span class="material-icons-round"> school </span>
-					<h2 class="mb-0">BCS 43</h2>
-					<p>5/43</p>
-				</div>
-			</div>
-		</a>
-	</div>
-</div>
+	<div class="content-pagination">some pagina</div>
+</main>
 {% endblock %}

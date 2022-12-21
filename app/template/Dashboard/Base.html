@@ -1,0 +1,97 @@
+{% if current_user.is_authenticated %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- BOOTSTRAP CSS only -->
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+			crossorigin="anonymous" />
+		<!-- MATERIAL ICON -->
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		<link
+			href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+			rel="stylesheet" />
+		<!-- BASE CSS -->
+		<link rel="stylesheet" href="{{url_for('static',filename = 'styles/Dashboard/Base.css')}}" />
+		{% block css %}{% endblock %}
+		<title>{% block title %} {% endblock %}</title>
+	</head>
+	<body>
+		<!-- MASTHEAD -->
+		<header class="">
+			<div class="masthead-details d-flex">
+				<button class="masthead-btn" id="menu-btn"><span class="material-icons-sharp"> menu </span></button>
+				<div class="masthead-img">
+					<img class="masthead-img" src="{{url_for('static',filename = 'img/sams.png')}}" alt="" />
+				</div>
+				<div class="masthead-name">
+					<h4 class="m-0"><b>DLSUD SAMS</b></h4>
+				</div>
+			</div>
+			<div class="masthead-profile d-flex">
+				<a href=""
+					><img class="masthead-img round" src="{{url_for('static',filename = 'img/profile.jfif')}}" alt=""
+				/></a>
+				<button class="masthead-btn"><span class="material-icons-sharp"> arrow_drop_down </span></button>
+			</div>
+		</header>
+
+		<!-- CONTAINER -->
+		<div class="d-flex">
+			<!-- SIDEDBAR -->
+			<aside class="sidebar">
+				<div class="sidebar-contents">
+					<ul class="sidebar-list">
+						<li class="sidebar-list-item">
+							<a href="{{url_for('dashboard_page')}}" class="sidebar-item"
+								><span class="sidebar-icon material-icons-sharp"> widgets </span>
+								<p class="sidebar-text m-0">Dashboard</p></a
+							>
+						</li>
+						<li class="sidebar-list-item">
+							<a href="{{url_for('classroom_page')}}" class="sidebar-item"
+								><span class="sidebar-icon material-icons-sharp"> school </span>
+								<p class="sidebar-text m-0">Section</p></a
+							>
+						</li>
+						<li class="sidebar-list-item">
+							<a href="{{url_for('profile_page')}}" class="sidebar-item"
+								><span class="sidebar-icon material-icons-sharp"> account_circle </span>
+								<p class="sidebar-text m-0">Profile</p></a
+							>
+						</li>
+						<li class="sidebar-list-item">
+							<a href="{{url_for('upload_page')}}" class="sidebar-item"
+								><span class="sidebar-icon material-icons-sharp"> add_to_photos </span>
+								<p class="sidebar-text m-0">Upload</p></a
+							>
+						</li>
+						<li class="sidebar-list-item">
+							<a href="{{logout_page}}" class="sidebar-item"
+								><span class="sidebar-icon material-icons-sharp"> logout </span>
+								<p class="sidebar-text m-0">Logout</p></a
+							>
+						</li>
+					</ul>
+				</div>
+			</aside>
+			<!-- MAIN CONTENT -->
+			{% block content %} {% endblock %}
+		</div>
+		<!-- SIDE NAV -->
+		<script src="{{url_for('static',filename = 'js/side-nav.js')}}"></script>
+		<!-- BOOTSTRAP -->
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+			crossorigin="anonymous"></script>
+	</body>
+</html>
+{% endif %}

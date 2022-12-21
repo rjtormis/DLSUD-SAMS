@@ -1,0 +1,48 @@
+{% extends 'Dashboard/Base.html'%}
+<!-- CSS -->
+{% block css %} <link rel="stylesheet" href="{{url_for('static',filename = 'styles/Dashboard/Dashboard.css')}}" /> {%
+endblock %}
+<!-- CONTENT -->
+{% block content %}
+<main class="content d-flex">
+	<div class="content-header">
+		<h1 class="mb-0">DASHBOARD</h1>
+		<i>Welcome {{current_user.fullName}}</i>
+	</div>
+	<div class="content-grid">
+		<div class="grid-item d-flex">
+			<div class="grid-image">
+				<img class="grid-img" src="{{url_for('static',filename = 'img/presentation.png')}}" alt="" />
+			</div>
+			<div class="grid-details">
+				<h5>TOTAL CLASSROOM</h5>
+				<h4 class="m-0">{{tc}}</h4>
+			</div>
+		</div>
+		<div class="grid-item d-flex">
+			<div class="grid-image">
+				<img class="grid-img" src="{{url_for('static',filename = 'img/education.png')}}" alt="" />
+			</div>
+			<div class="grid-details">
+				<h5>TOTAL STUDENTS</h5>
+				<h4 class="m-0">{{ts}}</h4>
+			</div>
+		</div>
+		<div class="grid-item d-flex">
+			<div class="grid-image">
+				<img class="grid-img" src="{{url_for('static',filename = 'img/lecture.png')}}" alt="" />
+			</div>
+			<div class="grid-details">
+				<h5 class="m-0">TOTAL LECTURES CONDUCTED</h5>
+				<h4 class="m-0">123124</h4>
+			</div>
+		</div>
+	</div>
+	<div class="content-analysis">
+		<div class="content-analysis-monthly">
+			<h2 class="m-0">Monthly Analytics</h2>
+		</div>
+		<div class="content-graph"></div>
+	</div>
+</main>
+{%endblock %}
