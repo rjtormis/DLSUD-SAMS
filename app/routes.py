@@ -15,7 +15,7 @@ def home_page():
 
 # TODO: ADD FLASHES, ERROR HANDLING
 # ISSUE DATE: DECEMBER 17 2022
-@app.route('/create-account/student',methods = ['GET','POST'])
+@app.route('/create/student',methods = ['GET','POST'])
 def student_page():
 
     student_form = StudentForm()
@@ -46,7 +46,7 @@ def student_page():
 
 # TODO: ADD FLASHES, ERROR HANDLING
 # ISSUE DATE: DECEMBER 17 2022
-@app.route('/create-account/faculty',methods = ['GET','POST'])
+@app.route('/create/faculty',methods = ['GET','POST'])
 def faculty_page():
 
     faculty_form = FacultyForm()
@@ -54,6 +54,8 @@ def faculty_page():
     collegiates = [(row.collegiate_name,row.collegiate_shorten) for row in db.session.query(Collegiate).all()]
     faculty_form.collegiate.choices = collegiates
     
+    cid = Collegiate.query.filter_by(collegiate_name = faculty_form.collegiate.data).first()
+
     if faculty_form.validate_on_submit():
         faculty_account = Faculty(firstName = faculty_form.firstName.data ,
          middleName = faculty_form.middleName.data+".",
@@ -61,7 +63,7 @@ def faculty_page():
          emailAddress = faculty_form.emailAddress.data,
          fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data} ',
          password = faculty_form.password1.data,
-         collegiate_name = faculty_form.collegiate.data,
+         collegiate_id = cid.collegiate_id ,
          birthDate = faculty_form.birthDate.data)
         
         db.session.add(faculty_account)
@@ -107,10 +109,10 @@ def dashboard_page():
 @login_required
 def classroom_page():
     classroom_form = ClassroomForm()
-
+    rooms = db.session.query(Section)
     if classroom_form.validate_on_submit():
         uniqueCode = Section.id_generator(Section,4)
-        addSection = Section(uniqueSectionCode = uniqueCode ,section_name =f'{classroom_form.courseName.data} {classroom_form.yearLevel.data}{classroom_form.section.data}',collegiate_name = current_user.collegiate_name)
+        addSection = Section(faculty_id = current_user.faculty_id,uniqueSectionCode = uniqueCode ,section_name =f'{classroom_form.courseName.data} {classroom_form.yearLevel.data}{classroom_form.section.data}',collegiate_id = current_user.collegiate_id)
         if addSection.checkSection(sectionName = addSection.section_name,sectionCode = addSection.section_code):
             db.session.add(addSection)
             db.session.commit()
@@ -123,7 +125,7 @@ def classroom_page():
             
             print(err_msg)
     
-    return render_template('Dashboard/Classroom.html',classroom_form = classroom_form)
+    return render_template('Dashboard/Classroom.html',classroom_form = classroom_form,rooms = rooms)
 
 
 @app.route('/profile')
