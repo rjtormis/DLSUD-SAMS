@@ -22,17 +22,19 @@ endblock %}
 		</div>
 	</div>
 	<div class="content-rooms">
+		{% for room in rooms%}
 		<div class="rooms-cont">
 			<div class="card" style="width: 15rem">
 				<img src="{{url_for('static',filename='img/sblogo.png')}}" class="card-img" alt="..." />
 				<div class="card-body d-flex">
-					<h5 class="card-title"><b>Card title</b></h5>
-					<h6 class="card-subtitle mb-2 text-muted">Department: CSCS</h6>
-					<h6 class="card-subtitle mb-2 text-muted">Adviser: Some name</h6>
+					<h5 class="card-title"><b>{{room.section_name}}</b></h5>
+					<h6 class="card-subtitle mb-2 text-muted">Department: {{room.collegiate.collegiate_shorten}}</h6>
+					<h6 class="card-subtitle mb-2 text-muted">Adviser: {{room.section.fullName}}</h6>
 					<a href="#" class="btn btn-success">Go somewhere</a>
 				</div>
 			</div>
 		</div>
+		{% endfor %}
 	</div>
 	<div class="content-pagination">some pagina</div>
 </main>
