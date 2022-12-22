@@ -44,10 +44,10 @@ class FacultyForm(RegisterUser):
 class LoginForm(FlaskForm):
     emailAddress = StringField(validators = [DataRequired()])
     password = PasswordField(validators = [DataRequired()])
-
+    submit = SubmitField(label = 'Login')
 
 class ClassroomForm(FlaskForm):
-    courseName = SelectField(choices = ['BCS','IT'],validators = [DataRequired()])
+    courseName = SelectField(choices = ['BCS','IT','CLACTEST'],validators = [DataRequired()])
     yearLevel = SelectField(choices = [1,2,3,4],validators = [DataRequired()])
     section = SelectField(choices = [1,2,3,4],validators =[DataRequired()])
     submit = SubmitField(label = 'Create')

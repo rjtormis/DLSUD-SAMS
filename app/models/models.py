@@ -24,6 +24,7 @@ class User(db.Model,UserMixin):
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
+
     # FLASK JOINED TABLE INHERITANCE
     __mapper_args__ = {
         'polymorphic_identity': 'user',
@@ -51,7 +52,7 @@ class Student(User):
 
     id = db.Column(db.Integer(),db.ForeignKey('users.id'))
     student_id = db.Column(db.Integer(),primary_key = True)
-    collegiate_name = db.Column(db.String(length =50),db.ForeignKey('collegiates.collegiate_name'))
+    collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
 
     # FLASK JOINED TABLE INHERITANCE
     __mapper_args__ = {
@@ -59,27 +60,26 @@ class Student(User):
     }
 
 class Faculty(User):
-
     __tablename__ = 'faculties'
 
     id = db.Column(db.Integer(),db.ForeignKey('users.id'))
     faculty_id = db.Column(db.Integer(),primary_key = True)
-    collegiate_name = db.Column(db.String(length =50),db.ForeignKey('collegiates.collegiate_name'),nullable = False)
-    section_id = db.Column(db.Integer(),db.ForeignKey('sections.section_id'))
+    collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
     birthDate = db.Column(db.DateTime())
-    
+
+    section = db.relationship('Section',backref = 'section',lazy = True)
+
     # FLASK JOINED TABLE INHERITANCE
     __mapper_args__ = {
         'polymorphic_identity':'Faculty',
     }
-
 class Collegiate(db.Model):
 
     __tablename__ = 'collegiates'
 
-    collegiate_id  = db.Column(db.Integer(),nullable = False,unique = True)
+    collegiate_id  = db.Column(db.Integer(),primary_key = True)
     collegiate_shorten = db.Column(db.String(length = 10),nullable = False,unique = True)
-    collegiate_name = db.Column(db.String(length = 100),primary_key = True)
+    collegiate_name = db.Column(db.String(length = 100),unique = True,nullable = False)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
     
@@ -91,17 +91,18 @@ class Collegiate(db.Model):
 class Section(db.Model):
     
     __tablename__ = 'sections'
-
+    
+    faculty_id = db.Column(db.Integer(),db.ForeignKey('faculties.faculty_id'))
     section_id  = db.Column(db.Integer(),primary_key = True)
+    collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
     section_code = db.Column(db.String(length = 20),unique = True,nullable = False)
     section_name = db.Column(db.String(length = 20),unique = True,nullable = False)
-    collegiate_name = db.Column(db.String(length = 100),db.ForeignKey('collegiates.collegiate_name'))
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
     # One to many
-    faculty = db.relationship('Faculty',backref = 'faculty',lazy = True)
-    subjects = db.relationship('Subject',backref = 'subject',lazy = True)
+    
+    # subjects = db.relationship('Subject',backref = 'subject',lazy = True)
 
     # Unique code getter for section code
     @property
@@ -122,13 +123,13 @@ class Section(db.Model):
 
     # Queries the availability of name and section code in database.
     def checkSection(self,sectionName,sectionCode):
-        return Section.query.filter_by(section_name = sectionName).first() and Section.query.filter_by(section_code = sectionCode).first()
-
+        return not(Section.query.filter_by(section_name = sectionName).first() and Section.query.filter_by(section_code = sectionCode).first())
+            
 
 ## Needs to be fixed =)
 class Subject(db.Model):
     __tablename__ = 'subjects'
-    section_id = db.Column(db.Integer(),db.ForeignKey('sections.section_id'))
+    # section_id = db.Column(db.Integer(),db.ForeignKey('sections.subjects'))
     subject_id = db.Column(db.Integer(),primary_key = True)
     subject_name = db.Column(db.String(length = 20),unique = True,nullable = False)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
