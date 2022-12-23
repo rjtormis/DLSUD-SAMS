@@ -108,8 +108,9 @@ def dashboard_page():
 @app.route('/classroom',methods = ['GET','POST'])
 @login_required
 def classroom_page():
+
     classroom_form = ClassroomForm()
-    rooms = db.session.query(Section)
+    rooms = Section.query.order_by(Section.section_name)
     if classroom_form.validate_on_submit():
         uniqueCode = Section.id_generator(Section,4)
         addSection = Section(faculty_id = current_user.faculty_id,uniqueSectionCode = uniqueCode ,section_name =f'{classroom_form.courseName.data} {classroom_form.yearLevel.data}{classroom_form.section.data}',collegiate_id = current_user.collegiate_id)
@@ -127,6 +128,11 @@ def classroom_page():
     
     return render_template('Dashboard/Classroom.html',classroom_form = classroom_form,rooms = rooms)
 
+# API END POINT FOR SPECIFIC CLASSROOM
+@app.route('/classroom/<string:class_name>',methods = ['GET'])
+@login_required
+def class_page(class_name):
+    return render_template('Dashboard/Subject.html',class_name = class_name)
 
 @app.route('/profile')
 @login_required
