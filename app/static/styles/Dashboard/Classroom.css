@@ -5,11 +5,14 @@
 */
 main.content {
 	flex-direction: column;
-	margin: 0 1rem 0 1rem;
+	margin: 0;
 	height: calc(100vh - var(--header-height));
 	overflow-y: auto;
 	width: 100%;
 }
+	.content > * {
+		margin: 0 1rem 0 1rem;
+	}
 	div.content-header {
 		height: 50px;
 	}
@@ -26,20 +29,53 @@ main.content {
 			width: 300px;
 		}
 			
+			
+.content-rooms{
+	display: grid;
+	grid-template-columns: repeat(4,1fr
+	);
+	justify-content: space-between;
+	margin-top: 1rem;
+	gap: 2rem;
+	padding: 5px;
+	/* border: 1px solid red; */
+	/* height: calc(var(--main-content) - 150px); */
+}
+.rooms{
+	color: inherit;
+	text-decoration: none;
+	position: relative;
+	background: rgba( 255, 255, 255, 0.6 );
+	box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+	backdrop-filter: blur( 4px );
+	-webkit-backdrop-filter: blur( 4px );
+	border-radius: 3px;
+	border: 1px solid rgba( 255, 255, 255, 0.18 );
+	transition: all 200ms ease-in-out;
+}
 
-	div.content-rooms {
-		display: inline-grid;
-		grid-template-columns: repeat(5, 15rem);
-		justify-content: space-between;
-		margin-top: 1rem;
-		height: calc(var(--main-content) - 150px);
-	}
-		.card-body {
-			flex-direction: column;
-		}
-			.card-img {
-				height: 100px;
-			}
-	
-
+.rooms:hover {
+	transform: translateY(-1rem);
+    color: #fafafa;
+	background-color: var(--main-color);
+	text-decoration:none; 
+    cursor:pointer;  
+}
+.room-details{
+	padding: 10px;
+	position: relative;
+	flex-direction: column;
+}
+	/* .room-name{
+		color: green;
+	} */
+.room-department-logo{
+	left: 80%;
+	position: absolute;
+}
+.rooms-img{
+	border-radius: 50%;
+	width: 60px;
+	height: 60px;
+}
 
