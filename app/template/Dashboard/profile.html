@@ -7,7 +7,7 @@ endblock %}
 <main class="content">
 	<div class="profile">
 		<div class="profile-type d-flex">
-			<p class="m-0">some type</p>
+			<p class="m-0">{{current_user.type}}</p>
 		</div>
 		<div class="profile-background"></div>
 		<div class="profile-details d-flex">
@@ -17,14 +17,16 @@ endblock %}
 				</div>
 				<div class="profile-name d-flex">
 					<div class="p-name">
-						<h2 class="m-0"><b>Juan Tamad</b></h2>
+						<h2 class="m-0"><b>{{current_user.fullName}}</b></h2>
 					</div>
 					<div class="p-department">
-						<h6 class="m-0">Department of Agriculture</h6>
+						<h6 class="m-0">{{current_user.collegiate.collegiate_name}}</h6>
 					</div>
 				</div>
 			</div>
-			<div class="profile-second">some button!</div>
+			<div class="profile-second">
+				<button class="btn btn-success">Edit</button>
+			</div>
 		</div>
 	</div>
 	<div class="profile-items">
@@ -39,7 +41,7 @@ endblock %}
 				</div>
 				<div class="department">
 					<span class="i-items material-icons-sharp"> location_city </span>
-					<p class="m-0">Department of Agriculture</p>
+					<p class="m-0">{{current_user.collegiate.collegiate_name}}</p>
 				</div>
 				<div class="department">
 					<span class="i-items material-icons-sharp"> auto_stories </span>

@@ -3,7 +3,9 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header border -0">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">CREATE A CLASSROOM</h1>
+				<h1 class="modal-title fs-5" id="exampleModalLabel" style="color: rgba(0, 114, 42, 0.65)">
+					<b>CREATE A CLASSROOM</b>
+				</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<form action="" method="POST">
@@ -13,21 +15,21 @@
 						<div class="form-floating">
 							{{classroom_form.courseName(type ="email",class = "form-control",placeholder = "Email Address",id =
 							email_input)}}
-							<label for="email_input">Course</label>
+							<label for="email_input"><b>Course</b></label>
 						</div>
 					</div>
 					<div class="input-group mt-3">
 						<div class="form-floating">
 							{{classroom_form.yearLevel(type ="email",class = "form-control",placeholder = "Email Address",id =
 							email_input)}}
-							<label for="email_input">Year level</label>
+							<label for="email_input"><b>Year level</b></label>
 						</div>
 					</div>
 					<div class="input-group mt-3">
 						<div class="form-floating">
 							{{classroom_form.section(type ="email",class = "form-control",placeholder = "Email Address",id =
 							email_input)}}
-							<label for="email_input">Section</label>
+							<label for="email_input"><b>Section</b></label>
 						</div>
 					</div>
 				</div>
