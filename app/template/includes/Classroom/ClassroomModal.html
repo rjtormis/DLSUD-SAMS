@@ -1,41 +1,37 @@
-<!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
-			<div class="modal-header border -0">
-				<h1 class="modal-title fs-5" id="exampleModalLabel" style="color: rgba(0, 114, 42, 0.65)">
-					<b>CREATE A CLASSROOM</b>
-				</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel"><b>CREATE CLASSROOM</b></h1>
 			</div>
-			<form action="" method="POST">
-				{{classroom_form.hidden_tag()}}
-				<div class="modal-body border-0 d-flex">
-					<div class="input-group mt-3">
-						<div class="form-floating">
-							{{classroom_form.courseName(type ="email",class = "form-control",placeholder = "Email Address",id =
-							email_input)}}
-							<label for="email_input"><b>Course</b></label>
+			<form action="/classroom" method="POST" enctype="multipart/form-data">
+				<div class="modal-body">
+					{{section_form.hidden_tag()}}
+					<div class="form-floating mb-3">
+						{{section_form.courseName(class = "form-select")}}
+						<label for="floatingSelect"><b>Course</b></label>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="form-floating mb-3">
+								{{section_form.year(class = "form-select")}}
+								<label for="floatingSelect"><b>Year Level</b></label>
+							</div>
+						</div>
+						<div class="col">
+							<div class="form-floating mb-3">
+								{{section_form.section(class = "form-select")}}
+								<label for="floatingSelect"><b>Section</b></label>
+							</div>
 						</div>
 					</div>
-					<div class="input-group mt-3">
-						<div class="form-floating">
-							{{classroom_form.yearLevel(type ="email",class = "form-control",placeholder = "Email Address",id =
-							email_input)}}
-							<label for="email_input"><b>Year level</b></label>
-						</div>
-					</div>
-					<div class="input-group mt-3">
-						<div class="form-floating">
-							{{classroom_form.section(type ="email",class = "form-control",placeholder = "Email Address",id =
-							email_input)}}
-							<label for="email_input"><b>Section</b></label>
-						</div>
+					<div class="row">
+						<div class="col input-group mb-3 upload">{{section_form.file(class = "form-control" )}}</div>
 					</div>
 				</div>
-				<div class="modal-footer border-0">
+				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					{{classroom_form.submit(class ='btn btn-success')}}
+					{{section_form.submit(class = "btn btn-success")}}
 				</div>
 			</form>
 		</div>
