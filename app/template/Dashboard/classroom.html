@@ -4,6 +4,7 @@
 endblock %}
 <!-- CONTENT -->
 {% block content %}
+
 <main class="content d-flex">
 	{% include 'includes/Classroom/ClassroomModal.html' %}
 	<div class="content-header">
@@ -22,23 +23,15 @@ endblock %}
 		</div>
 	</div>
 	<div class="content-rooms">
-		{% for room in rooms%}
-		<a href="" class="rooms">
-			<div class="room-details d-flex">
-				<div class="room-name">
-					<h4><b>{{room.section_name}}</b></h4>
-				</div>
-				<div class="room-department">
-					<h6><b>Department:</b> {{room.collegiate.collegiate_shorten}}</h6>
-				</div>
-				<div class="room-adviser">
-					<h6><b>Adviser:</b> {{room.section.fullName}}</h6>
-				</div>
-				<div class="room-department-logo">
-					<img class="rooms-img" src="{{url_for('static',filename = 'img/card.png')}}" alt="" />
-				</div>
+		{% for section in sections %}
+		<div class="card-custom" style="background-image: url({{section.section_image_loc}})">
+			<div class="card-content">
+				<h2 class="card-title mb-1"><b>{{section.section_name}}</b></h2>
+				<p class="card-body mb-1"><b>Department:</b> {{section.collegiate.collegiate_name}}</p>
+				<p class="card-body mb-1"><b>Adviser:</b> {{section.section.fullName}}</p>
+				<a href="" class="button">Go</a>
 			</div>
-		</a>
+		</div>
 		{% endfor %}
 	</div>
 	<div class="content-pagination">some pagina</div>
