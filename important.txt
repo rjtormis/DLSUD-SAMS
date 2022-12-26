@@ -1,7 +1,10 @@
-                            ===================
-                                DEPENDENCIES
-                            ===================
+                                    ===================
+                                        DEPENDENCIES
+                                    ===================
 bcrypt==4.0.1                   PASSWORD HASHING ALGORITHM
+boto3==1.26.37                  AWS S3 STORAGE ( IN CASE )
+botocore==1.29.37
+cachelib==0.9.0
 click==8.1.3
 colorama==0.4.6
 cssbeautifier==1.14.7
@@ -11,6 +14,7 @@ email-validator==1.3.0          FLASK VALIDATOR FOR EMAIL
 Flask==2.2.2
 Flask-Bcrypt==1.0.1             FLASK BCRYPT ALGORITHM 
 Flask-Login==0.6.2              FLASK LOGIN MANAGER
+Flask-Session==0.4.0            FLASK SESSION ( IN CASE )
 Flask-SQLAlchemy==3.0.2         FLASK DATABASE
 Flask-WTF==1.0.1                FLASK FORMS
 greenlet==2.0.1
@@ -20,19 +24,25 @@ idna==3.4
 importlib-metadata==5.1.0
 itsdangerous==2.1.2
 Jinja2==3.1.2
+jmespath==1.0.1
 jsbeautifier==1.14.7
 MarkupSafe==2.1.1
 mysql-connector==2.2.9          MYSQL CONNECTOR
 mysql-connector-python==8.0.31  MYSQL CONNECTOR FOR PYTHON
 pathspec==0.10.2
 protobuf==3.20.1
+PyMySQL==1.0.2                  PYMYSQL CONNECTOR FOR MYSQL DATABASE
+python-dateutil==2.8.2
+python-dotenv==0.21.0
 python-dotenv==0.21.0           PYTHON .ENV (hiding keys)
 PyYAML==6.0
 regex==2022.10.31
+s3transfer==0.6.0               COULD BE RELATED TO BOTO3 MODULE
 six==1.16.0
 SQLAlchemy==1.4.45
 tomli==2.0.1
 tqdm==4.64.1
+urllib3==1.26.13
 Werkzeug==2.2.2
 WTForms==3.0.1                  PYTHON FORMS
 zipp==3.11.0
