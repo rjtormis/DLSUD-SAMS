@@ -1,7 +1,7 @@
 # Import Flask Forms Modules
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField
-from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError
+from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField,FileField
+from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError,InputRequired
 
 # Import Flask Models
 from app.models.models import Student
@@ -9,6 +9,8 @@ from app.models.models import Student
 
 # TODO: RESTRUCTURE USER FORM. 
 # DATE: DECEMBER 17 2022
+
+# Register User
 class RegisterUser(FlaskForm):
 
      # Email Validation
@@ -23,6 +25,7 @@ class RegisterUser(FlaskForm):
         if student_id:
             raise ValidationError('ID Number Already Exists!')
 
+    
     firstName = StringField(validators = [Length(min = 3 , max = 20),DataRequired()])
     middleName = StringField(validators = [Length(max = 1),DataRequired()])
     lastName = StringField(validators = [Length(min = 4 , max = 20),DataRequired()])
@@ -30,24 +33,27 @@ class RegisterUser(FlaskForm):
     password1 = PasswordField(validators = [Length(min = 8),DataRequired()])
     password2 = PasswordField(validators = [EqualTo('password1'),DataRequired()])
 
+# Register Student, inherit RegisterUser
 class StudentForm(RegisterUser):
     idNumber = StringField(validators = [Length(min = 9),DataRequired()])
     submit = SubmitField(label ="Register")
 
-   
+# Register Faculty, inherit RegisterUser   
 class FacultyForm(RegisterUser):
     collegiate = SelectField('Label', choices=[])
     birthDate = DateField(format = '%Y-%m-%d',validators = [DataRequired()])
     submit = SubmitField(label ="Register")
 
-
+# Login Form
 class LoginForm(FlaskForm):
     emailAddress = StringField(validators = [DataRequired()])
     password = PasswordField(validators = [DataRequired()])
     submit = SubmitField(label = 'Login')
 
-class ClassroomForm(FlaskForm):
+# Section Form
+class SectionForm(FlaskForm):
     courseName = SelectField(choices = ['BCS','IT','CLACTEST'],validators = [DataRequired()])
-    yearLevel = SelectField(choices = [1,2,3,4],validators = [DataRequired()])
+    year = SelectField(choices = [1,2,3,4],validators = [DataRequired()])
     section = SelectField(choices = [1,2,3,4],validators =[DataRequired()])
+    file = FileField("File",validators = [InputRequired()])
     submit = SubmitField(label = 'Create')
