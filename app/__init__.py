@@ -10,9 +10,14 @@ from flask_login import LoginManager
 
 
 app = Flask(__name__,template_folder = 'template')
+
 # Initialize secret key for user session protection
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("SQLALCHEMY_DATABASE_URI")
+
+# Image folder location & Allowed extensions
+ALLOWED_EXTENSIONS = {'png','jpg','jpeg'}
+app.config['UPLOAD_FOLDER'] = 'static/files'
 
 # Initialize database
 db = SQLAlchemy(app)
