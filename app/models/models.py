@@ -1,6 +1,6 @@
-import string,random
+import string,random,os
 
-from app import db,bcrypt,login_manager
+from app import db,bcrypt,login_manager,ALLOWED_EXTENSIONS
 from datetime import datetime
 from flask_login import UserMixin
 
@@ -9,10 +9,12 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+# User Model
 class User(db.Model,UserMixin):
 
     __tablename__ = 'users'
 
+    # User Table Attributes
     id = db.Column(db.Integer(),primary_key = True)
     firstName = db.Column(db.String(length = 20),nullable = False)
     middleName = db.Column(db.String(length = 2),nullable = False)
@@ -44,88 +46,120 @@ class User(db.Model,UserMixin):
     # Check Password
     def check_password(self,input_password):
         return bcrypt.check_password_hash(self.passwordHash,input_password)
-
-
+    
+# Student Model
 class Student(User):
 
     __tablename__ = 'students'
 
+    # Student Table Attributes
     id = db.Column(db.Integer(),db.ForeignKey('users.id'))
     student_id = db.Column(db.Integer(),primary_key = True)
     collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
 
     # FLASK JOINED TABLE INHERITANCE
+    # Reference User Type as "Student"
     __mapper_args__ = {
         'polymorphic_identity': 'Student'
     }
 
+# Faculty Model
 class Faculty(User):
+
     __tablename__ = 'faculties'
 
+     # Faculty Table Attributes
     id = db.Column(db.Integer(),db.ForeignKey('users.id'))
     faculty_id = db.Column(db.Integer(),primary_key = True)
     collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
     birthDate = db.Column(db.DateTime())
 
+    # One To Many Relationship 
     section = db.relationship('Section',backref = 'section',lazy = True)
 
     # FLASK JOINED TABLE INHERITANCE
+    # Reference User Type as "Faculty"
     __mapper_args__ = {
         'polymorphic_identity':'Faculty',
     }
+
+# Collegiate Model
 class Collegiate(db.Model):
 
     __tablename__ = 'collegiates'
 
+    # Collegiate Table Attributes
     collegiate_id  = db.Column(db.Integer(),primary_key = True)
     collegiate_shorten = db.Column(db.String(length = 10),nullable = False,unique = True)
     collegiate_name = db.Column(db.String(length = 100),unique = True,nullable = False)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
     
-    # One to many
+    # One To Many Relationship 
     faculty = db.relationship('Faculty',backref = 'collegiate',lazy=  True)
     student = db.relationship('Student',backref = 'collegiate',lazy = True)
     section = db.relationship('Section',backref = 'collegiate',lazy = True)
 
+# Section Model
 class Section(db.Model):
     
     __tablename__ = 'sections'
     
+    # Section Table Attributes
     faculty_id = db.Column(db.Integer(),db.ForeignKey('faculties.faculty_id'))
     section_id  = db.Column(db.Integer(),primary_key = True)
     collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
-    section_code = db.Column(db.String(length = 20),unique = True,nullable = False)
     section_name = db.Column(db.String(length = 20),unique = True,nullable = False)
+    section_image_loc = db.Column(db.String(length = 100))
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
     # One to many
-    
     # subjects = db.relationship('Subject',backref = 'subject',lazy = True)
 
-    # Unique code getter for section code
-    @property
-    def uniqueSectionCode(self):
-        return self.uniqueCode
+    # # # TO BE USED ON SUBJECT MODEL
+    # # Unique code getter for section code
+    # @property
+    # def uniqueCode(self):
+    #     return self.uniqueCode
     
-    # Unique Code setter for section code
-    @uniqueSectionCode.setter
-    def uniqueSectionCode(self,uniqueCode):
-        self.section_code = uniqueCode
+    # # Unique Code setter for section code
+    # @uniqueCode.setter
+    # def uniqueCode(self,uniqueCode):
+    #     self.section_code = uniqueCode
 
-    # ASCII generator
-    # Reference: https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
-    def id_generator(self,size,chars = string.ascii_uppercase + string.digits):
-        uCode1 =  ''.join(random.choice(chars) for _ in range(size))   
-        uCode2 = ''.join(random.choice(chars) for _ in range(size))
-        return f'{uCode1}-{uCode2}'
+    # # ASCII generator
+    # # Reference: https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
+    # def id_generator(self,size,chars = string.ascii_uppercase + string.digits):
+    #     uCode1 =  ''.join(random.choice(chars) for _ in range(size))   
+    #     uCode2 = ''.join(random.choice(chars) for _ in range(size))
+    #     return f'{uCode1}-{uCode2}'
 
     # Queries the availability of name and section code in database.
-    def checkSection(self,sectionName,sectionCode):
-        return not(Section.query.filter_by(section_name = sectionName).first() and Section.query.filter_by(section_code = sectionCode).first())
-            
+    def checkSection(self,sectionName):
+        return not(Section.query.filter_by(section_name = sectionName).first())
 
+    # Section Image Location Getter
+    @property
+    def section_image(self):
+        return self.section_image
+    
+    # Section Image Location Stter
+    @section_image.setter
+    def section_image(self,location):
+        self.section_image_loc = location
+
+    # Check if the uploaded file is an image
+    def checkExtension(self,filename):
+        return f'.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    
+    # Change the image file to their respecitve section name
+    def changeFileName(self,filename,sectionName):
+        return f'{sectionName.replace(" ","_")}'+'.'+filename.rsplit('.', 1)[1].lower()      
+
+   
+# Subject Modedl
 ## Needs to be fixed =)
 class Subject(db.Model):
     __tablename__ = 'subjects'
