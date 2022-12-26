@@ -1,12 +1,16 @@
+import os
 from app import app,db
 from flask import render_template,request,redirect,url_for,flash,get_flashed_messages
 from flask_login import login_user,login_required,current_user,logout_user
 
+# All Forms
+from app.models.forms import StudentForm,FacultyForm,LoginForm,SectionForm
 
-# Models
-from app.models.forms import StudentForm,FacultyForm,LoginForm,ClassroomForm
+# All Model
 from app.models.models import User,Student,Faculty,Collegiate,Section
 
+# File upload
+from werkzeug.utils import secure_filename
 
 @app.route('/')
 @app.route('/home')
@@ -18,79 +22,101 @@ def home_page():
 @app.route('/create/student',methods = ['GET','POST'])
 def student_page():
 
+    # Student Form
     student_form = StudentForm()
 
+    if request.method == 'POST':
 
-    if student_form.validate_on_submit():
-        student_account = Student(student_id = student_form.idNumber.data,
-        firstName = student_form.firstName.data,
-        middleName = student_form.middleName.data+".",
-        lastName = student_form.lastName.data,
-        fullName = f'{student_form.firstName.data} {student_form.middleName.data+"."} {student_form.lastName.data} ',
-        emailAddress = student_form.emailAddress.data,
-        password = student_form.password1.data)
+        if student_form.validate_on_submit():
 
-        db.session.add(student_account)
-        db.session.commit()
+            student_account = Student(student_id = student_form.idNumber.data,
+            firstName = student_form.firstName.data,
+            middleName = student_form.middleName.data+".",
+            lastName = student_form.lastName.data,
+            fullName = f'{student_form.firstName.data} {student_form.middleName.data+"."} {student_form.lastName.data} ',
+            emailAddress = student_form.emailAddress.data,
+            password = student_form.password1.data)
 
-        return redirect(url_for('student_page'))
+            db.session.add(student_account)
+            db.session.commit()
 
-    if student_form.errors != {}:
+            return redirect(url_for('student_page'))
 
-        for err_msg in student_form.errors.values():
+        if student_form.errors != {}:
 
-            print(err_msg)
+            for err_msg in student_form.errors.values():
+
+                print(err_msg)
     
+    if request.method == 'GET':
 
-    return render_template('Create&Login/create_student.html',student_form = student_form)
+        return render_template('Create&Login/create_student.html',student_form = student_form)
 
 # TODO: ADD FLASHES, ERROR HANDLING
 # ISSUE DATE: DECEMBER 17 2022
 @app.route('/create/faculty',methods = ['GET','POST'])
 def faculty_page():
 
+    # Faculty_Form
     faculty_form = FacultyForm()
 
+    # Iterate through the Collegiates and display the result to the HTML
     collegiates = [(row.collegiate_name,row.collegiate_shorten) for row in db.session.query(Collegiate).all()]
+
     faculty_form.collegiate.choices = collegiates
     
-    cid = Collegiate.query.filter_by(collegiate_name = faculty_form.collegiate.data).first()
+    # Iterate through the Collegiates and returns the Collegiate ID base on the user choice.
+    # Related to the code above.
+    collegiate_id = Collegiate.query.filter_by(collegiate_name = faculty_form.collegiate.data).first()
 
-    if faculty_form.validate_on_submit():
-        faculty_account = Faculty(firstName = faculty_form.firstName.data ,
-         middleName = faculty_form.middleName.data+".",
-         lastName = faculty_form.lastName.data,
-         emailAddress = faculty_form.emailAddress.data,
-         fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data} ',
-         password = faculty_form.password1.data,
-         collegiate_id = cid.collegiate_id ,
-         birthDate = faculty_form.birthDate.data)
-        
-        db.session.add(faculty_account)
-        db.session.commit()
+    if request.method == 'POST':
 
-        return redirect(url_for('faculty_page'))
+        if faculty_form.validate_on_submit():
 
-    if faculty_form.errors != {}:
-
-        for err_msg in faculty_form.errors.values():
+            faculty_account = Faculty(firstName = faculty_form.firstName.data ,
+            middleName = faculty_form.middleName.data+".",
+            lastName = faculty_form.lastName.data,
+            emailAddress = faculty_form.emailAddress.data,
+            fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data} ',
+            password = faculty_form.password1.data,
+            collegiate_id = collegiate_id.collegiate_id ,
+            birthDate = faculty_form.birthDate.data)
             
-            print(err_msg)
-        
-    return render_template('Create&Login/create_faculty.html',faculty_form = faculty_form)
+            db.session.add(faculty_account)
+            db.session.commit()
+
+            return redirect(url_for('faculty_page'))
+
+        if faculty_form.errors != {}:
+
+            for err_msg in faculty_form.errors.values():
+                
+                print(err_msg)
+
+    if request.method == 'GET':  
+
+        return render_template('Create&Login/create_faculty.html',faculty_form = faculty_form)
 
 @app.route('/login',methods = ['GET','POST'])
 def login_page():
     
+    # Login Form
     login_form = LoginForm()
     
-    if login_form.validate_on_submit():
-        user_login = User.query.filter_by(emailAddress = login_form.emailAddress.data).first()
+    if request.method == 'POST':
 
-        if user_login and user_login.check_password(input_password = login_form.password.data):
-            login_user(user_login)
-            
-            return redirect(url_for('dashboard_page'))
+        if login_form.validate_on_submit():
+
+            # Queries the Users table in the database referencing the input email address
+            user_login = User.query.filter_by(emailAddress = login_form.emailAddress.data).first()
+
+            # Checks if the user exists and checks if the password is correct.
+            if user_login and user_login.check_password(input_password = login_form.password.data):
+                
+                # Logins the user 
+                login_user(user_login)
+                
+                return redirect(url_for('dashboard_page'))
 
     return render_template('Create&Login/login.html',login_form = login_form)
 
@@ -99,34 +125,88 @@ def login_page():
 @app.route('/dashboard')
 @login_required
 def dashboard_page():
+
+    # Queries the database on all of the student, classroom, and lecture conducted.
     total_students = Student.query.count()
     total_classroom = Section.query.count()
+
     return render_template('Dashboard/Dashboard.html',ts = total_students,tc = total_classroom)
 
 # TODO: CHANGE NAMES TO SECTION, TOTAL ADD SECTION SEARCH SECTION, CLICK SECTION
 # ISSUE DATE: DECEMBER 19 2022
 @app.route('/classroom',methods = ['GET','POST'])
 @login_required
-def classroom_page():
+def section_page():
 
-    classroom_form = ClassroomForm()
-    rooms = Section.query.order_by(Section.section_name)
-    if classroom_form.validate_on_submit():
-        uniqueCode = Section.id_generator(Section,4)
-        addSection = Section(faculty_id = current_user.faculty_id,uniqueSectionCode = uniqueCode ,section_name =f'{classroom_form.courseName.data} {classroom_form.yearLevel.data}{classroom_form.section.data}',collegiate_id = current_user.collegiate_id)
-        if addSection.checkSection(sectionName = addSection.section_name,sectionCode = addSection.section_code):
-            db.session.add(addSection)
-            db.session.commit()
-        else:
-            print('error occured in db.')
-    
-    if classroom_form.errors != {}:
+    # Section Form
+    section_form = SectionForm()
 
-        for err_msg in classroom_form.errors.values():
+    # Queries all of the sections and order them by name
+    section = Section.query.order_by(Section.section_name)
+
+    if request.method == 'POST':
+
+        if section_form.validate_on_submit():
+
+            # # To be moved to Subject
+            # uniqueCode = Section.id_generator(Section,4)
+
+            addSection = Section(faculty_id = current_user.faculty_id,section_name =f'{section_form.courseName.data} {section_form.year.data}{section_form.section.data}',collegiate_id = current_user.collegiate_id)
             
-            print(err_msg)
-    
-    return render_template('Dashboard/Classroom.html',classroom_form = classroom_form,rooms = rooms)
+            # Checks the availability of the section
+            if addSection.checkSection(sectionName = addSection.section_name):
+                
+                # Creates a directory for file storage in the specific section
+                try:
+                    # Using Absolute Path & Relative Path
+                    cwd = os.getcwd()
+                    target = 'app/static/files/section'
+                    full = os.path.relpath(target,cwd)
+                    
+                    # Final Location
+                    final = os.path.join(full,f'{addSection.section_name}')
+
+                    # Create Folder / Directory
+                    os.makedirs(final)
+                except:
+                    print('File Exists')
+
+                # Gets the uploaded file
+                file = section_form.file.data
+
+                # Checks if there is a file and if the file extension is correct e.g JPG,PNG
+                if file and addSection.checkExtension(filename=file.filename):
+
+                    # Change the file name according to the section name
+                    file.filename = addSection.changeFileName(filename= file.filename,sectionName=addSection.section_name)
+                    
+                    # Save image to the designated file directory
+                    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER']+f'/section/{addSection.section_name}',secure_filename(file.filename)))
+                    
+                    # Set Image Location referring to the file directory
+                    imageLocation = f'../../static/files/section/{section_form.courseName.data}\ {section_form.year.data}{section_form.section.data}/{file.filename}'
+                    
+                    # Save to Database. 
+                    addSection.section_image_loc = imageLocation       
+                else:
+                    print('File is not allowed')
+                
+                db.session.add(addSection)
+                db.session.commit()
+
+                return redirect(url_for('section_page'))
+            else:
+                print('error occured in db.')
+            
+        
+        if section_form.errors != {}:
+
+            for err_msg in section_form.errors.values():
+                
+                print(err_msg)
+
+    if request.method == 'GET':
+        return render_template('Dashboard/Classroom.html',section_form = section_form,sections = section)
 
 # API END POINT FOR SPECIFIC CLASSROOM
 @app.route('/classroom/<string:class_name>',methods = ['GET'])
