@@ -1,12 +1,165 @@
 {% extends 'Dashboard/Base.html'%}
 <!-- CSS -->
-{% block css %}<link rel="stylesheet" href="{{url_for('static',filename = 'styles/Dashboard/Subject.css')}}" /> {%
-endblock %}
+{% block css %}<link rel="stylesheet" href="{{url_for('static',filename = 'styles/Dashboard/Subject.css')}}" />
+
+{% endblock %}
 <!-- CONTENT -->
 {% block content %}
 <main class="content d-flex">
+	{% include 'includes/Subject/SubjectModal.html' %}
 	<div class="content-header">
-		<h1 class="mb-0">SUBJECT</h1>
+		<a href="{{url_for('section_list')}}"><span class="material-icons-sharp"> arrow_back </span></a>
+		<h2 class="mb-0"><b>{{section.section_name}}</b></h2>
+	</div>
+	<div class="content-details d-flex">
+		<div class="section-details">
+			<p class="mb-0"><b>Collegiate:</b> {{section.collegiate.collegiate_name}}</p>
+			<p class="mb-0"><b>Adviser:</b> {{section.section.fullName}}</p>
+		</div>
+		<div class="section-search">
+			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				CREATE
+			</button>
+			<div class="input-group">
+				<input
+					type="text"
+					class="form-control"
+					placeholder="Recipient's username"
+					aria-label="Recipient's username"
+					aria-describedby="button-addon2" />
+				<button class="btn btn-success" type="button" id="button-addon2">Button</button>
+			</div>
+		</div>
+	</div>
+	<div class="content-rooms">
+		<div class="subject">
+			<div class="subject-details">
+				<h4 class="mb-0">TEST</h4>
+				<p class="mb-0">Time</p>
+				<p class="mb-2">Prof</p>
+				<button class="btn visit btn-success">Visit</button>
+			</div>
+			<div class="subject-buttons">
+				<div class="btn-edit">
+					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
+				</div>
+				<div class="btn-delete">
+					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+				</div>
+			</div>
+		</div>
+		<div class="subject">
+			<div class="subject-details">
+				<h4 class="mb-0">TEST</h4>
+				<p class="mb-0">Time</p>
+				<p class="mb-2">Prof</p>
+				<button class="btn visit btn-success">Visit</button>
+			</div>
+			<div class="subject-buttons">
+				<div class="btn-edit">
+					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
+				</div>
+				<div class="btn-delete">
+					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+				</div>
+			</div>
+		</div>
+		<div class="subject">
+			<div class="subject-details">
+				<h4 class="mb-0">TEST</h4>
+				<p class="mb-0">Time</p>
+				<p class="mb-2">Prof</p>
+				<button class="btn visit btn-success">Visit</button>
+			</div>
+			<div class="subject-buttons">
+				<div class="btn-edit">
+					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
+				</div>
+				<div class="btn-delete">
+					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+				</div>
+			</div>
+		</div>
+		<div class="subject">
+			<div class="subject-details">
+				<h4 class="mb-0">TEST</h4>
+				<p class="mb-0">Time</p>
+				<p class="mb-2">Prof</p>
+				<button class="btn visit btn-success">Visit</button>
+			</div>
+			<div class="subject-buttons">
+				<div class="btn-edit">
+					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
+				</div>
+				<div class="btn-delete">
+					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+				</div>
+			</div>
+		</div>
+		<div class="subject">
+			<div class="subject-details">
+				<h4 class="mb-0">TEST</h4>
+				<p class="mb-0">Time</p>
+				<p class="mb-2">Prof</p>
+				<button class="btn visit btn-success">Visit</button>
+			</div>
+			<div class="subject-buttons">
+				<div class="btn-edit">
+					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
+				</div>
+				<div class="btn-delete">
+					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+				</div>
+			</div>
+		</div>
+		<div class="subject">
+			<div class="subject-details">
+				<h4 class="mb-0">TEST</h4>
+				<p class="mb-0">Time</p>
+				<p class="mb-2">Prof</p>
+				<button class="btn visit btn-success">Visit</button>
+			</div>
+			<div class="subject-buttons">
+				<div class="btn-edit">
+					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
+				</div>
+				<div class="btn-delete">
+					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+				</div>
+			</div>
+		</div>
+		<div class="subject">
+			<div class="subject-details">
+				<h4 class="mb-0">TEST</h4>
+				<p class="mb-0">Time</p>
+				<p class="mb-2">Prof</p>
+				<button class="btn visit btn-success">Visit</button>
+			</div>
+			<div class="subject-buttons">
+				<div class="btn-edit">
+					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
+				</div>
+				<div class="btn-delete">
+					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+				</div>
+			</div>
+		</div>
+		<div class="subject">
+			<div class="subject-details">
+				<h4 class="mb-0">TEST</h4>
+				<p class="mb-0">Time</p>
+				<p class="mb-2">Prof</p>
+				<button class="btn visit btn-success">Visit</button>
+			</div>
+			<div class="subject-buttons">
+				<div class="btn-edit">
+					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
+				</div>
+				<div class="btn-delete">
+					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+				</div>
+			</div>
+		</div>
 	</div>
 </main>
 {% endblock %}
