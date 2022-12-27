@@ -4,10 +4,10 @@ from flask import render_template,request,redirect,url_for,flash,get_flashed_mes
 from flask_login import login_user,login_required,current_user,logout_user
 
 # All Forms
-from app.models.forms import StudentForm,FacultyForm,LoginForm,SectionForm
+from app.models.forms import StudentForm,FacultyForm,LoginForm,SectionForm,SubjectForm
 
 # All Model
-from app.models.models import User,Student,Faculty,Collegiate,Section
+from app.models.models import User,Student,Faculty,Collegiate,Section,Subject
 
 # File upload
 from werkzeug.utils import secure_filename
@@ -126,7 +126,7 @@ def login_page():
 @login_required
 def dashboard_page():
 
-    # Queries the database on all of the student, classroom, and lecture conducted.
+    # Queries the database on all of the student, section, and lecture conducted.
     total_students = Student.query.count()
     total_classroom = Section.query.count()
 
@@ -134,9 +134,9 @@ def dashboard_page():
 
 # TODO: CHANGE NAMES TO SECTION, TOTAL ADD SECTION SEARCH SECTION, CLICK SECTION
 # ISSUE DATE: DECEMBER 19 2022
-@app.route('/classroom',methods = ['GET','POST'])
+@app.route('/section',methods = ['GET','POST'])
 @login_required
-def section_page():
+def section_list():
 
     # Section Form
     section_form = SectionForm()
@@ -194,7 +194,7 @@ def section_page():
                 db.session.add(addSection)
                 db.session.commit()
 
-                return redirect(url_for('section_page'))
+                return redirect(url_for('section_list'))
             else:
                 print('error occured in db.')
             
@@ -206,13 +206,16 @@ def section_page():
                 print(err_msg)
 
     if request.method == 'GET':
+
         return render_template('Dashboard/Classroom.html',section_form = section_form,sections = section)
 
 # API END POINT FOR SPECIFIC CLASSROOM
-@app.route('/classroom/<string:class_name>',methods = ['GET'])
+@app.route('/section/<string:section_name>',methods = ['GET'])
 @login_required
-def class_page(class_name):
-    return render_template('Dashboard/Subject.html',class_name = class_name)
+def section_page(section_name):
+    subject_form = SubjectForm()
+    section = Section.query.filter_by(section_name = section_name).first()
+    return render_template('Dashboard/Subject.html',section = section,subject_form = subject_form)
 
 @app.route('/profile')
 @login_required
