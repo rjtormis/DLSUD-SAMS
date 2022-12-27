@@ -117,24 +117,6 @@ class Section(db.Model):
     # One to many
     # subjects = db.relationship('Subject',backref = 'subject',lazy = True)
 
-    # # # TO BE USED ON SUBJECT MODEL
-    # # Unique code getter for section code
-    # @property
-    # def uniqueCode(self):
-    #     return self.uniqueCode
-    
-    # # Unique Code setter for section code
-    # @uniqueCode.setter
-    # def uniqueCode(self,uniqueCode):
-    #     self.section_code = uniqueCode
-
-    # # ASCII generator
-    # # Reference: https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
-    # def id_generator(self,size,chars = string.ascii_uppercase + string.digits):
-    #     uCode1 =  ''.join(random.choice(chars) for _ in range(size))   
-    #     uCode2 = ''.join(random.choice(chars) for _ in range(size))
-    #     return f'{uCode1}-{uCode2}'
-
     # Queries the availability of name and section code in database.
     def checkSection(self,sectionName):
         return not(Section.query.filter_by(section_name = sectionName).first())
@@ -162,9 +144,32 @@ class Section(db.Model):
 # Subject Modedl
 ## Needs to be fixed =)
 class Subject(db.Model):
+    
     __tablename__ = 'subjects'
-    # section_id = db.Column(db.Integer(),db.ForeignKey('sections.subjects'))
+
+    section_id = db.Column(db.Integer(),db.ForeignKey('sections.subjects'))
+    faculty_id = db.Column(db.Integer(),db.ForeignKey('faculties.faculty_id'))
     subject_id = db.Column(db.Integer(),primary_key = True)
+    subject_code = db.Column(db.String(length = 10),nullable = False,unique = True)
     subject_name = db.Column(db.String(length = 20),unique = True,nullable = False)
+    subject_time = db.Column(db.String(length = 50), nullable = False)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
+
+     # # # TO BE USED ON SUBJECT MODEL
+    # # Unique code getter for section code
+    # @property
+    # def uniqueCode(self):
+    #     return self.uniqueCode
+    
+    # # Unique Code setter for section code
+    # @uniqueCode.setter
+    # def uniqueCode(self,uniqueCode):
+    #     self.section_code = uniqueCode
+
+    # # ASCII generator
+    # # Reference: https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
+    # def id_generator(self,size,chars = string.ascii_uppercase + string.digits):
+    #     uCode1 =  ''.join(random.choice(chars) for _ in range(size))   
+    #     uCode2 = ''.join(random.choice(chars) for _ in range(size))
+    #     return f'{uCode1}-{uCode2}'
