@@ -8,7 +8,7 @@ endblock %}
 <main class="content d-flex">
 	{% include 'includes/Classroom/ClassroomModal.html' %}
 	<div class="content-header">
-		<h1 class="mb-0">CLASSROOM</h1>
+		<h1 class="mb-0">SECTIONS</h1>
 	</div>
 	<div class="content-search d-flex">
 		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">CREATE</button>
@@ -19,7 +19,7 @@ endblock %}
 				placeholder="Recipient's username"
 				aria-label="Recipient's username"
 				aria-describedby="button-addon2" />
-			<button class="btn btn-success" type="button" id="button-addon2">Button</button>
+			<button class="btn option btn-success" type="button" id="button-addon2">Button</button>
 		</div>
 	</div>
 	<div class="content-rooms">
@@ -29,7 +29,8 @@ endblock %}
 				<h2 class="card-title mb-1"><b>{{section.section_name}}</b></h2>
 				<p class="card-body mb-1"><b>Department:</b> {{section.collegiate.collegiate_name}}</p>
 				<p class="card-body mb-1"><b>Adviser:</b> {{section.section.fullName}}</p>
-				<a href="" class="button">Go</a>
+				<!-- endpoint handler -->
+				<a href="/section/{{section.section_name}}" class="button">Go</a>
 			</div>
 		</div>
 		{% endfor %}
