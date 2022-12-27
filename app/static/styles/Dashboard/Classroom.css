@@ -41,41 +41,84 @@ main.content {
 	/* border: 1px solid red; */
 	/* height: calc(var(--main-content) - 150px); */
 }
-.rooms{
-	color: inherit;
-	text-decoration: none;
-	position: relative;
-	background: rgba( 255, 255, 255, 0.6 );
-	box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-	backdrop-filter: blur( 4px );
-	-webkit-backdrop-filter: blur( 4px );
-	border-radius: 3px;
-	border: 1px solid rgba( 255, 255, 255, 0.18 );
-	transition: all 200ms ease-in-out;
+
+.card-custom{
+	background-size: cover;
+	color: white;
+	padding: 10rem 0 0;
+	max-width: 35ch;
+	border-radius: .5rem;
+	overflow: hidden;
+	
+	transition: transform 500ms ease;
 }
 
-.rooms:hover {
-	transform: translateY(-1rem);
-    color: #fafafa;
-	background-color: var(--main-color);
-	text-decoration:none; 
-    cursor:pointer;  
+.card-custom:hover{
+	transform:scale(1.05)
 }
-.room-details{
-	padding: 10px;
+.card-custom:hover .card-title::after{
+	transform: scaleX(1);
+}
+.card-custom:hover .card-content{
+	transform: translateY(0);
+	transition-delay: 500ms;
+}
+.card-custom:hover .card-content > * {
+	opacity: 1;
+}
+
+.card-content{
+	--padding:1.5rem;
+	padding: var(--padding);
+	background: linear-gradient(
+		hsl(0 0% 0% / 0 ),
+		hsl(20 0% 0% / 0.3 ) 20%,
+		hsl(0 0% 0% / 1 )
+	);
+
+	transform: translateY(65%);
+	transition: transform 500ms ease;
+	transition-delay: 500ms;
+}
+.card-content > *:not(.card-title) {
+	opacity: 0;
+	transition: opacity 500ms linear;
+	transition-delay: 1000ms;
+}
+
+.card-title{
 	position: relative;
-	flex-direction: column;
+	width: max-content;
 }
-	/* .room-name{
-		color: green;
-	} */
-.room-department-logo{
-	left: 80%;
+
+.card-title::after{
+	content: "";
 	position: absolute;
-}
-.rooms-img{
-	border-radius: 50%;
-	width: 60px;
-	height: 60px;
+	height: 4px;
+	left: calc(var(--padding) * -1 );
+	bottom: -2px;
+	width:calc(100% + var(--padding));
+	background-color: var(--main-color);
+
+	transform: scaleX(0);
+	transform-origin: left;
+	transition: transform 500ms ease;
 }
 
+.card-body{
+	color: rgb(255, 255, 255 / 0.9);
+}
+
+.button{
+	cursor: pointer;
+	display: inline-block;
+	text-decoration: none;
+	color: #fafafa;
+	background-color: var(--main-color);
+	padding: .5em 1.25em;
+	border-radius: .25em;
+}
+.button:hover,.button:focus {
+	background-color: #fafafa;
+	color: var(--main-color);
+}
