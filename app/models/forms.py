@@ -57,3 +57,16 @@ class SectionForm(FlaskForm):
     section = SelectField(choices = [1,2,3,4],validators =[DataRequired()])
     file = FileField("File",validators = [InputRequired()])
     submit = SubmitField(label = 'Create')
+
+# Subject Form
+class SubjectForm(FlaskForm):
+
+    days= ['Monday','Tuesday','Wednesday','Thursday','Friday','Satruday']
+    time  =['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00']
+
+    name = StringField(validators = [Length(min = 5, max = 50),DataRequired()])
+    day = SelectField(choices = days,validators = [DataRequired()])
+    start = SelectField(choices = time,validators = [DataRequired()])
+    end = SelectField(choices = time ,validators = [DataRequired()])
+    file = FileField("File",validators = [InputRequired()])
+    submit = SubmitField(label = 'Create')
