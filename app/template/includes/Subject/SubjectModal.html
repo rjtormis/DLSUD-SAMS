@@ -1,5 +1,5 @@
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h1 class="modal-title fs-5" id="exampleModalLabel"><b>SUBJECT DETAILS</b></h1>
@@ -11,27 +11,33 @@
 						{{subject_form.name(class = "form-control", id = "subjectName", placeholder = "Subject Name")}}
 						<label for="subjectName">Subject Name</label>
 					</div>
-					<div class="row">
+					<b>Schedule</b>
+					<div class="row mt-1">
 						<div class="col">
 							<div class="form-floating mb-3">
-								{{subject_form.day(class = "form-select", id = "subjectName", placeholder = "Subject Name")}}
-								<label for="subjectName">Subject Name</label>
+								{{subject_form.day(class = "form-select", id = "Day", placeholder = "Day")}}
+								<label for="Day">Day</label>
 							</div>
 						</div>
 						<div class="col">
-							<div class="form-floating mb-3">
-								{{subject_form.start(class = "form-select", id = "subjectName", placeholder = "Subject Name")}}
-								<label for="subjectName">Subject Name</label>
-							</div>
-						</div>
-						<div class="col">
-							<div class="form-floating mb-3">
-								{{subject_form.end(class = "form-select", id = "subjectName", placeholder = "Subject Name")}}
-								<label for="subjectName">Subject Name</label>
+							<div class="input-group m-0">
+								<div class="form-floating">
+									{{subject_form.start(class = "form-control")}}
+									<label for="Start">Start</label>
+								</div>
+								<div class="form-floating">
+									{{subject_form.end(class = "form-control")}}
+									<label for="End">End</label>
+								</div>
 							</div>
 						</div>
 					</div>
-					{{subject_form.file(class = "form-control")}}
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" value="" id="customBG" />
+						<label class="form-check-label" for="customBG"> Custom Background </label>
+					</div>
+
+					{{subject_form.file(class = "disabled form-control")}}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -41,3 +47,4 @@
 		</div>
 	</div>
 </div>
+<script src="../../../static/js/SubjectModal.js"></script>
