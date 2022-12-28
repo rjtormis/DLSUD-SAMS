@@ -30,12 +30,12 @@ def student_page():
         if student_form.validate_on_submit():
 
             student_account = Student(student_id = student_form.idNumber.data,
-            firstName = student_form.firstName.data,
-            middleName = student_form.middleName.data+".",
-            lastName = student_form.lastName.data,
-            fullName = f'{student_form.firstName.data} {student_form.middleName.data+"."} {student_form.lastName.data} ',
-            emailAddress = student_form.emailAddress.data,
-            password = student_form.password1.data)
+                                    firstName = student_form.firstName.data,
+                                    middleName = student_form.middleName.data+".",
+                                    lastName = student_form.lastName.data,
+                                    fullName = f'{student_form.firstName.data} {student_form.middleName.data+"."} {student_form.lastName.data} ',
+                                    emailAddress = student_form.emailAddress.data,
+                                    password = student_form.password1.data)
 
             db.session.add(student_account)
             db.session.commit()
@@ -74,13 +74,13 @@ def faculty_page():
         if faculty_form.validate_on_submit():
 
             faculty_account = Faculty(firstName = faculty_form.firstName.data ,
-            middleName = faculty_form.middleName.data+".",
-            lastName = faculty_form.lastName.data,
-            emailAddress = faculty_form.emailAddress.data,
-            fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data} ',
-            password = faculty_form.password1.data,
-            collegiate_id = collegiate_id.collegiate_id ,
-            birthDate = faculty_form.birthDate.data)
+                                    middleName = faculty_form.middleName.data+".",
+                                    lastName = faculty_form.lastName.data,
+                                    emailAddress = faculty_form.emailAddress.data,
+                                    fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data} ',
+                                    password = faculty_form.password1.data,
+                                    collegiate_id = collegiate_id.collegiate_id ,
+                                    birthDate = faculty_form.birthDate.data)
             
             db.session.add(faculty_account)
             db.session.commit()
@@ -148,9 +148,6 @@ def section_list():
 
         if section_form.validate_on_submit():
 
-            # # To be moved to Subject
-            # uniqueCode = Section.id_generator(Section,4)
-
             addSection = Section(faculty_id = current_user.faculty_id,section_name =f'{section_form.courseName.data} {section_form.year.data}{section_form.section.data}',collegiate_id = current_user.collegiate_id)
             
             # Checks the availability of the section
@@ -184,7 +181,7 @@ def section_list():
                     file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER']+f'/section/{addSection.section_name}',secure_filename(file.filename)))
                     
                     # Set Image Location referring to the file directory
-                    imageLocation = f'../../static/files/section/{section_form.courseName.data}\ {section_form.year.data}{section_form.section.data}/{file.filename}'
+                    imageLocation = f'../../static/files/section/{addSection.changeDirectoryName(directory=addSection.section_name)}/{file.filename}'
                     
                     # Save to Database. 
                     addSection.section_image_loc = imageLocation       
@@ -210,12 +207,68 @@ def section_list():
         return render_template('Dashboard/Classroom.html',section_form = section_form,sections = section)
 
 # API END POINT FOR SPECIFIC CLASSROOM
-@app.route('/section/<string:section_name>',methods = ['GET'])
+@app.route('/section/<string:section_name>',methods = ['GET','POST'])
 @login_required
 def section_page(section_name):
+
     subject_form = SubjectForm()
+    
     section = Section.query.filter_by(section_name = section_name).first()
-    return render_template('Dashboard/Subject.html',section = section,subject_form = subject_form)
+    
+    subjects = Subject.query.filter_by(section_id = section.section_id)
+
+    if subject_form.validate_on_submit():
+        
+        addSubject = Subject(section_id = section.section_id,
+                            faculty_id = current_user.faculty_id,
+                            subject_code = Subject.id_generator(Subject,4),
+                            subject_name = subject_form.name.data,
+                            subject_day = subject_form.day.data,
+                            subject_start = subject_form.start.data,
+                            subject_end = subject_form.end.data,
+                            subject_full = f'{subject_form.day.data} {subject_form.start.data} TO {subject_form.end.data}')
+        
+        if addSubject and addSubject.checkSubject(addSubject.subject_name,addSubject.subject_code):
+            
+            try:
+                # Using Absolute Path & Relative Path
+                cwd = os.getcwd()
+                target = f'app/static/files/section/{section.section_name}/subject'
+                full = os.path.relpath(target,cwd)
+                
+                # Final Location
+                final = os.path.join(full,f'{addSubject.subject_name}')
+    
+                # Create Folder / Directory
+                os.makedirs(final)
+            except:
+                print('File Exists')
+            
+
+            file = subject_form.file.data
+
+            if file and addSubject.checkExtension(filename = file.filename):
+                
+                file.filename = addSubject.changeFileName(filename=file.filename,subjectName = addSubject.subject_name)
+                
+                file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER']+f'/section/{section.section_name}/subject/{addSubject.subject_name}',secure_filename(file.filename)))
+
+                imageLocation = f'../../static/files/section/{addSubject.changeDirectoryName(section.section_name)}/subject/{addSubject.changeDirectoryName(addSubject.subject_name)}/{file.filename}'
+                print(imageLocation)
+                addSubject.subject_image_loc = imageLocation
+
+                db.session.add(addSubject)
+                db.session.commit()
+            else:
+                imageLocation = f'../../static/img/clbg.jpg'
+                addSubject.subject_image_loc = imageLocation
+
+                db.session.add(addSubject)
+                db.session.commit()
+        else:
+            print('Subject already exist!')
+    
+    return render_template('Dashboard/Subject.html',section = section,subject_form = subject_form,subjects = subjects)
 
 @app.route('/profile')
 @login_required
