@@ -1,6 +1,6 @@
 # Import Flask Forms Modules
 from flask_wtf import FlaskForm
-from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField,FileField
+from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField,FileField,TimeField
 from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError,InputRequired
 
 # Import Flask Models
@@ -55,18 +55,17 @@ class SectionForm(FlaskForm):
     courseName = SelectField(choices = ['BCS','IT','CLACTEST'],validators = [DataRequired()])
     year = SelectField(choices = [1,2,3,4],validators = [DataRequired()])
     section = SelectField(choices = [1,2,3,4],validators =[DataRequired()])
-    file = FileField("File",validators = [InputRequired()])
+    file = FileField("File",validators = [DataRequired()])
     submit = SubmitField(label = 'Create')
 
 # Subject Form
 class SubjectForm(FlaskForm):
 
     days= ['Monday','Tuesday','Wednesday','Thursday','Friday','Satruday']
-    time  =['7:00','8:00','9:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00']
 
     name = StringField(validators = [Length(min = 5, max = 50),DataRequired()])
     day = SelectField(choices = days,validators = [DataRequired()])
-    start = SelectField(choices = time,validators = [DataRequired()])
-    end = SelectField(choices = time ,validators = [DataRequired()])
-    file = FileField("File",validators = [InputRequired()])
+    start = TimeField('Time',validators = [DataRequired()])
+    end = TimeField('Time',validators = [DataRequired()])
+    file = FileField()
     submit = SubmitField(label = 'Create')
