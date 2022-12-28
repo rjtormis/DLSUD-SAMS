@@ -45,7 +45,6 @@ main.content {
 		/* height: calc(var(--content-height) - 150px) */
 	}
 	.subject{
-		background-image: url(../../img/test.jpg) ;
 		background-size: 100% 100%;
 		background-position:center;
 		background-repeat:no-repeat;
@@ -90,4 +89,7 @@ main.content {
 			background: #fafafa;
 			color: #198754;
 		}
-	
+
+.disabled{
+	display: none;
+}
