@@ -76,6 +76,7 @@ class Faculty(User):
 
     # One To Many Relationship 
     section = db.relationship('Section',backref = 'section',lazy = True)
+    faculty_subject = db.relationship('Subject',backref = 'faculty_subject',lazy = True)
 
     # FLASK JOINED TABLE INHERITANCE
     # Reference User Type as "Faculty"
@@ -110,12 +111,12 @@ class Section(db.Model):
     section_id  = db.Column(db.Integer(),primary_key = True)
     collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
     section_name = db.Column(db.String(length = 20),unique = True,nullable = False)
-    section_image_loc = db.Column(db.String(length = 100))
+    section_image_loc = db.Column(db.Text())
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
     # One to many
-    # subjects = db.relationship('Subject',backref = 'subject',lazy = True)
+    subjects = db.relationship('Subject',backref = 'subject',lazy = True)
 
     # Queries the availability of name and section code in database.
     def checkSection(self,sectionName):
@@ -140,36 +141,57 @@ class Section(db.Model):
     def changeFileName(self,filename,sectionName):
         return f'{sectionName.replace(" ","_")}'+'.'+filename.rsplit('.', 1)[1].lower()      
 
-   
-# Subject Modedl
-## Needs to be fixed =)
+    def changeDirectoryName(self,directory):
+        return directory.replace(" ","\ ")
+
+# Subject Model
 class Subject(db.Model):
     
     __tablename__ = 'subjects'
 
-    section_id = db.Column(db.Integer(),db.ForeignKey('sections.subjects'))
+    section_id = db.Column(db.Integer(),db.ForeignKey('sections.section_id'))
     faculty_id = db.Column(db.Integer(),db.ForeignKey('faculties.faculty_id'))
     subject_id = db.Column(db.Integer(),primary_key = True)
     subject_code = db.Column(db.String(length = 10),nullable = False,unique = True)
-    subject_name = db.Column(db.String(length = 20),unique = True,nullable = False)
-    subject_time = db.Column(db.String(length = 50), nullable = False)
+    subject_name = db.Column(db.String(length = 100),nullable = False)
+    subject_image_loc = db.Column(db.Text())
+    subject_day = db.Column(db.String(length = 50), nullable = False)
+    subject_start = db.Column(db.String(length = 50), nullable = False)
+    subject_end = db.Column(db.String(length = 50), nullable = False)
+    subject_full = db.Column(db.String(length = 50), nullable = False)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
-     # # # TO BE USED ON SUBJECT MODEL
-    # # Unique code getter for section code
-    # @property
-    # def uniqueCode(self):
-    #     return self.uniqueCode
-    
-    # # Unique Code setter for section code
-    # @uniqueCode.setter
-    # def uniqueCode(self,uniqueCode):
-    #     self.section_code = uniqueCode
 
-    # # ASCII generator
-    # # Reference: https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
-    # def id_generator(self,size,chars = string.ascii_uppercase + string.digits):
-    #     uCode1 =  ''.join(random.choice(chars) for _ in range(size))   
-    #     uCode2 = ''.join(random.choice(chars) for _ in range(size))
-    #     return f'{uCode1}-{uCode2}'
+    # Unique code getter for subject code
+    @property
+    def subjectCode(self):
+        return self.subjectCode
+    
+    # Unique Code setter for subject code
+    @subjectCode.setter
+    def subjectCode(self,subjectCode):
+        self.subject_code = subjectCode
+
+    # Check if the uploaded file is an image
+    def checkExtension(self,filename):
+        return f'.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+    # ASCII generator
+    # Reference: https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
+    def id_generator(self,size,chars = string.ascii_uppercase + string.digits):
+        uCode1 =  ''.join(random.choice(chars) for _ in range(size))   
+        uCode2 = ''.join(random.choice(chars) for _ in range(size))
+        return f'{uCode1}-{uCode2}'
+
+    def checkSubject(self,subjectName,subjectCode):
+        return not(Subject.query.filter_by(subject_name = subjectName).first() and Subject.query.filter_by(subject_code = subjectCode).first())
+    
+    # Change the image file to their respecitve subject name
+    def changeFileName(self,filename,subjectName):
+        return f'{subjectName.replace(" ","_")}'+'.'+filename.rsplit('.', 1)[1].lower() 
+
+    def changeDirectoryName(self,directory):
+        return directory.replace(" ","\ ")
+  
