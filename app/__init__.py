@@ -7,9 +7,13 @@ from flask import Flask,render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from flask_cors import CORS
 
 
 app = Flask(__name__,template_folder = 'template')
+
+# Cross Origin Referencing for API!
+CORS(app=app)
 
 # Initialize secret key for user session protection
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
@@ -31,4 +35,5 @@ login_manager = LoginManager(app)
 
 # Essential imports!
 from app import routes
+from app.api import check_user_api
 from app.models.models import User,Student
