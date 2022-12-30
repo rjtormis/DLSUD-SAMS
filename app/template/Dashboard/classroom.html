@@ -27,8 +27,8 @@ endblock %}
 		<div class="card-custom" style="background-image: url({{section.section_image_loc}})">
 			<div class="card-content">
 				<h2 class="card-title mb-1"><b>{{section.section_name}}</b></h2>
-				<p class="card-body mb-1"><b>Department:</b> {{section.collegiate.collegiate_name}}</p>
-				<p class="card-body mb-1"><b>Adviser:</b> {{section.section.fullName}}</p>
+				<p class="card-body mb-1"><b>Department:</b> {{section.section_collegiate.collegiate_name}}</p>
+				<p class="card-body mb-1"><b>Adviser:</b> {{section.handle_section.fullName}}</p>
 				<!-- endpoint handler -->
 				<a href="/section/{{section.section_name}}" class="button">Go</a>
 			</div>
