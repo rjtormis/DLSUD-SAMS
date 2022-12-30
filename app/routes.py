@@ -1,6 +1,7 @@
 import os
+from datetime import datetime
 from app import app,db
-from flask import render_template,request,redirect,url_for,flash,get_flashed_messages
+from flask import render_template,request,redirect,url_for,flash,get_flashed_messages,jsonify
 from flask_login import login_user,login_required,current_user,logout_user
 
 # All Forms
@@ -35,22 +36,22 @@ def student_page():
                                     lastName = student_form.lastName.data,
                                     fullName = f'{student_form.firstName.data} {student_form.middleName.data+"."} {student_form.lastName.data} ',
                                     emailAddress = student_form.emailAddress.data,
-                                    password = student_form.password1.data)
-
-            db.session.add(student_account)
-            db.session.commit()
+                                    password = student_form.password1.data)            
+                
+            # db.session.add(student_account)
+            # db.session.commit()
 
             return redirect(url_for('student_page'))
+
 
         if student_form.errors != {}:
 
             for err_msg in student_form.errors.values():
 
                 print(err_msg)
-    
-    if request.method == 'GET':
 
-        return render_template('Create&Login/create_student.html',student_form = student_form)
+    # GET Request.    
+    return render_template('Create&Login/create_student.html',student_form = student_form)
 
 # TODO: ADD FLASHES, ERROR HANDLING
 # ISSUE DATE: DECEMBER 17 2022
@@ -89,9 +90,10 @@ def faculty_page():
 
         if faculty_form.errors != {}:
 
-            for err_msg in faculty_form.errors.values():
+            for err,err_msg in faculty_form.errors.items():
                 
-                print(err_msg)
+                print(err,err_msg)
+        
 
     if request.method == 'GET':  
 
@@ -206,7 +208,7 @@ def section_list():
 
         return render_template('Dashboard/Classroom.html',section_form = section_form,sections = section)
 
-# API END POINT FOR SPECIFIC CLASSROOM
+# API END POINT FOR SPECIFIC SECTION
 @app.route('/section/<string:section_name>',methods = ['GET','POST'])
 @login_required
 def section_page(section_name):
@@ -217,58 +219,71 @@ def section_page(section_name):
     
     subjects = Subject.query.filter_by(section_id = section.section_id)
 
-    if subject_form.validate_on_submit():
-        
-        addSubject = Subject(section_id = section.section_id,
-                            faculty_id = current_user.faculty_id,
-                            subject_code = Subject.id_generator(Subject,4),
-                            subject_name = subject_form.name.data,
-                            subject_day = subject_form.day.data,
-                            subject_start = subject_form.start.data,
-                            subject_end = subject_form.end.data,
-                            subject_full = f'{subject_form.day.data} {subject_form.start.data} TO {subject_form.end.data}')
-        
-        if addSubject and addSubject.checkSubject(addSubject.subject_name,addSubject.subject_code):
+    if request.method == 'POST':
+
+        if subject_form.validate_on_submit():
             
-            try:
-                # Using Absolute Path & Relative Path
-                cwd = os.getcwd()
-                target = f'app/static/files/section/{section.section_name}/subject'
-                full = os.path.relpath(target,cwd)
+            addSubject = Subject(section_id = section.section_id,
+                                faculty_id = current_user.faculty_id,
+                                subject_code = Subject.id_generator(Subject,4),
+                                subject_name = subject_form.name.data,
+                                subject_day = subject_form.day.data,
+                                subject_start = Subject.changeTime(Subject,subject_form.start.data),
+                                subject_end = Subject.changeTime(Subject,subject_form.end.data),
+                                subject_full = f'{subject_form.day.data} {Subject.changeTime(Subject,subject_form.start.data)} TO {Subject.changeTime(Subject,subject_form.end.data)}')
+        
+            if addSubject and addSubject.checkSubject(addSubject.subject_name,addSubject.subject_code):
                 
-                # Final Location
-                final = os.path.join(full,f'{addSubject.subject_name}')
-    
-                # Create Folder / Directory
-                os.makedirs(final)
-            except:
-                print('File Exists')
+                try:
+                    # Using Absolute Path & Relative Path
+                    cwd = os.getcwd()
+                    target = f'app/static/files/section/{section.section_name}/subject'
+                    full = os.path.relpath(target,cwd)
+                    
+                    # Final Location
+                    final = os.path.join(full,f'{addSubject.subject_name}')
+        
+                    # Create Folder / Directory
+                    os.makedirs(final)
+                except:
+                    print('File Exists')
+                
+
+                file = subject_form.file.data
+
+                if file and addSubject.checkExtension(filename = file.filename):
+                    
+                    file.filename = addSubject.changeFileName(filename=file.filename,subjectName = addSubject.subject_name)
+                    
+                    file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER']+f'/section/{section.section_name}/subject/{addSubject.subject_name}',secure_filename(file.filename)))
+
+                    imageLocation = f'../../static/files/section/{addSubject.changeDirectoryName(section.section_name)}/subject/{addSubject.changeDirectoryName(addSubject.subject_name)}/{file.filename}'
+                    addSubject.subject_image_loc = imageLocation
+
+                  
+                else:
+                    imageLocation = f'../../static/img/clbg.jpg'
+                    addSubject.subject_image_loc = imageLocation
             
-
-            file = subject_form.file.data
-
-            if file and addSubject.checkExtension(filename = file.filename):
-                
-                file.filename = addSubject.changeFileName(filename=file.filename,subjectName = addSubject.subject_name)
-                
-                file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER']+f'/section/{section.section_name}/subject/{addSubject.subject_name}',secure_filename(file.filename)))
-
-                imageLocation = f'../../static/files/section/{addSubject.changeDirectoryName(section.section_name)}/subject/{addSubject.changeDirectoryName(addSubject.subject_name)}/{file.filename}'
-                print(imageLocation)
-                addSubject.subject_image_loc = imageLocation
-
-                db.session.add(addSubject)
-                db.session.commit()
+        
             else:
-                imageLocation = f'../../static/img/clbg.jpg'
-                addSubject.subject_image_loc = imageLocation
+                print('Subject already exist!')
+            
+            db.session.add(addSubject)
+            db.session.commit()
+        
+        # Redirect back.
+        return redirect(url_for('section_page',section_name = section_name))
 
-                db.session.add(addSubject)
-                db.session.commit()
-        else:
-            print('Subject already exist!')
-    
-    return render_template('Dashboard/Subject.html',section = section,subject_form = subject_form,subjects = subjects)
+    if request.method == 'GET':
+
+        return render_template('Dashboard/Subject Page.html',section = section,subject_form = subject_form,subjects = subjects)
+
+# API END POINT FOR SPECIFIC SUBJECT
+@app.route('/section/<string:section_name>/<string:subject_name>')
+def subject(section_name,subject_name):
+    subject = Subject.query.filter_by(subject_name = subject_name).first()
+    return render_template('Dashboard/Subject.html',subject = subject)
 
 @app.route('/profile')
 @login_required
