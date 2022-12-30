@@ -47,6 +47,7 @@ class User(db.Model,UserMixin):
     def check_password(self,input_password):
         return bcrypt.check_password_hash(self.passwordHash,input_password)
     
+    
 # Student Model
 class Student(User):
 
@@ -56,6 +57,9 @@ class Student(User):
     id = db.Column(db.Integer(),db.ForeignKey('users.id'))
     student_id = db.Column(db.Integer(),primary_key = True)
     collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
+
+    # One to Many
+    enrolled = db.relationship('Enroll',backref = 'enrolled_subject',lazy = True)
 
     # FLASK JOINED TABLE INHERITANCE
     # Reference User Type as "Student"
@@ -75,8 +79,8 @@ class Faculty(User):
     birthDate = db.Column(db.DateTime())
 
     # One To Many Relationship 
-    section = db.relationship('Section',backref = 'section',lazy = True)
-    faculty_subject = db.relationship('Subject',backref = 'faculty_subject',lazy = True)
+    section = db.relationship('Section',backref = 'handle_section',lazy = True)
+    subject = db.relationship('Subject',backref = 'handle_subject',lazy = True)
 
     # FLASK JOINED TABLE INHERITANCE
     # Reference User Type as "Faculty"
@@ -97,9 +101,9 @@ class Collegiate(db.Model):
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
     
     # One To Many Relationship 
-    faculty = db.relationship('Faculty',backref = 'collegiate',lazy=  True)
-    student = db.relationship('Student',backref = 'collegiate',lazy = True)
-    section = db.relationship('Section',backref = 'collegiate',lazy = True)
+    faculty = db.relationship('Faculty',backref = 'faculty_collegiate',lazy=  True)
+    student = db.relationship('Student',backref = 'student_collegiate',lazy = True)
+    section = db.relationship('Section',backref = 'section_collegiate',lazy = True)
 
 # Section Model
 class Section(db.Model):
@@ -116,7 +120,9 @@ class Section(db.Model):
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
     # One to many
-    subjects = db.relationship('Subject',backref = 'subject',lazy = True)
+    subjects = db.relationship('Subject',backref = 'section_subject',lazy = True)
+    enrolled = db.relationship('Enroll',backref = 'section_enrolled',lazy = True)
+
 
     # Queries the availability of name and section code in database.
     def checkSection(self,sectionName):
@@ -143,7 +149,7 @@ class Section(db.Model):
 
     def changeDirectoryName(self,directory):
         return directory.replace(" ","\ ")
-
+    
 # Subject Model
 class Subject(db.Model):
     
@@ -156,12 +162,14 @@ class Subject(db.Model):
     subject_name = db.Column(db.String(length = 100),nullable = False)
     subject_image_loc = db.Column(db.Text())
     subject_day = db.Column(db.String(length = 50), nullable = False)
-    subject_start = db.Column(db.String(length = 50), nullable = False)
-    subject_end = db.Column(db.String(length = 50), nullable = False)
+    subject_start = db.Column(db.Time(), nullable = False)
+    subject_end = db.Column(db.Time(), nullable = False)
     subject_full = db.Column(db.String(length = 50), nullable = False)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
+    # One to Many
+    enrolled = db.relationship('Enroll',backref = 'enrolled',lazy = True)
 
     # Unique code getter for subject code
     @property
@@ -194,4 +202,18 @@ class Subject(db.Model):
 
     def changeDirectoryName(self,directory):
         return directory.replace(" ","\ ")
-  
+    
+    def changeTime(self,time):
+        time = time.strftime("%I:%M %p")
+        return time
+
+class Enroll(db.Model):
+
+    __tablename__ = 'enrolled'
+
+    id = db.Column(db.Integer(),primary_key = True)
+
+    section_id = db.Column(db.Integer(),db.ForeignKey('sections.section_id'),nullable = False)
+    subject_id = db.Column(db.Integer(),db.ForeignKey('subjects.subject_id'),nullable = False)
+    student_id = db.Column(db.Integer(),db.ForeignKey('students.student_id'),nullable = False)
+    
