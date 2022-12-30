@@ -1,55 +1,68 @@
-{% extends 'Dashboard/Base.html'%}
+{% extends 'Dashboard/Base.html' %}
 <!-- CSS -->
-{% block css %}<link rel="stylesheet" href="{{url_for('static',filename = 'styles/Dashboard/Subject.css')}}" />
-
+{% block css %}
+<link rel="stylesheet" href="{{url_for('static',filename = 'styles/Dashboard/Subject.css')}}" />
 {% endblock %}
 <!-- CONTENT -->
 {% block content %}
 <main class="content d-flex">
-	{% include 'includes/Subject/SubjectModal.html' %}
 	<div class="content-header">
-		<a href="{{url_for('section_list')}}"><span class="material-icons-sharp"> arrow_back </span></a>
-		<h2 class="mb-0"><b>{{section.section_name}}</b></h2>
+		<a href="/section/{{subject.section_subject.section_name}}"
+			><span class="material-icons-sharp"> arrow_back </span></a
+		>
+		<h2 class="mb-0"><b>{{subject.subject_name}}</b></h2>
 	</div>
-	<div class="content-details d-flex">
-		<div class="section-details">
-			<p class="mb-0"><b>Collegiate:</b> {{section.collegiate.collegiate_name}}</p>
-			<p class="mb-0"><b>Adviser:</b> {{section.section.fullName}}</p>
+	<div class="subject-details">
+		<div class="subject-professor">
+			<p class="mb-0"><b>Professor</b>: {{subject.handle_subject.fullName}}</p>
 		</div>
-		<div class="section-search">
-			<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-				CREATE
-			</button>
-			<div class="input-group">
-				<input
-					type="text"
-					class="form-control"
-					placeholder="Recipient's username"
-					aria-label="Recipient's username"
-					aria-describedby="button-addon2" />
-				<button class="btn btn-success" type="button" id="button-addon2">Button</button>
-			</div>
-		</div>
-	</div>
-	<div class="content-rooms">
-		{% for subject in subjects %}
-		<div class="subject" style="background-image: url({{subject.subject_image_loc}});">
-			<div class="subject-details">
-				<h4 class="mb-2">{{subject.subject_name}}</h4>
-				<p class="mb-0">{{subject.subject_full}}</p>
-				<p class="mb-2">{{subject.faculty_subject.fullName}}</p>
-				<button class="btn visit btn-success">Visit</button>
-			</div>
-			<div class="subject-buttons">
-				<div class="btn-edit">
-					<button class="option y"><span class="material-icons-sharp"> edit </span></button>
-				</div>
-				<div class="btn-delete">
-					<button class="option r"><span class="material-icons-sharp"> delete </span></button>
+		<div class="subject-code">
+			<p class="mb-0"><b>Subject Code:</b> {{subject.subject_code}}</p>
+			<div class="subject-search">
+				<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+					CREATE
+				</button>
+				<div class="input-group">
+					<input
+						type="text"
+						class="form-control"
+						placeholder="Recipient's username"
+						aria-label="Recipient's username"
+						aria-describedby="button-addon2" />
+					<button class="btn btn-success" type="button" id="button-addon2">Button</button>
 				</div>
 			</div>
 		</div>
-		{% endfor %}
+	</div>
+	<div class="subject-table mt-2">
+		<div class="table-header d-flex mt-2">
+			<button class="btn btn-success">START ATTENDANCE</button>
+			<h2 class="mb-0"><b>STUDENTS ENROLLED</b></h2>
+			<button class="btn btn-success">DOWNLOAD ATTENDANCE</button>
+		</div>
+		<table class="table text-center mt-2">
+			<thead>
+				<tr>
+					<th class="table-success">Full Name</th>
+					<th class="table-success">Email</th>
+					<th class="table-success">Student ID</th>
+					<th class="table-success">Total Attendance</th>
+					<th class="table-success">Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>test</td>
+					<td>test</td>
+					<td>test</td>
+					<td>test</td>
+					<td class="d-flex justify-content-center gap-2">
+						<button class="edit"><span class="material-icons-sharp"> edit </span></button>
+						<button class="delete"><span class="material-icons-sharp"> delete </span></button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 </main>
 {% endblock %}
