@@ -7,25 +7,18 @@ from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError
 from app.models.models import Student
 
 
-# TODO: RESTRUCTURE USER FORM. 
+# TODO: RESTRUCTURE USER FORM.
 # DATE: DECEMBER 17 2022
 
 # Register User
 class RegisterUser(FlaskForm):
 
-     # Email Validation
+    # Email Validation
     def validate_emailAddress(self,emailAddress_to_validate):
         student_email = Student.query.filter_by(emailAddress = emailAddress_to_validate.data).first()
         if student_email:
             raise ValidationError('Email Address Already Exists!')
-    
-    # ID Number Validation
-    def validate_idNumber(self,id_to_validate):
-        student_id = Student.query.filter_by(id = id_to_validate.data).first()
-        if student_id:
-            raise ValidationError('ID Number Already Exists!')
 
-    
     firstName = StringField(validators = [Length(min = 3 , max = 20),DataRequired()])
     middleName = StringField(validators = [Length(max = 1),DataRequired()])
     lastName = StringField(validators = [Length(min = 4 , max = 20),DataRequired()])
@@ -35,11 +28,20 @@ class RegisterUser(FlaskForm):
 
 # Register Student, inherit RegisterUser
 class StudentForm(RegisterUser):
+
+    # ID Number Validation
+    def validate_idNumber(self,id_to_validate):
+        student_id = Student.query.filter_by(student_id = id_to_validate.data).first()
+        if student_id:
+            raise ValidationError('ID Number Already Exists!')
+
     idNumber = StringField(validators = [Length(min = 9),DataRequired()])
     submit = SubmitField(label ="Register")
 
-# Register Faculty, inherit RegisterUser   
+
+# Register Faculty, inherit RegisterUser
 class FacultyForm(RegisterUser):
+
     collegiate = SelectField('Label', choices=[])
     birthDate = DateField(format = '%Y-%m-%d',validators = [DataRequired()])
     submit = SubmitField(label ="Register")
@@ -65,7 +67,7 @@ class SubjectForm(FlaskForm):
 
     name = StringField(validators = [Length(min = 5, max = 50),DataRequired()])
     day = SelectField(choices = days,validators = [DataRequired()])
-    start = TimeField('Time',validators = [DataRequired()])
-    end = TimeField('Time',validators = [DataRequired()])
+    start = TimeField(validators = [DataRequired()])
+    end = TimeField(validators = [DataRequired()])
     file = FileField()
     submit = SubmitField(label = 'Create')
