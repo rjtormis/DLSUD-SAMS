@@ -10,104 +10,105 @@
 {% endblock%}
 
 {% block content %}
-    <div class="create container mt-3">
-				<div class="loginheader">
-					<h5 class="text-center text-light"><b>CREATE AN ACCOUNT</b></h5>
-					<h6 class="mb-0 text-center text-light"></b>Fill in your
-                        required details to register in the
-                        attendance portal</b></h6>
+<div class="create container mt-3">
+	<div class="loginheader">
+		<h5 class="text-center text-light"><b>CREATE AN ACCOUNT</b></h5>
+		<h6 class="mb-0 text-center text-light"></b>Fill in your
+			required details to register in the
+			attendance portal</b></h6>
+	</div>
+	<br>
+	<!-- FORM CONTAINER -->
+	<!-- FN,MI,LN -->
+	<div class="form container">
+		<form action="" method="POST">
+			{{faculty_form.hidden_tag()}}
+			<h6 class="text-center"><b>FACULTY ACCOUNT DETAILS</b></h6>
+			
+			<div class="row">
+				<div class="col">
+					<div class="form-floating">
+						{{faculty_form.firstName(class = "form-control",placeholder = "First name",id = "first_name")}}
+						<label for="first_name">First name</label>
+					</div>
 				</div>
-				<br>
-				<!-- FORM CONTAINER -->
-				<!-- FN,MI,LN -->
-				<div class="form container">
-					<form action="" method="POST">
-						{{faculty_form.hidden_tag()}}
-						<h6 class="text-center"><b>FACULTY ACCOUNT DETAILS</b></h6>
-						
-						<div class="row">
-							<div class="col">
-								<div class="form-floating">
-									{{faculty_form.firstName(class = "form-control",placeholder = "First name",id = first_name)}}
-									<label for="first_name">First name</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-floating">
-									{{faculty_form.middleName(class = "form-control",placeholder = "Middle Initial",id = initial)}}
-									<label for="initial">Middle I.</label>
-								</div>
-							</div>
-							<div class="col">
-								<div class="form-floating">
-									{{faculty_form.lastName(class = "form-control",placeholder = "Last name",id = last_name)}}
-									<label for="last_name">Last name</label>
-								</div>
-							</div>
-						</div>
-
-						<!-- COLLEGIATE -->
-						<div class="input-group mt-3">
-							<span class="input-group-text">
-								<img src="{{url_for('static',filename ='img/mortarboard.svg')}}" alt="">
-							</span>
-							<div class="form-floating">
-								{{faculty_form.collegiate(class = "form-control",placeholder = "Collegiate",id = collegiate_input)}}
-								<label for="collegiate_input">Collegiate</label>
-							</div>
-						</div>
-
-						<!-- BIRTHDATE -->
-						<div class="input-group mt-3">
-							<span class="input-group-text">
-								<img src="{{url_for('static',filename ='img/calendar-date.svg')}}" alt="">
-							</span>
-							<div class="form-floating">
-							{{faculty_form.birthDate(type = "date",class = "form-control",placeholder = "Last name",id = date_input)}}
-							<label for="date_input">Birthdate</label>
-							</div>
-						</div>
-
-						<!-- EMAIL -->
-						<div class="input-group mt-3">
-							<span class="input-group-text">
-								<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="">
-							</span>
-							<div class="form-floating">
-							{{faculty_form.emailAddress(type ="email",class = "form-control",placeholder = "Email Address",id = email_input)}}
-							<label for="email_input">Email</label>
-							</div>
-						</div>
-
-						<!-- PASSWORD -->
-						<div class="input-group mt-3">
-							<span class="input-group-text">
-								<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
-							</span>
-							<div class="form-floating">
-							{{faculty_form.password1(type ="password",class = "form-control",placeholder = "Password",id = password_input)}}
-							<label for="password_input">Password</label>
-							</div>
-						</div>
-						<div class="input-group mt-3">
-							<span class="input-group-text">
-								<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
-							</span>
-							<div class="form-floating">
-							{{faculty_form.password2(type ="password",class = "form-control",placeholder = "Password",id = password_confirm)}}
-							<label for="password_input">Confirm Password</label>
-							</div>
-						</div>
-						<br>
-						{{faculty_form.submit(class = "registerBtn")}}
-					</form>
+				<div class="col">
+					<div class="form-floating">
+						{{faculty_form.middleName(class = "form-control",placeholder = "Middle Initial",id = "initial")}}
+						<label for="initial">Middle I.</label>
+					</div>
 				</div>
-
-				<!-- CHANGE TO STUDENT  -->
-				<div class="acctType mb-3">
-					<a href="{{url_for('student_page')}}">Create account as Student</a>
+				<div class="col">
+					<div class="form-floating">
+						{{faculty_form.lastName(class = "form-control",placeholder = "Last name",id = "last_name")}}
+						<label for="last_name">Last name</label>
+					</div>
 				</div>
 			</div>
 
+			<!-- COLLEGIATE -->
+			<div class="input-group mt-3">
+				<span class="input-group-text">
+					<img src="{{url_for('static',filename ='img/mortarboard.svg')}}" alt="">
+				</span>
+				<div class="form-floating">
+					{{faculty_form.collegiate(class = "form-control border-start-0",placeholder = "Collegiate",id = "collegiate_input")}}
+					<label for="collegiate_input">Collegiate</label>
+				</div>
+			</div>
+
+			<!-- BIRTHDATE -->
+			<div class="input-group mt-3">
+				<span class="input-group-text">
+					<img src="{{url_for('static',filename ='img/calendar-date.svg')}}" alt="">
+				</span>
+				<div class="form-floating">
+				{{faculty_form.birthDate(type = "date",class = "form-control border-start-0",placeholder = "Last name",id = "date_input")}}
+				<label for="date_input">Birthdate</label>
+				</div>
+			</div>
+
+			<!-- EMAIL -->
+			<div class="input-group mt-3">
+				<span class="input-group-text">
+					<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="">
+				</span>
+				<div class="form-floating">
+				{{faculty_form.emailAddress(type ="email",class = "form-control border-start-0",placeholder = "Email Address",id = "email_input")}}
+				<label for="email_input">Email</label>
+				</div>
+			</div>
+
+			<!-- PASSWORD -->
+			<div class="input-group mt-3">
+				<span class="input-group-text">
+					<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
+				</span>
+				<div class="form-floating">
+				{{faculty_form.password1(type ="password",class = "form-control border-start-0",placeholder = "Password",id = "password_input")}}
+				<label for="password_input">Password</label>
+				</div>
+			</div>
+			<div class="input-group mt-3">
+				<span class="input-group-text">
+					<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
+				</span>
+				<div class="form-floating">
+				{{faculty_form.password2(type ="password",class = "form-control border-start-0",placeholder = "Password",id = "password_confirm")}}
+				<label for="password_confirm">Confirm Password</label>
+				</div>
+			</div>
+			<br>
+			{{faculty_form.submit(class = "registerBtn")}}
+		</form>
+	</div>
+
+	<!-- CHANGE TO STUDENT  -->
+	<div class="acctType mb-3">
+		<a href="{{url_for('student_page')}}">Create account as Student</a>
+	</div>
+</div>
+<script type="module" src="{{url_for('static',filename = 'js/Axios/FacultyAxios.js')}}"></script>
+
 {% endblock %}
-    
+ 
