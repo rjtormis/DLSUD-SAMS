@@ -33,12 +33,12 @@ block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
 					<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
 				</span>
 				<div class="form-floating">
-					{{login_form.password(class = "form-control border-start-0 border-end-0" , placeholder = "Password",id =
-					"password_input" )}}
+					{{login_form.password(type = "password",class = "form-control border-start-0 border-end-0" , placeholder =
+					"Password",id = "password_input" )}}
 					<label for="password_input">Password</label>
 				</div>
 				<span class="input-group-text bg-white">
-					<a href=""><img src="{{url_for('static',filename ='img/eye-slash.svg')}}" alt="" /></a>
+					<a href="" id="show_password"><img src="{{url_for('static',filename ='img/eye-slash.svg')}}" alt="" /></a>
 				</span>
 			</div>
 			<div class="forgot-password mt-2">
@@ -48,4 +48,5 @@ block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
 		</form>
 	</div>
 </div>
+<script src="{{url_for('static',filename = 'js/login.js')}}"></script>
 {% endblock %}
