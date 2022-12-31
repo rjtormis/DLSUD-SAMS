@@ -38,8 +38,8 @@ def student_page():
                                     emailAddress = student_form.emailAddress.data,
                                     password = student_form.password1.data)            
                 
-            # db.session.add(student_account)
-            # db.session.commit()
+            db.session.add(student_account)
+            db.session.commit()
 
             return redirect(url_for('student_page'))
 
