@@ -1,7 +1,7 @@
 # Import Flask Forms Modules
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField,FileField,TimeField
-from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError,InputRequired
+from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError,InputRequired,Regexp
 
 # Import Flask Models
 from app.models.models import Student
@@ -19,11 +19,11 @@ class RegisterUser(FlaskForm):
         if student_email:
             raise ValidationError('Email Address Already Exists!')
 
-    firstName = StringField(validators = [Length(min = 3 , max = 20),DataRequired()])
-    middleName = StringField(validators = [Length(max = 1),DataRequired()])
-    lastName = StringField(validators = [Length(min = 4 , max = 20),DataRequired()])
-    emailAddress = StringField(validators = [Email(),DataRequired()])
-    password1 = PasswordField(validators = [Length(min = 8),DataRequired()])
+    firstName = StringField(validators = [Length(min = 2 , max = 20),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
+    middleName = StringField(validators = [Length(max = 1),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
+    lastName = StringField(validators = [Length(min = 4 , max = 20),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
+    emailAddress = StringField(validators = [DataRequired(),Regexp(r'^[A-Za-z0-9._%+-]+@dlsud\.edu\.ph$')])
+    password1 = PasswordField(validators = [Length(min = 8),DataRequired(),Regexp(r'[!@#$%^&*()_+\-=\[\]{};:\'"\\|,.<>\/?]')])
     password2 = PasswordField(validators = [EqualTo('password1'),DataRequired()])
 
 # Register Student, inherit RegisterUser
@@ -35,7 +35,7 @@ class StudentForm(RegisterUser):
         if student_id:
             raise ValidationError('ID Number Already Exists!')
 
-    idNumber = StringField(validators = [Length(min = 9),DataRequired()])
+    idNumber = StringField(validators = [Length(min = 9),DataRequired(),Regexp(r'^[0-9]+$')])
     submit = SubmitField(label ="Register")
 
 
