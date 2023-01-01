@@ -21,16 +21,16 @@ const debounce_id = debounce((id_input) => {
 		.then((res) => {
 			if (res.data.avail === true) {
 				idLabel.textContent = 'ID Number is available';
-				idLabel.style.fontWeight = 'bold';
+				idLabel.style.fontWeight = '400';
 				idLabel.style.color = 'green';
 				id.classList.add('is-valid');
 				id.classList.remove('is-invalid');
 
 				input_group_id.style.borderColor = 'green';
 			} else if (res.data.avail === false) {
-				idLabel.textContent = 'ID Number is taken';
+				idLabel.textContent = 'ID Number is already taken';
 				idLabel.style.color = 'red';
-				idLabel.style.fontWeight = 'bold';
+				idLabel.style.fontWeight = '400';
 
 				id.classList.add('is-invalid');
 				id.classList.remove('is-valid');
@@ -39,7 +39,7 @@ const debounce_id = debounce((id_input) => {
 			} else if (res.data.avail === 'invalid') {
 				idLabel.textContent = 'Invalid Input';
 				idLabel.style.color = 'red';
-				idLabel.style.fontWeight = 'bold';
+				idLabel.style.fontWeight = '400';
 
 				id.classList.add('is-invalid');
 				id.classList.remove('is-valid');
@@ -48,7 +48,7 @@ const debounce_id = debounce((id_input) => {
 			} else if (res.data.avail === 'short') {
 				idLabel.textContent = 'Input is too short';
 				idLabel.style.color = 'red';
-				idLabel.style.fontWeight = 'bold';
+				idLabel.style.fontWeight = '400';
 
 				id.classList.remove('is-valid');
 				id.classList.add('is-invalid');
@@ -92,7 +92,7 @@ const debounce_email = debounce((email_input) => {
 		.then((res) => {
 			if (res.data.avail === true) {
 				emailLabel.textContent = 'Email Address is available';
-				emailLabel.style.fontWeight = 'bold';
+				emailLabel.style.fontWeight = '400';
 				emailLabel.style.color = 'green';
 
 				email.classList.add('is-valid');
@@ -101,7 +101,7 @@ const debounce_email = debounce((email_input) => {
 				input_group_email.style.borderColor = 'green';
 			} else if (res.data.avail === false) {
 				emailLabel.textContent = 'Email Address is already taken';
-				emailLabel.style.fontWeight = 'bold';
+				emailLabel.style.fontWeight = '400';
 				emailLabel.style.color = 'red';
 
 				email.classList.add('is-invalid');
@@ -109,14 +109,27 @@ const debounce_email = debounce((email_input) => {
 
 				input_group_email.style.borderColor = 'red';
 			} else if (res.data.avail === 'invalid') {
-				emailLabel.textContent = 'Must be a DLSUD email';
-				emailLabel.style.fontWeight = 'bold';
-				emailLabel.style.color = 'red';
+				const email_input = email.value;
+				if (email_input == '') {
+					emailLabel.textContent = 'Email Address';
+					emailLabel.classList.add('border-start-0');
+					emailLabel.style.color = '#212529';
+					emailLabel.style.fontWeight = '400';
 
-				email.classList.add('is-invalid');
-				email.classList.remove('is-valid');
+					email.classList.remove('is-invalid');
+					email.classList.remove('is-valid');
 
-				input_group_email.style.borderColor = 'red';
+					input_group_email.style.borderColor = '#ced4da';
+				} else {
+					emailLabel.textContent = 'Must be a DLSUD email';
+					emailLabel.style.fontWeight = '400';
+					emailLabel.style.color = 'red';
+
+					email.classList.add('is-invalid');
+					email.classList.remove('is-valid');
+
+					input_group_email.style.borderColor = 'red';
+				}
 			}
 		})
 		.catch((err) => {
