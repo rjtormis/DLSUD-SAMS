@@ -33,10 +33,6 @@ def check_id():
     else:
         return jsonify({'avail': 'invalid'})
 
-
-        
-   
-
 # API POST REQUEST THAT7QUERIES THE EMAIL ADDRESS
 @app.route('/api/user/check_email', methods=['POST'])
 def check_email():
