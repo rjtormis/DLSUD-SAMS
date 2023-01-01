@@ -25,7 +25,11 @@
 							</div>
 						</div>
 					</div>
-					{{section_form.file(class = "form-control")}}
+					<div class="form-check mb-2">
+						<input class="form-check-input" type="checkbox" value="" id="customBG" />
+						<label class="form-check-label" for="customBG"> Custom Background </label>
+					</div>
+					{{section_form.file(class = " disabled form-control")}}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -35,3 +39,4 @@
 		</div>
 	</div>
 </div>
+<script src="../../../static/js/Modal.js"></script>
