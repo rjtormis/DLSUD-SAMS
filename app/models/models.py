@@ -123,11 +123,6 @@ class Section(db.Model):
     subjects = db.relationship('Subject',backref = 'section_subject',lazy = True)
     enrolled = db.relationship('Enroll',backref = 'section_enrolled',lazy = True)
 
-
-    # Queries the availability of name and section code in database.
-    def checkSection(self,sectionName):
-        return not(Section.query.filter_by(section_name = sectionName).first())
-
     # Section Image Location Getter
     @property
     def section_image(self):
@@ -137,16 +132,12 @@ class Section(db.Model):
     @section_image.setter
     def section_image(self,location):
         self.section_image_loc = location
-
-    # Check if the uploaded file is an image
-    def checkExtension(self,filename):
-        return f'.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
     
     # Change the image file to their respecitve section name
     def changeFileName(self,filename,sectionName):
         return f'{sectionName.replace(" ","_")}'+'.'+filename.rsplit('.', 1)[1].lower()      
-
+    
+    # Change the directory name for easy displaying of the image via path.
     def changeDirectoryName(self,directory):
         return directory.replace(" ","\ ")
     
@@ -181,20 +172,12 @@ class Subject(db.Model):
     def subjectCode(self,subjectCode):
         self.subject_code = subjectCode
 
-    # Check if the uploaded file is an image
-    def checkExtension(self,filename):
-        return f'.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
     # ASCII generator
     # Reference: https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
     def id_generator(self,size,chars = string.ascii_uppercase + string.digits):
         uCode1 =  ''.join(random.choice(chars) for _ in range(size))   
         uCode2 = ''.join(random.choice(chars) for _ in range(size))
         return f'{uCode1}-{uCode2}'
-
-    def checkSubject(self,subjectName,subjectCode):
-        return not(Subject.query.filter_by(subject_name = subjectName).first() and Subject.query.filter_by(subject_code = subjectCode).first())
     
     # Change the image file to their respecitve subject name
     def changeFileName(self,filename,subjectName):
