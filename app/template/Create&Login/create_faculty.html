@@ -52,7 +52,7 @@
 					<img src="{{url_for('static',filename ='img/mortarboard.svg')}}" alt="">
 				</span>
 				<div class="form-floating">
-					{{faculty_form.collegiate(class = "form-control border-start-0",placeholder = "Collegiate",id = "collegiate_input")}}
+					{{faculty_form.collegiate(class = "form-control form-select border-start-0",placeholder = "Collegiate",id = "collegiate_input")}}
 					<label for="collegiate_input">Collegiate</label>
 				</div>
 			</div>
@@ -75,7 +75,7 @@
 				</span>
 				<div class="form-floating">
 				{{faculty_form.emailAddress(type ="email",class = "form-control border-start-0",placeholder = "Email Address",id = "email_input")}}
-				<label for="email_input">Email</label>
+				<label for="email_input">Email Address</label>
 				</div>
 			</div>
 
