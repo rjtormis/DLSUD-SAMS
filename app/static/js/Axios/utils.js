@@ -9,18 +9,31 @@ export function debounce(cb, delay = 1000) {
 	};
 }
 
-// TODO: FIX PASSWORD AND CONFIRM PASSWORD STLYE
-// ISSUE DATE: DECEMBER 31 2022
-
 // REGEX
 const nameRegex = '^[A-Za-z ]+$';
-const passwordRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/g;
+const passwordRegex = /^(?=.*[!@#$%^&*()_+\-=\[\]{};:'\"\\|,.<>\/?])[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:'\"\\|,.<>\/?]+$/;
 
-const all_input_group = document.querySelectorAll('.input-group-text');
-export const input_group_id = all_input_group[0];
-export const input_group_email = all_input_group[1];
-export const input_group_password1 = all_input_group[2];
-export const input_group_password2 = all_input_group[3];
+export const all_input_group = document.querySelectorAll('.input-group-text');
+
+export let input_group_id = '';
+export let input_group_email = '';
+
+export let input_group_password1 = '';
+export let input_group_password2 = '';
+
+all_input_group.forEach((uri) => {
+	if (uri.baseURI.includes('/create/student')) {
+		input_group_id = all_input_group[0];
+		input_group_email = all_input_group[1];
+		input_group_password1 = all_input_group[2];
+		input_group_password2 = all_input_group[3];
+	} else if (uri.baseURI.includes('/create/faculty')) {
+		input_group_email = all_input_group[2];
+		input_group_password1 = all_input_group[3];
+		input_group_password2 = all_input_group[4];
+	}
+});
+
 // ID
 export const id = document.querySelector('#id_input');
 export const idLabel = document.querySelector('label[for = "id_input"]');
@@ -56,26 +69,25 @@ export const submit = document.querySelector('.registerBtn');
 // REGEX CHECKER FOR INPUT IN LAST NAME , MIDDLE I, FIRST NAME
 export function validateInput(input, element_var, label_var, characters, default_content) {
 	const regex = new RegExp(nameRegex);
-
 	if (input.search(/[0-9]/) !== -1) {
 		element_var.classList.add('is-invalid');
 		element_var.classList.remove('is-valid');
 		label_var.textContent = 'Invalid';
 		label_var.style.color = 'red';
-		label_var.style.fontWeight = 'bold';
+		label_var.style.fontWeight = '400';
 	} else {
 		if (regex.test(input) && input !== '' && input.length >= characters) {
 			element_var.classList.add('is-valid');
 			element_var.classList.remove('is-invalid');
 			label_var.textContent = `${default_content}`;
 			label_var.style.color = 'green';
-			label_var.style.fontWeight = 'bold';
+			label_var.style.fontWeight = '400';
 		} else if (regex.test(input) && input !== '' && input.length < characters) {
 			element_var.classList.add('is-invalid');
 			element_var.classList.remove('is-valid');
 			label_var.textContent = `Too short`;
 			label_var.style.color = 'red';
-			label_var.style.fontWeight = 'bold';
+			label_var.style.fontWeight = '400';
 		}
 	}
 }
@@ -89,38 +101,74 @@ export function validatePassword() {
 
 	if (password === '') {
 		password1Label.textContent = 'Password';
-		password1Label.color = 'red';
+		password1Label.style.color = '#212529';
+		password1Label.classList.add('border-start-0');
+		password1Label.style.fontWeight = '400';
+
 		password1.classList.remove('is-invalid');
 		password1.classList.remove('is-valid');
+
+		input_group_password1.style.borderColor = '#ced4da';
 	} else {
 		if (hasSpecialCharacter && password.length >= 8) {
+			password1Label.textContent = 'Password';
+			password1Label.style.color = 'green';
+			password1Label.style.fontWeight = '400';
+
 			password1.classList.add('is-valid');
 			password1.classList.remove('is-invalid');
-			password1Label.textContent = 'Password';
+
+			input_group_password1.style.borderColor = 'green';
 		} else if (hasSpecialCharacter && password.length < 8) {
-			password1.classList.add('is-invalid');
-			password1.classList.remove('is-valid');
 			password1Label.textContent = 'Password length is too short.';
-		} else {
+			password1Label.style.color = 'red';
+			password1Label.style.fontWeight = '400';
+
 			password1.classList.add('is-invalid');
 			password1.classList.remove('is-valid');
-			password1Label.textContent = 'Password should have atleast 1 special character';
+
+			input_group_password1.style.borderColor = 'red';
+		} else {
+			password1Label.textContent = 'Must contain atleast 1 special character';
+			password1Label.style.color = 'red';
+			password1Label.style.fontWeight = '400';
+
+			password1.classList.add('is-invalid');
+			password1.classList.remove('is-valid');
+
+			input_group_password1.style.borderColor = 'red';
 		}
 	}
 
 	const confirmed_password = password2.value;
 	if (confirmed_password == '') {
+		password2Label.textContent = 'Confirm Password';
+		password2Label.style.color = '#212529';
+		password2Label.classList.add('border-start-0');
+		password2Label.style.fontWeight = '400';
+
 		password2.classList.remove('is-invalid');
 		password2.classList.remove('is-valid');
-		password2Label.textContent = 'Confirm Password';
+
+		input_group_password2.style.borderColor = '#ced4da';
 	} else if (confirmed_password !== '' && password !== confirmed_password) {
+		password2Label.textContent = 'Password do not match';
+		password2Label.style.color = 'red';
+		password2Label.style.fontWeight = '400';
+
 		password2.classList.add('is-invalid');
 		password2.classList.remove('is-valid');
-		password2Label.textContent = 'Password do not match';
+
+		input_group_password2.style.borderColor = 'red';
 	} else if (confirmed_password !== '' && password == confirmed_password) {
+		password2Label.textContent = 'Password Matched';
+		password2Label.style.color = 'green';
+		password2Label.style.fontWeight = '400';
+
 		password2.classList.add('is-valid');
 		password2.classList.remove('is-invalid');
-		password2Label.textContent = 'Password Matched';
+
+		input_group_password2.style.borderColor = 'green';
 	}
 }
 
@@ -129,7 +177,6 @@ export function removeAll() {
 	firstName.classList.remove('is-invalid');
 	middleName.classList.remove('is-invalid');
 	lastName.classList.remove('is-invalid');
-	id.classList.remove('is-invalid');
 	email.classList.remove('is-invalid');
 	password1.classList.remove('is-invalid');
 	password2.classList.remove('is-invalid');
@@ -137,7 +184,6 @@ export function removeAll() {
 	firstName.classList.remove('is-valid');
 	middleName.classList.remove('is-valid');
 	lastName.classList.remove('is-valid');
-	id.classList.remove('is-valid');
 	email.classList.remove('is-valid');
 	password1.classList.remove('is-valid');
 	password2.classList.remove('is-valid');
@@ -152,10 +198,20 @@ export function removeAll() {
 	firstName.textContent = '';
 	middleName.textContent = '';
 	lastName.textContent = '';
-	id.textContent = '';
 	email.textContent = '';
 	password1.textContent = '';
 	password2.textContent = '';
+
+	input_group_email.style.borderColor = '#ced4da';
+	input_group_password1.style.borderColor = '#ced4da';
+	input_group_password2.style.borderColor = '#ced4da';
+
+	if (submit.baseURI.includes('/create/student')) {
+		id.classList.remove('is-invalid');
+		id.classList.remove('is-valid');
+		id.textContent = '';
+		input_group_id.style.borderColor = '#ced4da';
+	}
 }
 
 // firstName Event Listener
@@ -206,6 +262,5 @@ password1.addEventListener('input', validatePassword);
 password2.addEventListener('input', validatePassword);
 // Submit Event Listener
 submit.addEventListener('click', (e) => {
-	e.preventDefault();
 	removeAll();
 });
