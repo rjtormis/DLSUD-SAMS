@@ -23,6 +23,7 @@ class User(db.Model,UserMixin):
     emailAddress = db.Column(db.String(length = 50),unique = True,nullable = False)
     passwordHash = db.Column(db.String(length = 60),nullable = False)
     type = db.Column(db.String(length = 15))
+    profile_image_loc = db.Column(db.Text(),default = '../../static/img/sblogo.png')
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
