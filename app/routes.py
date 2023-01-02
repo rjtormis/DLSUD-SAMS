@@ -36,7 +36,7 @@ def student_page():
                                     lastName = student_form.lastName.data,
                                     fullName = f'{student_form.firstName.data} {student_form.middleName.data+"."} {student_form.lastName.data} ',
                                     emailAddress = student_form.emailAddress.data,
-                                    password = student_form.password1.data)
+                                    password = student_form.password2.data)
 
             db.session.add(student_account)
             db.session.commit()
@@ -77,7 +77,7 @@ def faculty_page():
                                     lastName = faculty_form.lastName.data,
                                     emailAddress = faculty_form.emailAddress.data,
                                     fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data} ',
-                                    password = faculty_form.password1.data,
+                                    password = faculty_form.password2.data,
                                     collegiate_id = collegiate_id.collegiate_id ,
                                     birthDate = faculty_form.birthDate.data)
 
@@ -115,7 +115,7 @@ def login_page():
 
                 # Logins the user
                 login_user(user_login)
-
+                # Redirects to the dashboard page
                 return redirect(url_for('dashboard_page'))
 
     return render_template('Create&Login/login.html',login_form = login_form)
