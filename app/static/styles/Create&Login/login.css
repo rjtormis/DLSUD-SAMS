@@ -29,9 +29,9 @@ body {
 	color: white;
 	padding: 8px;
 	margin-left: 15px;
-	border: 2px green solid;
+	border: 2px #198754 solid;
 	border-radius: 5px;
-	background-color: green;
+	background-color: #198754;
 	transition: all 0.2s ease-in;
 }
 .signUp:hover {
@@ -60,6 +60,19 @@ form {
 	display: flex;
 	flex-direction: column;
 }
+.input-group-text a{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-decoration: none;
+	color: 	#333333;
+}
+.material-icons-outlined{
+	font-size: 20px;
+}
+.input-group-text a:hover{
+	color: #198754;;
+}
 
 .forgot-password {
 	font-size: 12px !important;
@@ -67,20 +80,21 @@ form {
 }
 .forgot-password a {
 	text-decoration: none;
-	color: green;
+	color: black;
 }
 
 .forgot-password a:hover {
-	color: springgreen;
+	color: #198754
 }
+
 
 .loginBtn {
 	padding: 10px;
 	align-self: center;
 	color: white;
-	border: 1px green solid;
+	border: 1px #198754 solid;
 	border-radius: 5px;
-	background-color: green;
+	background-color: #198754;
 	transition: all 0.2s ease-in;
 }
 .loginBtn:hover {
