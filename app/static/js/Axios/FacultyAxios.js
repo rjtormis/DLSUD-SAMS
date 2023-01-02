@@ -73,7 +73,7 @@ const debounce_email = debounce((email_input) => {
 
 				input_group_email.style.borderColor = 'red';
 			} else if (res.data.avail === 'invalid') {
-				emailLabel.textContent = 'Must be a DLSUD email';
+				emailLabel.textContent = 'Must be DLSUD email';
 				emailLabel.style.fontWeight = '400';
 				emailLabel.style.color = 'red';
 
