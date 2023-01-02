@@ -13,14 +13,14 @@ endblock %}
 		<div class="profile-details d-flex">
 			<div class="profile-first d-flex">
 				<div class="profile-img">
-					<img class="p-img" src="{{url_for('static',filename = 'img/profile.jfif')}}" alt="" />
+					<img class="p-img" src="{{current_user.profile_image_loc}}" alt="" />
 				</div>
 				<div class="profile-name d-flex">
 					<div class="p-name">
 						<h2 class="m-0"><b>{{current_user.fullName}}</b></h2>
 					</div>
 					<div class="p-department">
-						<h6 class="m-0">{{current_user.collegiate.collegiate_name}}</h6>
+						<h6 class="m-0">{{current_user.faculty_collegiate.collegiate_name}}</h6>
 					</div>
 				</div>
 			</div>
@@ -41,7 +41,7 @@ endblock %}
 				</div>
 				<div class="department">
 					<span class="i-items material-icons-sharp"> location_city </span>
-					<p class="m-0">{{current_user.collegiate.collegiate_name}}</p>
+					<p class="m-0">{{current_user.faculty_collegiate.collegiate_name}}</p>
 				</div>
 				<div class="department">
 					<span class="i-items material-icons-sharp"> auto_stories </span>
