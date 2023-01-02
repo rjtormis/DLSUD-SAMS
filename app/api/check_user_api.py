@@ -1,12 +1,12 @@
 import re
 
-from app import app,db
+from app import app,db,bcrypt
 from flask import request,jsonify
 from app.models.models import Student,Faculty,User
 
 """
 API FOR CHECKING STUDENT INPUT 
-TODO: API ACCESS AUTHENTICATION
+TODO: API ACCESS AUTHENTICATION, FOR SECURITY PURPOSES!!!
 """
 
 # API POST REQUEST THAT QUERIES THE STUDENT ID
@@ -57,3 +57,21 @@ def check_email():
     else:
         return jsonify({'avail':'invalid'})
 
+@app.route('/api/user/check_login', methods=['POST'])
+def check_login():
+    email_query = request.form.get('email_query')
+    pass_query = request.form.get('pass_query')
+
+    try:
+        checkEmail = User.query.filter_by(emailAddress = email_query).first() 
+       
+        if checkEmail:
+            return jsonify({'email' : True})
+        else:
+            return jsonify({'email':False})
+    except:
+        return jsonify({'email':False,'pass' :'invalid'})
+    # if checkPassword:
+    #     return jsonify({'pass':True})
+    # elif not(checkPassword):
+    #     return jsonify({'pass':False})
