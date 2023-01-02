@@ -1,14 +1,12 @@
+import re
 # Import Flask Forms Modules
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField,TimeField
-from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError,Regexp
+from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError,Regexp,InputRequired
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 # Import Flask Models
 from app.models.models import Student,Section,Subject
 
-
-# TODO: RESTRUCTURE USER FORM.
-# DATE: DECEMBER 17 2022
 
 # Register User
 class RegisterUser(FlaskForm):
@@ -23,7 +21,7 @@ class RegisterUser(FlaskForm):
 
     firstName = StringField(validators = [Length(min = 2 , max = 20),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
     middleName = StringField(validators = [Length(max = 1),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
-    lastName = StringField(validators = [Length(min = 4 , max = 20),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
+    lastName = StringField(validators = [Length(min = 2 , max = 20),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
     emailAddress = StringField(validators = [DataRequired(),Regexp(r'^[A-Za-z0-9._%+-]+@dlsud\.edu\.ph$')])
     password1 = PasswordField(validators = [Length(min = 8),DataRequired(),Regexp(passwordRegexPattern)])
     password2 = PasswordField(validators = [EqualTo('password1'),DataRequired()])
@@ -50,8 +48,14 @@ class FacultyForm(RegisterUser):
 
 # Login Form
 class LoginForm(FlaskForm):
-    emailAddress = StringField(validators = [DataRequired()])
-    password = PasswordField(validators = [DataRequired()])
+    
+    def validate_emailAddress(self,email_input):
+        email_pattern = r'@dlsud\.edu\.ph$'
+        if not(re.search(email_pattern,email_input.data)):
+            raise ValidationError('Must be DLSUD email.')
+
+    emailAddress = StringField(validators = [InputRequired('Missing')])
+    password = PasswordField(validators = [InputRequired('Missing')])
     submit = SubmitField(label = 'Login')
 
 # Section Form
