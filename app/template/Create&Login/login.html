@@ -1,6 +1,6 @@
-{% extends 'Create&Login/CLBase.html'%} {% block css %}
-<link rel="stylesheet" href="{{url_for('static',filename = 'styles/Create&Login/login.css')}}" /> {% endblock %} {%
-block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
+{% extends 'Create&Login/CLBase.html'%} {% from 'Create&Login/login_macros.html' import email_field,password_field %} {%
+block css %} <link rel="stylesheet" href="{{url_for('static',filename = 'styles/Create&Login/login.css')}}" /> {%
+endblock %} {% block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
 <div class="col-xl-6 d-flex align-items-baseline justify-content-end gap-2">
 	<p>Don't have an account?</p>
 	<a href="{{url_for('student_page')}}" class="signUp">Sign Up</a>
@@ -14,33 +14,14 @@ block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
 	<br />
 	<div class="form container">
 		{# TEMPORARY #}
-		<form action="" method="POST">
+		<form action="" method="POST" novalidate>
 			{{login_form.hidden_tag()}}
 			<b>EMAIL</b>
-			<div class="input-group">
-				<span class="input-group-text bg-white">
-					<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="" />
-				</span>
-				<div class="form-floating">
-					{{login_form.emailAddress(class = "form-control border-start-0" , placeholder = "Email Address",id =
-					"email_input" )}}
-					<label for="email_input">Email Address</label>
-				</div>
-			</div>
+			<!-- MACRO FOR EMAIL FIELD! -->
+			<div class="input-group">{{email_field(login_form)}}</div>
 			<b class="mt-2">PASSWORD</b>
-			<div class="input-group">
-				<span class="input-group-text bg-white">
-					<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
-				</span>
-				<div class="form-floating">
-					{{login_form.password(type = "password",class = "form-control border-start-0 border-end-0" , placeholder =
-					"Password",id = "password_input" )}}
-					<label for="password_input">Password</label>
-				</div>
-				<span class="input-group-text bg-white">
-					<a href="" id="show_password"><img src="{{url_for('static',filename ='img/eye-slash.svg')}}" alt="" /></a>
-				</span>
-			</div>
+			<!-- MACRO FOR PASSWORD FIELD! -->
+			<div class="input-group">{{password_field(login_form)}}</div>
 			<div class="forgot-password mt-2">
 				<a href="">Forgot Password</a>
 			</div>
@@ -48,5 +29,5 @@ block title %} DLSUD SAMS | LOGIN ACCOUNT {% endblock %} {% block account %}
 		</form>
 	</div>
 </div>
-<script src="{{url_for('static',filename = 'js/login.js')}}"></script>
+<script type="module" src="{{url_for('static',filename = 'js/login.js')}}"></script>
 {% endblock %}
