@@ -80,8 +80,9 @@ header {
 			border-radius: 100%;
 		}
 	div.masthead-profile {
+		margin-right: 1rem;
 		width: 60px;
-		justify-content: space-between;
+		justify-content: flex-end;
 	}
 	div.d-flex {
 		position: relative;
