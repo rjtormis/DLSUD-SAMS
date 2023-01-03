@@ -1,4 +1,5 @@
 {% extends 'Create&Login/CLBase.html'%}
+{% from 'Create&Login/create_macro.html' import firstName_field,middleName_field,lastName_field,idNumber_field,emailAddress_field,password1_field,password2_field%}
 {% block css %} <link rel="stylesheet" href="{{url_for('static',filename= 'styles/Create&Login/create_s.css')}}" /> {% endblock %}
 {% block title %} DLSUD SAMS | CREATE STUDENT ACCOUNT {% endblock %}
 
@@ -20,7 +21,7 @@
     <br>
     <!-- FORM CONTAINER -->
     <div class="form container">
-        <form action="" method="POST">
+        <form action="" method="POST" novalidate>
             {{student_form.hidden_tag()}}
             <h6 class="text-center"><b>STUDENT ACCOUNT DETAILS</b></h6>
             
@@ -29,65 +30,38 @@
             <div class="row">
                 <div class="col">
                     <div class="form-floating">
-                        {{student_form.firstName(class = "form-control",placeholder = "First name",id = "first_name")}}
-                        <label for="first_name">First name</label>
+                        {{firstName_field(student_form)}}
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        {{student_form.middleName(class = "form-control",placeholder = "Middle name",id = "initial")}}
-                        <label for="initial">Middle I.</label>
+                        {{middleName_field(student_form)}}
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-floating">
-                        {{student_form.lastName(class = "form-control",placeholder = "Last name",id = "last_name")}}
-                        <label for="last_name">Last name</label>
+                        {{lastName_field(student_form)}}
                     </div>
                 </div>
             </div>
 
             <!-- ID NUMBER -->
             <div class="input-group mt-3">
-                <span class="input-group-text">
-                    <img src="{{url_for('static',filename ='img/person-badge.svg')}}" alt="">
-                </span>
-                <div class="form-floating">
-                    {{student_form.idNumber(class = "form-control border-start-0",placeholder = "ID Number",id = "id_input")}}
-                    <label for="id_input">ID Number</label>
-                </div>
+                {{idNumber_field(student_form)}}
             </div>
 
             <!-- EMAIL -->
             <div class="input-group mt-3">
-                <span class="input-group-text">
-                    <img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="">
-                </span>
-                <div class="form-floating">
-                    {{student_form.emailAddress(type = "email",class = "form-control form-control border-start-0",placeholder = "Email Address",id = "email_input")}}
-                    <label for="email_input">Email Address</label>
-                </div>
+                {{emailAddress_field(student_form)}}
             </div>
 
             <!-- PASSWORD -->
             <div class="input-group mt-3">
-                <span class="input-group-text">
-                    <img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
-                </span>
-                <div class="form-floating">
-                    {{student_form.password1(type = "password",class = "form-control form-control border-start-0",placeholder = "Password",id = "password_input")}}
-                    <label for="password_input">Password</label>
-                </div>
+                {{password1_field(student_form)}}
             </div>
 
             <div class="input-group mt-3">
-                <span class="input-group-text">
-                    <img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="">
-                </span>
-                <div class="form-floating">
-                    {{student_form.password2(type = "password",class = "form-control form-control border-start-0",placeholder = "Confirm Password",id = "password_confirm")}}
-                    <label for="password_confirm">Confirm Password</label>
-                </div>
+               {{password2_field(student_form)}}
             </div>
             <br>
             {{student_form.submit(class = "registerBtn")}}
