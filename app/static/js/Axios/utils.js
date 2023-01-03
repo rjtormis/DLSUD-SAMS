@@ -10,7 +10,7 @@ export function debounce(cb, delay = 1000) {
 }
 
 // REGEX
-const nameRegex = '^[A-Za-z ]+$';
+const nameRegex = '^[A-Za-z ]*$';
 const passwordRegex = /^(?=.*[!@#$%^&*()_+\-=\[\]{};:'\"\\|,.<>\/?])[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:'\"\\|,.<>\/?]+$/;
 
 export const all_input_group = document.querySelectorAll('.input-group-text');
@@ -41,17 +41,17 @@ export const idLabel = document.querySelector('label[for = "id_input"]');
 // First name
 export const firstName = document.querySelector('#first_name');
 export const firstNameLabel = document.querySelector('label[for="first_name"]');
-const current_label_firstname = firstNameLabel.textContent;
+const current_label_firstname = 'First name';
 
 // Middle Initial
 export const middleName = document.querySelector('#initial');
 export const middleNameLabel = document.querySelector('label[for="initial"]');
-const current_label_middlename = middleNameLabel.textContent;
+const current_label_middlename = 'Middle I.';
 
 // Last name
 export const lastName = document.querySelector('#last_name');
 export const lastNameLabel = document.querySelector('label[for="last_name"]');
-const current_label_lastname = lastNameLabel.textContent;
+const current_label_lastname = 'Last name';
 
 // Email Address
 export const email = document.querySelector('#email_input');
@@ -69,9 +69,11 @@ export const submit = document.querySelector('.registerBtn');
 // REGEX CHECKER FOR INPUT IN LAST NAME , MIDDLE I, FIRST NAME
 export function validateInput(input, element_var, label_var, characters, default_content) {
 	const regex = new RegExp(nameRegex);
+
 	if (input.search(/[0-9]/) !== -1) {
 		element_var.classList.add('is-invalid');
 		element_var.classList.remove('is-valid');
+		element_var.style.borderColor = '';
 		label_var.textContent = 'Invalid';
 		label_var.style.color = 'red';
 		label_var.style.fontWeight = '400';
@@ -79,12 +81,14 @@ export function validateInput(input, element_var, label_var, characters, default
 		if (regex.test(input) && input !== '' && input.length >= characters) {
 			element_var.classList.add('is-valid');
 			element_var.classList.remove('is-invalid');
+			element_var.style.borderColor = '';
 			label_var.textContent = `${default_content}`;
 			label_var.style.color = 'green';
 			label_var.style.fontWeight = '400';
 		} else if (regex.test(input) && input !== '' && input.length < characters) {
 			element_var.classList.add('is-invalid');
 			element_var.classList.remove('is-valid');
+			element_var.style.borderColor = '';
 			label_var.textContent = `Too short`;
 			label_var.style.color = 'red';
 			label_var.style.fontWeight = '400';
@@ -167,7 +171,7 @@ export function validatePassword() {
 
 		password2.classList.add('is-valid');
 		password2.classList.remove('is-invalid');
-
+		password2.style.borderColor = '';
 		input_group_password2.style.borderColor = 'green';
 	}
 }
@@ -252,15 +256,20 @@ lastName.addEventListener('input', (e) => {
 		lastNameLabel.style.color = '#212529';
 		lastNameLabel.style.fontWeight = '400';
 	} else {
-		validateInput(last, lastName, lastNameLabel, 4, current_label_lastname);
+		validateInput(last, lastName, lastNameLabel, 2, current_label_lastname);
 	}
 });
 
 // password1 Event Listener
 password1.addEventListener('input', validatePassword);
+
 // password2 Event Listener
 password2.addEventListener('input', validatePassword);
+
 // Submit Event Listener
 submit.addEventListener('click', (e) => {
+	if (firstName.data === '') {
+		console.log('empty');
+	}
 	removeAll();
 });
