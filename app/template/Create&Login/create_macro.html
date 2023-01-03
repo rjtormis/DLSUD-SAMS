@@ -1,0 +1,194 @@
+<!-- MACRO FOR FIRST NAME -->
+{% macro firstName_field(firstName_field) %} {% if 'Missing' in firstName_field.firstName.errors %}
+{{firstName_field.firstName(class = "form-control",style ='border-color:red',placeholder = "First name",id =
+"first_name")}}
+<label for="first_name">First na..<b style="color: red">*</b></label>
+{% elif 'Too long'in firstName_field.firstName.errors %} {{firstName_field.firstName(class = "form-control
+is-invalid",placeholder = "First name",id = "first_name")}}
+<label for="first_name" style="color: red">Too long</label>
+{% elif 'Too short'in firstName_field.firstName.errors %} {{firstName_field.firstName(class = "form-control
+is-invalid",placeholder = "First name",id = "first_name")}}
+<label for="first_name" style="color: red">Too short</label>
+{% elif 'Invalid' in firstName_field.firstName.errors %} {{firstName_field.firstName(class = "form-control",style
+='border-color:red',placeholder = "First name",id = "first_name")}}
+<label for="first_name" style="color: red">Invalid</label>
+{% else %} {{firstName_field.firstName(class = "form-control",placeholder = "First name",id = "first_name")}}
+<label for="first_name">First name</label>
+{% endif %} {% endmacro %}
+
+<!-- MACRO FOR MIDDLE NAME -->
+{% macro middleName_field(middleName_field) %} {% if 'Missing' in middleName_field.middleName.errors %}
+{{middleName_field.middleName(class = "form-control",style = 'border-color:red',placeholder = "Middle name",id =
+"initial")}}
+<label for="initial">Middle I. <b style="color: red">*</b></label>
+{% elif 'Invalid' in middleName_field.middleName.errors %} {{middleName_field.middleName(class = "form-control",style =
+'border-color:red',placeholder = "Middle name",id = "initial")}}
+<label for="initial" style="color: red">Invalid</label>
+{% else %} {{middleName_field.middleName(class = "form-control",placeholder = "Middle name",id = "initial")}}
+<label for="initial">Middle I.</label>
+{% endif %} {% endmacro %}
+
+<!-- MACRO FOR LAST NAME -->
+{% macro lastName_field(lastName_field) %} {% if 'Missing' in lastName_field.lastName.errors %}
+{{lastName_field.lastName(class = "form-control",style = 'border-color:red',placeholder = "Last name",id =
+"last_name")}}
+<label for="last_name">Last na..<b style="color: red">*</b></label>
+{% elif 'Too long' in lastName_field.lastName.errors %} {{lastName_field.lastName(class = "form-control
+is-invalid",placeholder = "Last name",id = "last_name")}}
+<label for="last_name" style="color: red">Too long</label>
+{% elif 'Too short' in lastName_field.lastName.errors %} {{lastName_field.lastName(class = "form-control
+is-invalid",placeholder = "Last name",id = "last_name")}}
+<label for="last_name" style="color: red">Too short</label>
+{% elif 'Invalid' in lastName_field.lastName.errors %} {{lastName_field.lastName(class = "form-control
+is-invalid",placeholder = "Last name",id = "last_name")}}
+<label for="last_name" style="color: red">Invalid</label>
+{% else %} {{lastName_field.lastName(class = "form-control",placeholder = "Last name",id = "last_name")}}
+<label for="last_name">Last name</label>
+{% endif %} {% endmacro %}
+
+<!-- MACRO FOR EMAIL FIELD -->
+{% macro emailAddress_field(emailAddress_field) %} {% if 'Missing' in emailAddress_field.emailAddress.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{emailAddress_field.emailAddress(type = "email",class = "form-control form-control border-start-0
+	is-invalid",placeholder = "Email Address",id = "email_input")}}
+	<label for="email_input">Email Address <b style="color: red">*</b></label>
+</div>
+{% elif 'Exists' in emailAddress_field.emailAddress.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{emailAddress_field.emailAddress(type = "email",class = "form-control form-control border-start-0
+	is-invalid",placeholder = "Email Address",id = "email_input")}}
+	<label for="email_input" style="color: red">Email Address is already taken</label>
+</div>
+{% elif 'Invalid' in emailAddress_field.emailAddress.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{emailAddress_field.emailAddress(type = "email",class = "form-control form-control border-start-0
+	is-invalid",placeholder = "Email Address",id = "email_input")}}
+	<label for="email_input" style="color: red">Must be DLSUD email</label>
+</div>
+{% else %}
+<span class="input-group-text">
+	<img src="{{url_for('static',filename ='img/envelope.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{emailAddress_field.emailAddress(type = "email",class = "form-control form-control border-start-0",placeholder =
+	"Email Address",id = "email_input")}}
+	<label for="email_input">Email Address</label>
+</div>
+{% endif %} {% endmacro%}
+
+<!-- MACRO FOR PASSWORD1 FIELD -->
+{% macro password1_field(password1_field) %} {% if 'Missing' in password1_field.password1.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{password1_field.password1(type = "password",class = "form-control form-control border-start-0
+	is-invalid",placeholder = "Password",id = "password_input")}}
+	<label for="password_input">Password <b style="color: red">*</b></label>
+</div>
+{% elif 'Too short' in password1_field.password1.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{password1_field.password1(type = "password",class = "form-control form-control border-start-0",placeholder =
+	"Password",id = "password_input")}}
+	<label for="password_input">Password length is too short.</label>
+</div>
+{% elif 'Must contain atleast 1 special character' in password1_field.password1.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{password1_field.password1(type = "password",class = "form-control form-control border-start-0
+	is-invalid",placeholder = "Password",id = "password_input")}}
+	<label for="password_input">Must contain atleast 1 special character</label>
+</div>
+{% else %}
+<span class="input-group-text">
+	<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{password1_field.password1(type = "password",class = "form-control form-control border-start-0",placeholder =
+	"Password",id = "password_input")}}
+	<label for="password_input">Password</label>
+</div>
+{% endif %} {% endmacro %}
+
+<!-- MACRO FOR PASSWORD2 -->
+{% macro password2_field(password2_field) %} {% if 'Missing' in password2_field.password2.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{password2_field.password2(type = "password",class = "form-control form-control border-start-0
+	is-invalid",placeholder = "Confirm Password",id = "password_confirm")}}
+	<label for="password_confirm">Confirm Password <b style="color: red">*</b></label>
+</div>
+{% elif 'Password do not match' in password2_field.password2.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{password2_field.password2(type = "password",class = "form-control form-control border-start-0 is-invalid",style =
+	'border-color:red',placeholder = "Confirm Password",id = "password_confirm")}}
+	<label for="password_confirm">Password do not match</label>
+</div>
+
+{% else %}
+<span class="input-group-text">
+	<img src="{{url_for('static',filename ='img/shield-lock.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{password2_field.password2(type = "password",class = "form-control form-control border-start-0",placeholder =
+	"Confirm Password",id = "password_confirm")}}
+	<label for="password_confirm">Confirm Password</label>
+</div>
+{% endif %} {% endmacro %}
+
+<!-- MACRO FOR ID NUMBER -->
+{% macro idNumber_field(idNumber_field) %} {% if 'Missing' in idNumber_field.idNumber.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/person-badge.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{idNumber_field.idNumber(class = "form-control border-start-0 is-invalid",placeholder = "ID Number",id =
+	"id_input")}}
+	<label for="id_input">ID Number <b style="color: red">*</b></label>
+</div>
+{% elif 'Exists' in idNumber_field.idNumber.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/person-badge.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{idNumber_field.idNumber(class = "form-control border-start-0 is-invalid",placeholder = "ID Number",id =
+	"id_input")}}
+	<label for="id_input" style="color: red">ID Number is already taken</label>
+</div>
+{% elif 'Invalid' in idNumber_field.idNumber.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/person-badge.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{idNumber_field.idNumber(class = "form-control border-start-0 is-invalid",placeholder = "ID Number",id =
+	"id_input")}}
+	<label for="id_input" style="color: red">Invalid</label>
+</div>
+{% else %}
+<span class="input-group-text">
+	<img src="{{url_for('static',filename ='img/person-badge.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{idNumber_field.idNumber(class = "form-control border-start-0",placeholder = "ID Number",id = "id_input")}}
+	<label for="id_input">ID Number</label>
+</div>
+{% endif %} {% endmacro %}
