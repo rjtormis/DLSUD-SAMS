@@ -4,38 +4,80 @@ from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField,TimeField
 from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError,Regexp,InputRequired
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-# Import Flask Models
-from app.models.models import Student,Section,Subject
 
+# Import Flask Models
+from app.models.models import Student,Section,Subject,User
+
+# Utilities
+from app.utils import match,search
+from app.utils import long_input,short_input,invalid_input,exist_input,password1_input,password2_input
+from app.utils import name_pattern,password_pattern,email_pattern,id_pattern
 
 # Register User
 class RegisterUser(FlaskForm):
 
+    # First name validation for length & input.
+    def validate_firstName(self,firstName_to_validate):
+        if match(name_pattern,firstName_to_validate.data):
+            if len(firstName_to_validate.data) >20:
+                raise long_input
+            elif len(firstName_to_validate.data) < 2:
+                raise short_input
+        else:
+            raise invalid_input
+
+    # Middle name validation for input    
+    def validate_middleName(self,middleName_to_validate):     
+        if not(match(name_pattern,middleName_to_validate.data)):
+            raise invalid_input
+    
+    def validate_lastName(self,lastName_to_validate):
+        if match(name_pattern,lastName_to_validate.data):
+            if len(lastName_to_validate.data) > 20:
+                raise long_input
+            elif len(lastName_to_validate.data) < 2:
+                raise short_input
+        else:
+            raise invalid_input
+    
     # Email Validation
     def validate_emailAddress(self,emailAddress_to_validate):
-        student_email = Student.query.filter_by(emailAddress = emailAddress_to_validate.data).first()
-        if student_email:
-            raise ValidationError('Email Address Already Exists!')
+        if match(email_pattern,emailAddress_to_validate.data):
+            student_email = User.query.filter_by(emailAddress = emailAddress_to_validate.data)
+            print(student_email)
+            if student_email:
+                raise exist_input
+        else:
+            raise invalid_input
 
-    passwordRegexPattern = r'^(?=.*[!@#$%^&*()_+\-=\[\]{};:\'\"\\|,.<>\/?])[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:\'\"\\|,.<>\/?]+$'
+    # Password1 Validation
+    def validate_password1(self,password1_to_validate):
+        if match(password_pattern,password1_to_validate.data):
+            if len(password1_to_validate.data) < 8:
+                raise short_input
+        else:
+            raise password1_input
 
-    firstName = StringField(validators = [Length(min = 2 , max = 20),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
-    middleName = StringField(validators = [Length(max = 1),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
-    lastName = StringField(validators = [Length(min = 2 , max = 20),DataRequired(),Regexp(r'^[A-Za-z ]+$')])
-    emailAddress = StringField(validators = [DataRequired(),Regexp(r'^[A-Za-z0-9._%+-]+@dlsud\.edu\.ph$')])
-    password1 = PasswordField(validators = [Length(min = 8),DataRequired(),Regexp(passwordRegexPattern)])
-    password2 = PasswordField(validators = [EqualTo('password1'),DataRequired()])
+    firstName = StringField(validators = [Length(min = 2),InputRequired('Missing')])
+    middleName = StringField(validators = [Length(max = 1),InputRequired('Missing')])
+    lastName = StringField(validators = [Length(min = 2 ),InputRequired('Missing')])
+    emailAddress = StringField(validators = [InputRequired('Missing')])
+    password1 = PasswordField(validators = [Length(min = 8),InputRequired('Missing')])
+    password2 = PasswordField(validators = [EqualTo('password1','Password do not match'),InputRequired('Missing')])
 
 # Register Student, inherit RegisterUser
 class StudentForm(RegisterUser):
 
     # ID Number Validation
     def validate_idNumber(self,id_to_validate):
-        student_id = Student.query.filter_by(student_id = id_to_validate.data).first()
-        if student_id:
-            raise ValidationError('ID Number Already Exists!')
+        if match(id_pattern,id_to_validate.data):
+            student_id = Student.query.filter_by(student_id = id_to_validate.data).first()
+            if student_id:
+                raise exist_input
+        else:
+            raise invalid_input
 
-    idNumber = StringField(validators = [Length(min = 9),DataRequired(),Regexp(r'^[0-9]+$')])
+    idNumber = StringField(validators = [Length(min = 9),InputRequired('Missing')])
     submit = SubmitField(label ="Register")
 
 
