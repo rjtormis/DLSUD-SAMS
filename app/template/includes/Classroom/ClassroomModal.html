@@ -8,19 +8,19 @@
 				<div class="modal-body">
 					{{section_form.hidden_tag()}}
 					<div class="form-floating mb-3">
-						{{section_form.courseName(class = "form-select")}}
+						{{section_form.courseName(class = "form-select",id = 'courseName')}}
 						<label for="floatingSelect"><b>Course</b></label>
 					</div>
 					<div class="row">
 						<div class="col">
 							<div class="form-floating mb-3">
-								{{section_form.year(class = "form-select")}}
+								{{section_form.year(class = "form-select",id = 'year')}}
 								<label for="floatingSelect"><b>Year Level</b></label>
 							</div>
 						</div>
 						<div class="col">
 							<div class="form-floating mb-3">
-								{{section_form.section(class = "form-select")}}
+								{{section_form.section(class = "form-select",id = 'section')}}
 								<label for="floatingSelect"><b>Section</b></label>
 							</div>
 						</div>
@@ -33,10 +33,11 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					{{section_form.submit(class = "btn btn-success")}}
+					{{section_form.submit(class = "btn btn-success",id = 'create')}}
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="../../../static/js/Modal.js"></script>
