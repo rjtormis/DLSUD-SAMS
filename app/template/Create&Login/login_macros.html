@@ -6,7 +6,7 @@
 <div class="form-floating">
 	{{email_field.emailAddress(class = "form-control border-start-0 is-invalid" , placeholder = "Email Address",id =
 	"email_input" )}}
-	<label for="email_input">Email Address</label>
+	<label for="email_input">Email Address <b style="color: red">*</b></label>
 </div>
 {% elif 'Must be DLSUD email.' in email_field.emailAddress.errors %}
 <span class="input-group-text bg-white" style="border-color: red">
@@ -34,7 +34,7 @@
 <div class="form-floating">
 	{{password_field.password(type = "password",class = "form-control border-start-0 border-end-0",style =
 	"border-color:red" , placeholder = "Password",id = "password_input" )}}
-	<label for="password_input">Password</label>
+	<label for="password_input">Password <b style="color: red">*</b></label>
 </div>
 <span class="input-group-text bg-white" style="border-color: red">
 	<a href="" id="show_password"><span class="material-icons-outlined"> visibility </span></a>
