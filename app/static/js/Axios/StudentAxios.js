@@ -37,7 +37,7 @@ const debounce_id = debounce((id_input) => {
 
 				input_group_id.style.borderColor = 'red';
 			} else if (res.data.avail === 'invalid') {
-				idLabel.textContent = 'Invalid';
+				idLabel.textContent = 'Invalid Input';
 				idLabel.style.color = 'red';
 				idLabel.style.fontWeight = '400';
 
