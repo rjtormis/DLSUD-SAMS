@@ -165,6 +165,15 @@ is-invalid",placeholder = "Last name",id = "last_name")}}
 	"id_input")}}
 	<label for="id_input">ID Number <b style="color: red">*</b></label>
 </div>
+{% elif 'Too short' in idNumber_field.idNumber.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/person-badge.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{idNumber_field.idNumber(class = "form-control border-start-0 is-invalid",placeholder = "ID Number",id =
+	"id_input")}}
+	<label for="id_input" style="color: red">Input is too short</label>
+</div>
 {% elif 'Exists' in idNumber_field.idNumber.errors %}
 <span class="input-group-text" style="border-color: red">
 	<img src="{{url_for('static',filename ='img/person-badge.svg')}}" alt="" />
@@ -190,5 +199,26 @@ is-invalid",placeholder = "Last name",id = "last_name")}}
 <div class="form-floating">
 	{{idNumber_field.idNumber(class = "form-control border-start-0",placeholder = "ID Number",id = "id_input")}}
 	<label for="id_input">ID Number</label>
+</div>
+{% endif %} {% endmacro %}
+
+<!-- MACRO FOR BIRTHDATE -->
+{% macro birthDate_field(birthDate_field) %} {% if 'Missing' in birthDate_field.birthDate.errors %}
+<span class="input-group-text" style="border-color: red">
+	<img src="{{url_for('static',filename ='img/calendar-date.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{birthDate_field.birthDate(type = "date",style='border-color:red',class = "form-control border-start-0",placeholder =
+	"Last name",id = "date_input")}}
+	<label for="date_input">Birthdate <b style="color: red">*</b></label>
+</div>
+{% else %}
+<span class="input-group-text">
+	<img src="{{url_for('static',filename ='img/calendar-date.svg')}}" alt="" />
+</span>
+<div class="form-floating">
+	{{birthDate_field.birthDate(type = "date",class = "form-control border-start-0",placeholder = "Last name",id =
+	"date_input")}}
+	<label for="date_input">Birthdate</label>
 </div>
 {% endif %} {% endmacro %}
