@@ -5,7 +5,7 @@ from flask import render_template,request,redirect,url_for,flash,get_flashed_mes
 from flask_login import login_user,login_required,current_user,logout_user
 from wtforms.validators import ValidationError
 # All Forms
-from app.models.forms import StudentForm,FacultyForm,LoginForm,SectionForm,SubjectForm
+from app.forms.forms import StudentForm,FacultyForm,LoginForm,SectionForm,SubjectForm
 
 # All Model
 from app.models.models import User,Student,Faculty,Collegiate,Section,Subject
@@ -43,11 +43,11 @@ def student_page():
 
             return redirect(url_for('student_page'))
 
-
         if student_form.errors != {}:
             for field, errors in student_form.errors.items():
                 for error in errors:
                     print(f"Error in field {field}: {error}")
+        
     # GET Request.
     return render_template('Create&Login/create_student.html',student_form = student_form)
 
@@ -93,9 +93,8 @@ def faculty_page():
                 print(err,err_msg)
 
 
-    if request.method == 'GET':
 
-        return render_template('Create&Login/create_faculty.html',faculty_form = faculty_form)
+    return render_template('Create&Login/create_faculty.html',faculty_form = faculty_form)
 
 @app.route('/login',methods = ['GET','POST'])
 def login_page():
@@ -182,8 +181,8 @@ def section_list():
                 imageLocation = f'../../static/img/clbg.jpg'
                 addSection.section_image_loc = imageLocation
 
-            db.session.add(addSection)
-            db.session.commit()
+            # db.session.add(addSection)
+            # db.session.commit()
 
         if section_form.errors != {}:
              for err_msg in section_form.errors.values():
