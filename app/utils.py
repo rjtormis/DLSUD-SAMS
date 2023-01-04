@@ -18,6 +18,7 @@ invalid_input = ValidationError('Invalid')
 exist_input = ValidationError('Exists')
 password1_input = ValidationError('Must contain atleast 1 special character')
 password2_input = ValidationError('Password do not match')
+
 # Regex Match
 def match(pattern,data):
     if re.match(pattern,data):
