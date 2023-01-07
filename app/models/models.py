@@ -142,6 +142,17 @@ class Section(db.Model):
     def changeDirectoryName(self,directory):
         return directory.replace(" ","\ ")
     
+    # Converts to JSON
+    def to_dict(self):
+        return {
+            'faculty':self.handle_section.fullName,
+            'section_id':self.section_id,
+            'section_name':self.section_name,
+            'collegiate':self.section_collegiate.collegiate_name,
+            'createdAt':self.createdAt,
+            'updatedAt':self.updatedAt
+        }
+    
 # Subject Model
 class Subject(db.Model):
     
@@ -153,10 +164,9 @@ class Subject(db.Model):
     subject_code = db.Column(db.String(length = 10),nullable = False,unique = True)
     subject_name = db.Column(db.String(length = 100),nullable = False)
     subject_image_loc = db.Column(db.Text())
-    subject_day = db.Column(db.String(length = 50), nullable = False)
-    subject_start = db.Column(db.Time(), nullable = False)
-    subject_end = db.Column(db.Time(), nullable = False)
-    subject_full = db.Column(db.String(length = 50), nullable = False)
+    subject_day = db.Column(db.String(length = 30), nullable = False)
+    subject_start = db.Column(db.String(length = 30), nullable = False)
+    subject_end = db.Column(db.String(length = 30), nullable = False)
     createdAt = db.Column(db.DateTime(),default = datetime.utcnow)
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
