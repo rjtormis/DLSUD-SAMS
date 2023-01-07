@@ -11,21 +11,29 @@ endblock %}
 		<h1 class="mb-0">SECTIONS</h1>
 	</div>
 	<div class="content-search d-flex">
-		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createSectionModal">
 			<b>+</b>
 		</button>
-		<div class="input-group">
-			<input
-				type="text"
-				class="form-control"
-				placeholder="Search section"
-				aria-label="Search section"
-				aria-describedby="button-addon2" />
-			<button class="btn btn-success material-icons-sharp" type="button" id="button-addon2">search</button>
-		</div>
+		<form action="/section" method="GET">
+			{{section_form.hidden_tag()}}
+			<div class="input-group">
+				{{section_form.search(type="text", class="form-control",placeholder="Search section")}}
+				{{section_form.submit_search(class="btn btn-success material-icons-sharp")}}
+			</div>
+		</form>
 	</div>
 	<div class="content-rooms">
-		{% for section in sections %}
+		{% if searched %}
+		<div class="card-custom" style="background-image: url({{searched.section_image_loc}})">
+			<div class="card-content">
+				<h2 class="card-title mb-1"><b>{{searched.section_name}}</b></h2>
+				<p class="card-body mb-1"><b>Department:</b> {{searched.section_collegiate.collegiate_name}}</p>
+				<p class="card-body mb-1"><b>Adviser:</b> {{searched.handle_section.fullName}}</p>
+				<!-- endpoint handler -->
+				<a href="/section/{{searched.section_name}}" class="button">Go</a>
+			</div>
+		</div>
+		{% else %} {% for section in sections %}
 		<div class="card-custom" style="background-image: url({{section.section_image_loc}})">
 			<div class="card-content">
 				<h2 class="card-title mb-1"><b>{{section.section_name}}</b></h2>
@@ -35,7 +43,7 @@ endblock %}
 				<a href="/section/{{section.section_name}}" class="button">Go</a>
 			</div>
 		</div>
-		{% endfor %}
+		{% endfor %} {% endif %}
 	</div>
 	<div class="content-pagination">some pagina</div>
 </main>
