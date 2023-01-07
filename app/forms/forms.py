@@ -5,8 +5,9 @@ from wtforms import StringField,PasswordField,SubmitField,SelectField,DateField,
 from wtforms.validators import EqualTo,DataRequired,Email,Length,ValidationError,Regexp,InputRequired
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 
+from app import app,db
 # Import Flask Models
-from app.models.models import Student,Section,Subject,User
+from app.models.models import Student,Section,Subject,User,Collegiate
 
 # Utilities
 from app.utils import match,search
@@ -118,8 +119,18 @@ class SectionForm(FlaskForm):
     year = SelectField(choices = [1,2,3,4],validators = [DataRequired()])
     section = SelectField(choices = [1,2,3,4],validators =[DataRequired()])
     combine = StringField()
+    search = StringField(render_kw = {'style':'height:40px'})
     file = FileField("File",validators = [FileAllowed(['jpg','png','jpeg'],'Only JPG,JPEG & PNG are allowed.')])
-    submit = SubmitField(label = 'Create')
+    submit_create = SubmitField(label = 'CREATE')
+    submit_search = SubmitField(label = 'search',render_kw = {'style':'height:40px'})
+
+class editSectionForm(FlaskForm):
+
+    section_name = StringField(validators = [InputRequired()])
+    section_adviser = StringField(validators = [InputRequired()])
+    section_collegiate = SelectField(choices = [])
+    file = FileField("File",validators = [FileAllowed(['jpg','png','jpeg'],'Only JPG,JPEG & PNG are allowed.')])
+    submit = SubmitField(label = 'EDIT')
 
 # TODO: FIX THE SUBJECT CODE VALIDATION
 # Subject Form
@@ -152,4 +163,5 @@ class SubjectForm(FlaskForm):
     subject_code = StringField()
 
     file = FileField(validators = [FileAllowed(['jpg','png','jpeg'],'Only JPG,JPEG & PNG are allowed.')])
-    submit = SubmitField(label = 'Create')
+    submit = SubmitField()
+
