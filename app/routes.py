@@ -1,11 +1,13 @@
 import os
+import requests
 from datetime import datetime
 from app import app,db
 from flask import render_template,request,redirect,url_for,flash,get_flashed_messages,jsonify
 from flask_login import login_user,login_required,current_user,logout_user
 from wtforms.validators import ValidationError
+
 # All Forms
-from app.forms.forms import StudentForm,FacultyForm,LoginForm,SectionForm,SubjectForm
+from app.forms.forms import StudentForm,FacultyForm,LoginForm,SectionForm,SubjectForm,editSectionForm
 
 # All Model
 from app.models.models import User,Student,Faculty,Collegiate,Section,Subject
@@ -34,12 +36,12 @@ def student_page():
                                     firstName = student_form.firstName.data,
                                     middleName = student_form.middleName.data+".",
                                     lastName = student_form.lastName.data,
-                                    fullName = f'{student_form.firstName.data} {student_form.middleName.data+"."} {student_form.lastName.data} ',
+                                    fullName = f'{student_form.firstName.data} {student_form.middleName.data+"."} {student_form.lastName.data}',
                                     emailAddress = student_form.emailAddress.data,
                                     password = student_form.password2.data)
 
-            # db.session.add(student_account)
-            # db.session.commit()
+            db.session.add(student_account)
+            db.session.commit()
 
             return redirect(url_for('student_page'))
 
@@ -76,7 +78,7 @@ def faculty_page():
                                     middleName = faculty_form.middleName.data+".",
                                     lastName = faculty_form.lastName.data,
                                     emailAddress = faculty_form.emailAddress.data,
-                                    fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data} ',
+                                    fullName = f'{faculty_form.firstName.data} {faculty_form.middleName.data+"."} {faculty_form.lastName.data}',
                                     password = faculty_form.password2.data,
                                     collegiate_id = collegiate_id.collegiate_id ,
                                     birthDate = faculty_form.birthDate.data)
@@ -143,10 +145,10 @@ def section_list():
     # Queries all of the sections and order them by name
     section = Section.query.order_by(Section.section_name)
 
-    if request.method == 'POST':
+    if request.method == 'POST':       
 
         if section_form.validate_on_submit():
-
+            print('test')
             addSection = Section(faculty_id = current_user.faculty_id,
                                 section_name =f'{section_form.courseName.data} {section_form.year.data}{section_form.section.data}',
                                 collegiate_id = current_user.collegiate_id)             # Creates a directory for file storage in the specific section
@@ -181,17 +183,23 @@ def section_list():
                 imageLocation = f'../../static/img/clbg.jpg'
                 addSection.section_image_loc = imageLocation
 
-            # db.session.add(addSection)
-            # db.session.commit()
+            db.session.add(addSection)
+            db.session.commit()
 
         if section_form.errors != {}:
-             for err_msg in section_form.errors.values():
-                print(err_msg)
+
+            for err,err_msg in section_form.errors.items():
+
+                print(err,err_msg)
 
         return redirect(url_for('section_list'))
 
     if request.method == 'GET':
-        return render_template('Dashboard/Classroom.html',section_form = section_form,sections = section)
+        q = request.args.get('search')
+        searched = Section.query.filter_by(section_name = q).first()
+
+
+        return render_template('Dashboard/Classroom.html',section_form = section_form,sections = section,searched = searched)
 
 # API END POINT FOR SPECIFIC SECTION
 @app.route('/section/<string:section_name>',methods = ['GET','POST'])
@@ -199,15 +207,24 @@ def section_list():
 def section_page(section_name):
 
     subject_form = SubjectForm()
-    
+    editSection_form = editSectionForm();
 
     section = Section.query.filter_by(section_name = section_name).first()
     subject_form.section.data = section.section_id
 
-    subjects = Subject.query.filter_by(section_id = section.section_id)
+    subjects = Subject.query.filter_by(section_id = section.section_id).all()
 
+    collegiates = [(row.collegiate_name,row.collegiate_shorten) for row in db.session.query(Collegiate).all()]
+    editSection_form.section_collegiate.choices = collegiates
+
+    # GET METHOD
+    if request.method == 'GET':
+
+        return render_template('Dashboard/Subject Page.html',section = section,subject_form = subject_form,editSection_form = editSection_form,subjects = subjects)
+
+    # POST METHOD
     if request.method == 'POST':
-        # subject_form.subject_code = subjects.subject_code
+
         if subject_form.validate_on_submit():
             addSubject = Subject(section_id = section.section_id,
                                 faculty_id = current_user.faculty_id,
@@ -215,9 +232,7 @@ def section_page(section_name):
                                 subject_name = subject_form.name.data,
                                 subject_day = subject_form.day.data,
                                 subject_start = Subject.changeTime(Subject,subject_form.start.data),
-                                subject_end = Subject.changeTime(Subject,subject_form.end.data),
-                                subject_full = f'{subject_form.day.data} {Subject.changeTime(Subject,subject_form.start.data)} TO {Subject.changeTime(Subject,subject_form.end.data)}')
-
+                                subject_end = Subject.changeTime(Subject,subject_form.end.data))
             try:
                 # Using Absolute Path & Relative Path
                 cwd = os.getcwd()
@@ -258,8 +273,6 @@ def section_page(section_name):
         # Redirect back.
         return redirect(url_for('section_page',section_name = section_name))
 
-    if request.method == 'GET':
-        return render_template('Dashboard/Subject Page.html',section = section,subject_form = subject_form,subjects = subjects)
 
 # API END POINT FOR SPECIFIC SUBJECT
 @app.route('/section/<string:section_name>/<string:subject_name>')
