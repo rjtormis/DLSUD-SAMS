@@ -134,10 +134,35 @@ main.content {
 	display: none;
 }
 
+
+
+/* ==========================================================================
+									MODAL
+   ==========================================================================
+*/
+.modal-content{
+	background-color: #fafafa;
+}
+	.modal-img{
+		width: 200px;
+	}
+	.modal-title{
+		color: #198754;
+	}
+
+.form-check-label{
+	color: #198754;
+	font-weight: 400;
+}
 .form-check-input:checked{
 	background-color: #198754;
 }
 .form-check-input:focus{
 	border-color: #198754;
 	box-shadow: 0 0 0 0 #198754;
+}
+
+#create{
+	background-color: #198754;
+	color: #fafafa;
 }
