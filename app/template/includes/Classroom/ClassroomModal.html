@@ -1,8 +1,9 @@
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="createSectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel"><b>CREATE CLASSROOM</b></h1>
+				<h1 class="modal-title fs-5" id="exampleModalLabel"><b>CREATE SECTION</b></h1>
+				<img class="modal-img" src="{{url_for('static',filename = 'img/logo.png')}}" alt="" />
 			</div>
 			<form action="{{url_for('section_list')}}" method="POST" enctype="multipart/form-data">
 				<div class="modal-body">
@@ -32,12 +33,12 @@
 					{{section_form.file(class = " disabled form-control")}}
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-					{{section_form.submit(class = "btn btn-success",id = 'create')}}
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">CLOSE</button>
+					{{section_form.submit_create(class = "btn",id = 'create')}}
 				</div>
 			</form>
 		</div>
 	</div>
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="../../../static/js/Modal.js"></script>
+<script src="../../../static/js/Modal/SectionModal.js"></script>
