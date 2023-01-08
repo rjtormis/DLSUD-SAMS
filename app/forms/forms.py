@@ -151,7 +151,7 @@ class SubjectForm(FlaskForm):
     #     if subject_code:
     #         raise ValidationError('Unique Code exists, please try again.')
         
-    days= ['Monday','Tuesday','Wednesday','Thursday','Friday','Satruday']
+    days= ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
    
   
     name = StringField(validators = [Length(min = 5, max = 50),DataRequired()])
@@ -163,5 +163,18 @@ class SubjectForm(FlaskForm):
     subject_code = StringField()
 
     file = FileField(validators = [FileAllowed(['jpg','png','jpeg'],'Only JPG,JPEG & PNG are allowed.')])
-    submit = SubmitField()
+    submit = SubmitField('CREATE')
 
+class editSubjectForm(FlaskForm):
+
+    days= ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+
+
+    subject_name = StringField(validators = [InputRequired()])
+    subject_teacher = StringField(validators = [InputRequired()])
+    day = SelectField(choices = days,validators = [DataRequired()])
+    start = TimeField(validators = [DataRequired()])
+    end = TimeField(validators = [DataRequired()])
+
+    file = FileField(validators = [FileAllowed(['jpg','png','jpeg'],'Only JPG,JPEG & PNG are allowed.')])
+    submit = SubmitField('EDIT')
