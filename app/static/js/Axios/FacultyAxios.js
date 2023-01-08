@@ -42,6 +42,7 @@ birthDate.addEventListener('input', (e) => {
 	}
 });
 
+// TODO: CONVERT TO ASYNC AWAIT
 const debounce_email = debounce((email_input) => {
 	axios
 		.post(
