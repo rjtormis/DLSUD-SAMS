@@ -1,7 +1,7 @@
 import string,random,os
 
 from app import db,bcrypt,login_manager,ALLOWED_EXTENSIONS
-from datetime import datetime
+from datetime import datetime,time
 from flask_login import UserMixin
 
 # Checks the type of user and returns the object refering to the user ID
@@ -194,12 +194,29 @@ class Subject(db.Model):
     def changeFileName(self,filename,subjectName):
         return f'{subjectName.replace(" ","_")}'+'.'+filename.rsplit('.', 1)[1].lower() 
 
+    # Change Directory Name
     def changeDirectoryName(self,directory):
         return directory.replace(" ","\ ")
     
-    def changeTime(self,time):
-        time = time.strftime("%I:%M %p")
-        return time
+    # Change time to 12 hour format
+    def changeTime(self,input_time):
+
+        if type(input_time) == time:
+
+            input_time = input_time.strftime("%I:%M %p")
+
+        elif type(input_time) == str:
+            input_time = datetime.strptime(input_time,'%H:%M:%S') if len(input_time) == 8 else datetime.strptime(input_time,'%H:%M')
+
+            input_time = input_time.strftime("%I:%M %p")
+
+        return input_time
+    
+    def revertTime(self,input_time):
+        
+        input_time = datetime.strptime(input_time,'%I:%M %p')
+        
+        return input_time
 
 class Enroll(db.Model):
 
