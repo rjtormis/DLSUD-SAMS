@@ -1,11 +1,23 @@
+// CUSTOM BACKGROUND TRIGGER
 const customBG = document.getElementById('customBG');
 const editBG = document.getElementById('editBG');
 const file1 = document.querySelector('#create_subject');
 const file2 = document.querySelector('#edit_section');
 const submit = document.querySelector('#create');
 
+// DELETE SUBJECT MODAL
 const deleteModal = document.getElementById('deleteSubjectModal');
+const deleteBody = document.querySelector('#subjectname');
 const deleteform = document.querySelector('#deleteForm');
+
+// EDIT SUBJECT MODAL
+const editModal = document.getElementById('editSubjectModal');
+const editName = document.getElementById('editsubjectName');
+const editTeacher = document.getElementById('editsubjectTeacher');
+const editForm = document.getElementById('editForm');
+const editDay = document.getElementById('editDay');
+const editStart = document.getElementById('editStart');
+const editEnd = document.getElementById('editEnd');
 
 customBG.addEventListener('click', (e) => {
 	if (customBG.checked) {
@@ -32,4 +44,21 @@ deleteModal.addEventListener('show.bs.modal', (e) => {
 	const button = e.relatedTarget;
 	const subjectID = button.dataset.subjectid;
 	deleteform.action = `/api/subject/delete/${subjectID}`;
+});
+
+editModal.addEventListener('show.bs.modal', (e) => {
+	const button = e.relatedTarget;
+	const subjectName = button.dataset.subjectname;
+	const subjectTeacher = button.dataset.subjectteacher;
+	const subjectID = button.dataset.subjectid;
+	const subjectDay = button.dataset.subjectday;
+	const subjectStart = button.dataset.subjectstart.split(' ');
+	const subjectEnd = button.dataset.subjectend.split(' ');
+
+	editName.value = subjectName;
+	editTeacher.value = subjectTeacher;
+	editForm.action = `/api/subject/update/${subjectID}`;
+	editDay.value = subjectDay;
+	editStart.value = subjectStart[1];
+	editEnd.value = subjectEnd[1];
 });
