@@ -7,7 +7,7 @@ from flask_login import login_user,login_required,current_user,logout_user
 from wtforms.validators import ValidationError
 
 # All Forms
-from app.forms.forms import StudentForm,FacultyForm,LoginForm,SectionForm,SubjectForm,editSectionForm
+from app.forms.forms import StudentForm,FacultyForm,LoginForm,SectionForm,SubjectForm,editSectionForm,editSubjectForm
 
 # All Model
 from app.models.models import User,Student,Faculty,Collegiate,Section,Subject
@@ -208,6 +208,7 @@ def section_page(section_name):
 
     subject_form = SubjectForm()
     editSection_form = editSectionForm();
+    editSubject_form = editSubjectForm();
 
     section = Section.query.filter_by(section_name = section_name).first()
     subject_form.section.data = section.section_id
@@ -220,7 +221,7 @@ def section_page(section_name):
     # GET METHOD
     if request.method == 'GET':
 
-        return render_template('Dashboard/Subject Page.html',section = section,subject_form = subject_form,editSection_form = editSection_form,subjects = subjects)
+        return render_template('Dashboard/Subject Page.html',section = section,subject_form = subject_form,editSubject_form = editSubject_form,editSection_form = editSection_form,subjects = subjects)
 
     # POST METHOD
     if request.method == 'POST':
