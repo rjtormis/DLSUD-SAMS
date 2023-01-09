@@ -1,0 +1,206 @@
+<!-- CREATE SUBJECT MODAL -->
+<!-- GENERAL USE  -->
+<div
+	class="modal fade"
+	id="createSubjectModal"
+	tabindex="-1"
+	aria-labelledby="createSubjectModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="createSubjectModalLabel"><b>SUBJECT DETAILS</b></h1>
+				<img class="modal-img" src="{{url_for('static',filename = 'img/logo.png')}}" alt="" />
+			</div>
+			<form action="" method="POST" enctype="multipart/form-data">
+				{{subject_form.hidden_tag()}}
+				<div class="modal-body">
+					<div class="form-floating mb-3">
+						{{subject_form.name(class = "form-control", id = "createsubjectName", placeholder = "Subject Name")}}
+						<label for="createsubjectName">Subject Name</label>
+					</div>
+					<b style="color: #198754">Schedule</b>
+					<div class="row mt-1">
+						<div class="col">
+							<div class="form-floating mb-3">
+								{{subject_form.day(class = "form-select", id = "createDay", placeholder = "Day")}}
+								<label for="createDay"><b>Day</b></label>
+							</div>
+						</div>
+					</div>
+					<div class="row mt-1">
+						<div class="col">
+							<div class="input-group m-0">
+								<div class="form-floating">
+									{{subject_form.start(class = "form-control",id = 'createStart')}}
+									<label for="createStart"><b>Start</b></label>
+								</div>
+								<div class="form-floating">
+									{{subject_form.end(class = "form-control",id = 'createEnd')}}
+									<label for="createEnd"><b>End</b></label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-check mt-3">
+						<input class="form-check-input" type="checkbox" value="" id="customBG" />
+						<label class="form-check-label" for="customBG"> Custom Background </label>
+					</div>
+					{{subject_form.file(class = "disabled form-control",id = 'create_subject')}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					{{subject_form.submit(class = "btn btn-success", id = 'createSubmit')}}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- EDIT SUBJECT MODAL -->
+<!-- FOR SPECIFIC SUBJECT TEACHER ONLY -->
+<div class="modal fade" id="editSubjectModal" tabindex="-1" aria-labelledby="editSubjectModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="editSubjectModalLabel"><b>EDIT SUBJECT</b></h1>
+				<img class="modal-img" src="{{url_for('static',filename = 'img/logo.png')}}" alt="" />
+			</div>
+			<form action="" method="PATCH" enctype="multipart/form-data" id="editForm">
+				{{editSubject_form.hidden_tag()}}
+				<div class="modal-body">
+					<div class="form-floating mb-3">
+						{{editSubject_form.subject_name(class = "form-control", id = "editsubjectName" , value = 'tesst')}}
+						<label for="editsubjectName"><b>Subject Name</b></label>
+					</div>
+					<div class="form-floating mb-3">
+						{{editSubject_form.subject_teacher(class = "form-control", id = "editsubjectTeacher")}}
+						<label for="editsubjectName"><b>Subject Teacher</b></label>
+					</div>
+					<b style="color: #198754">Edit Schedule</b>
+					<div class="row mt-1">
+						<div class="col">
+							<div class="form-floating mb-3">
+								{{editSubject_form.day(class = "form-select", id = "editDay", placeholder = "Day")}}
+								<label for="Day"><b>Day</b></label>
+							</div>
+						</div>
+					</div>
+					<div class="row mt-1">
+						<div class="col">
+							<div class="input-group m-0">
+								<div class="form-floating">
+									{{editSubject_form.start(class = "form-control", id= "editStart")}}
+									<label for="Start"><b>Start</b></label>
+								</div>
+								<div class="form-floating">
+									{{editSubject_form.end(class = "form-control", id= "editEnd")}}
+									<label for="End"><b>End</b></label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-check mt-3">
+						<input class="form-check-input" type="checkbox" value="" id="editBG" />
+						<label class="form-check-label" for="customBG"> Custom Background </label>
+					</div>
+					{{editSubject_form.file(class = "disabled form-control",id = 'edit_subject')}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">CLOSE</button>
+					{{editSubject_form.submit(class = "btn btn-warning",id = 'edit')}}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- DELETE SUBJECT MODAL -->
+<!-- FOR SPECIFIC SUBJECT TEACHER ONLY -->
+<div
+	class="modal fade"
+	id="deleteSubjectModal"
+	tabindex="-1"
+	aria-labelledby="deleteSubjectModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header d-flex align-items-center justify-content-center border-0 p-3">
+				<h1 class="modal-title fs-5" id="deleteSubjectModalLabel">Remove Subject?</h1>
+			</div>
+
+			<div class="modal-footer d-flex justify-content-center border-0">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<form action="" method="DELETE" id="deleteForm">
+					<button type="submit " class="btn btn-danger d-flex align-items-center">Delete</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- EDIT SECTION MODAL -->
+<!-- FOR SECTION ADVISER ONLY -->
+<div class="modal fade" id="editSectionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="exampleModalLabel"><b>EDIT SECTION</b></h1>
+				<img class="modal-img" src="{{url_for('static',filename = 'img/logo.png')}}" alt="" />
+			</div>
+			<form action="{{url_for('update_section',id = section.section_id)}}" method="PATCH" enctype="multipart/form-data">
+				<div class="modal-body">
+					{{editSection_form.hidden_tag()}}
+					<div class="form-floating mb-3">
+						{{editSection_form.section_name(class = "form-control",id = 'section_name',value = section.section_name)}}
+						<label for="courseName"><b>Section</b></label>
+					</div>
+					<div class="form-floating mb-3">
+						{{editSection_form.section_adviser(class = "form-control",id = 'section_adivser',value =
+						section.handle_section.fullName)}}
+						<label for="section_adivser"><b>Section Adviser</b></label>
+					</div>
+					<div class="form-floating mb-3">
+						{{editSection_form.section_collegiate(class = "form-select",id = 'section_collegiate')}}
+						<label for="section_collegiate"><b>Section Collegiate</b></label>
+					</div>
+					<div class="form-check mt-3">
+						<input class="form-check-input" type="checkbox" value="" id="editBG" />
+						<label class="form-check-label" for="editBG"> Custom Background </label>
+					</div>
+					{{editSection_form.file(class = "disabled form-control" ,id='edit_section')}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">CLOSE</button>
+					{{editSection_form.submit(class = "btn btn-warning",id = 'edit')}}
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<!-- DELETE SECTION MODAL -->
+<!-- FOR SECTION ADVISER ONLY -->
+<div
+	class="modal fade"
+	id="deleteSectionModal"
+	tabindex="-1"
+	aria-labelledby="deleteSectionModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header d-flex justify-content-center border-0 p-3">
+				<h1 class="modal-title fs-5" id="deleteSectionModalLabel"><b>Delete {{section.section_name}}?</b></h1>
+			</div>
+			<div class="modal-footer d-flex justify-content-center border-0">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<form action="{{url_for('delete_section',id = section.section_id )}}" method="DELETE">
+					<button type="submit " class="btn btn-danger d-flex align-items-center">Delete</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="module" src="{{url_for('static',filename = 'js/Axios/SubjectPageAxios.js')}}"></script>
+<script src="{{url_for('static',filename ='js/Modal/SubjectPageModal.js')}}"></script>
