@@ -5,7 +5,7 @@ endblock %}
 <!-- CONTENT -->
 {% block content %}
 <main class="content">
-	<div class="profile">
+	<div class="profile ph">
 		<div class="profile-type d-flex">
 			<p class="m-0">{{current_user.type}}</p>
 		</div>
@@ -29,36 +29,38 @@ endblock %}
 			</div>
 		</div>
 	</div>
-	<div class="profile-items">
-		<div class="p-item">
-			<div class="grid-heading">
-				<h2>Intro</h2>
+	<div class="profile pi">
+		<div class="profile-items-grid">
+			<div class="p-item">
+				<div class="grid-heading">
+					<h2>Intro</h2>
+				</div>
+				<div class="intro-items">
+					<div class="location">
+						<span class="i-items material-icons-sharp"> home </span>
+						<p class="m-0">From DLSUD</p>
+					</div>
+					<div class="department">
+						<span class="i-items material-icons-sharp"> location_city </span>
+						<p class="m-0">{{current_user.faculty_collegiate.collegiate_name}}</p>
+					</div>
+					<div class="department">
+						<span class="i-items material-icons-sharp"> auto_stories </span>
+						<p class="m-0">“No act of kindness, no matter how small, is ever wasted.” —Aesop</p>
+					</div>
+					<div class="department">
+						<span class="i-items material-icons-sharp"> watch_later </span>
+						<p class="m-0">MWF 10AM TO 10 PM</p>
+					</div>
+				</div>
 			</div>
-			<div class="intro-items">
-				<div class="location">
-					<span class="i-items material-icons-sharp"> home </span>
-					<p class="m-0">From DLSUD</p>
+			<div class="p-item about">
+				<div class="grid-heading">
+					<h2>About</h2>
 				</div>
-				<div class="department">
-					<span class="i-items material-icons-sharp"> location_city </span>
-					<p class="m-0">{{current_user.faculty_collegiate.collegiate_name}}</p>
+				<div class="about-content">
+					<p class="mb-0"></p>
 				</div>
-				<div class="department">
-					<span class="i-items material-icons-sharp"> auto_stories </span>
-					<p class="m-0">“No act of kindness, no matter how small, is ever wasted.” —Aesop</p>
-				</div>
-				<div class="department">
-					<span class="i-items material-icons-sharp"> watch_later </span>
-					<p class="m-0">MWF 10AM TO 10 PM</p>
-				</div>
-			</div>
-		</div>
-		<div class="p-item">
-			<div class="grid-heading">
-				<h2>About</h2>
-			</div>
-			<div class="about-content">
-				<p></p>
 			</div>
 		</div>
 	</div>
