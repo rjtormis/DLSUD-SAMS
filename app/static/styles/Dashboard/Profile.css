@@ -18,13 +18,15 @@ main.content {
 	div.profile {
 		margin: 1rem ;
 		position: relative;
-		height: 220px;
 		background: rgba(250, 250, 250, 0.15);
 		box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 		backdrop-filter: blur(0px);
 		-webkit-backdrop-filter: blur(0px);
 		border-radius: 10px;
 	}
+		.profile.ph{
+			height: 220px;
+		}
 
 		div.profile-background {
 			background: url('../../img/pattern.png');
@@ -38,7 +40,6 @@ main.content {
 			position: absolute;
 			background-color: var(--main-color);
 		}
-
 			div.profile-type {
 				height: 50px;
 				padding: 5px;
@@ -76,12 +77,19 @@ main.content {
 				margin-bottom: 25px;
 			}
 
-	div.profile-items {
-		width: 100%;
-		margin: 0 1rem 0 1rem;
+	div.profile.pi {
+		background: none;
+		box-shadow: none;
+		backdrop-filter: none;
+		-webkit-backdrop-filter:  none;
+		border-radius: none;
+		height: 280px;
+	}
+	.profile-items-grid{
+		width: 100%	;
+		height: 100%;
 		display: inline-grid;
 		grid-template-columns: repeat(2, 1fr);
-		height: 250px;
 		gap: 1rem;
 	}
 
@@ -92,6 +100,9 @@ main.content {
 			-webkit-backdrop-filter: blur(0px);
 			border-radius: 3px;
 		}
+			.p-item.about{
+				overflow: auto;
+			}
 
 			div.grid-heading {
 				font-weight: 700;
@@ -109,3 +120,6 @@ main.content {
 			div.about-content {
 				padding: 10px;
 			}
+				.about-content p{
+					overflow-y: hidden;
+				}
