@@ -3,6 +3,7 @@ import string,random,os
 from app import db,bcrypt,login_manager,ALLOWED_EXTENSIONS
 from datetime import datetime,time
 from flask_login import UserMixin
+from sqlalchemy.orm import backref
 
 # Checks the type of user and returns the object refering to the user ID
 @login_manager.user_loader
@@ -112,7 +113,7 @@ class Section(db.Model):
     __tablename__ = 'sections'
     
     # Section Table Attributes
-    faculty_id = db.Column(db.Integer(),db.ForeignKey('faculties.faculty_id'))
+    faculty_id = db.Column(db.Integer(),db.ForeignKey('faculties.faculty_id',ondelete = 'CASCADE'))
     section_id  = db.Column(db.Integer(),primary_key = True)
     collegiate_id = db.Column(db.Integer(),db.ForeignKey('collegiates.collegiate_id'))
     section_name = db.Column(db.String(length = 20),unique = True,nullable = False)
@@ -121,7 +122,7 @@ class Section(db.Model):
     updatedAt = db.Column(db.DateTime(),default = datetime.utcnow)
 
     # One to many
-    subjects = db.relationship('Subject',backref = 'section_subject',lazy = True)
+    subjects = db.relationship('Subject',backref = 'section_subject',passive_deletes = True,lazy = True)
     enrolled = db.relationship('Enroll',backref = 'section_enrolled',lazy = True)
 
     # Section Image Location Getter
@@ -158,7 +159,7 @@ class Subject(db.Model):
     
     __tablename__ = 'subjects'
 
-    section_id = db.Column(db.Integer(),db.ForeignKey('sections.section_id'))
+    section_id = db.Column(db.Integer(),db.ForeignKey('sections.section_id',ondelete='CASCADE'))
     faculty_id = db.Column(db.Integer(),db.ForeignKey('faculties.faculty_id'))
     subject_id = db.Column(db.Integer(),primary_key = True)
     subject_code = db.Column(db.String(length = 10),nullable = False,unique = True)
