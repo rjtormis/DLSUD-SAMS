@@ -4,6 +4,15 @@ from flask import request,jsonify,redirect,url_for
 from app.forms.forms import editSubjectForm
 from app.models.models import Subject,Faculty
 
+# API FOR CHECKING SUBJECT
+@app.route('/api/subject/<int:id>/<string:subject>', methods=['GET'])
+def check_subject(id,subject):
+    query = Subject.query.filter_by(section_id = id,subject_name = subject).first()
+    if query:
+        return jsonify({'avail':False})
+    else:
+        return jsonify({'avail':True})
+
 # TODO: ADD SUBJECT IMAGE.
 # API FOR EDITING SUBJECT
 @app.route('/api/subject/update/<int:id>', methods=['GET','PATCH'])
