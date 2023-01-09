@@ -265,8 +265,8 @@ def section_page(section_name):
                 addSubject.subject_image_loc = imageLocation
 
 
-            db.session.add(addSubject)
-            db.session.commit()
+            # db.session.add(addSubject)
+            # db.session.commit()
 
         if subject_form.errors != {}:
              for err_msg in subject_form.errors.values():
