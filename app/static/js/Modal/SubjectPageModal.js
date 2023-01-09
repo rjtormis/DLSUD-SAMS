@@ -2,7 +2,8 @@
 const customBG = document.getElementById('customBG');
 const editBG = document.getElementById('editBG');
 const file1 = document.querySelector('#create_subject');
-const file2 = document.querySelector('#edit_section');
+const file2 = document.querySelector('#edit_subject');
+const file3 = document.querySelector('#edit_section');
 const submit = document.querySelector('#create');
 
 // DELETE SUBJECT MODAL
@@ -32,10 +33,16 @@ customBG.addEventListener('click', (e) => {
 editBG.addEventListener('click', (e) => {
 	if (editBG.checked) {
 		file2.classList.remove('disabled');
+		file3.classList.remove('disabled');
+
 		file2.required = true;
+		file3.required = true;
 	} else {
 		file2.classList.toggle('disabled');
-		file2.required = false;
+		file3.classList.toggle('disabled');
+
+		file2.required = true;
+		file3.required = false;
 	}
 });
 
