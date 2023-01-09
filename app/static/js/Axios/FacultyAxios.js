@@ -1,7 +1,16 @@
 import { debounce } from './utils.js';
-import { firstName, firstNameLabel, middleName, middleNameLabel, lastName, lastNameLabel } from './utils.js';
-import { id, idLabel, email, emailLabel, password1, password1Label, password2, password2Label } from './utils.js';
-import { all_input_group, input_group_email } from './utils.js';
+import { firstName, firstNameLabel, middleName, middleNameLabel, lastName, lastNameLabel } from './register_utils.js';
+import {
+	id,
+	idLabel,
+	email,
+	emailLabel,
+	password1,
+	password1Label,
+	password2,
+	password2Label,
+} from './register_utils.js';
+import { all_input_group, input_group_email } from './register_utils.js';
 // ============================================================================
 // 							FETCH API FOR BACKEND QUERY
 // ============================================================================
