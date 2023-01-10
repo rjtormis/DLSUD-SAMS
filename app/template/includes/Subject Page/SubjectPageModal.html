@@ -14,7 +14,7 @@
 			</div>
 			<form action="" method="POST" enctype="multipart/form-data">
 				{{subject_form.hidden_tag()}}
-				<div class="modal-body">
+				<div class="modal-body" id="createBody">
 					<div class="form-floating mb-3">
 						{{subject_form.name(class = "form-control", id = "createsubjectName", placeholder = "Subject Name")}}
 						<label for="createsubjectName">Subject Name</label>
