@@ -49,6 +49,8 @@ class User(db.Model,UserMixin):
     def check_password(self,input_password):
         return bcrypt.check_password_hash(self.passwordHash,input_password)
     
+    def __repr__(self): 
+        return f'User: {self.name}, Type: {self.type}'
     
 # Student Model
 class Student(User):
@@ -218,6 +220,9 @@ class Subject(db.Model):
         input_time = datetime.strptime(input_time,'%I:%M %p')
         
         return input_time
+
+    def __repr__(self):
+        return f'Section: {self.section_subject.section_name} , Subject: {self.subject_name}'
 
 class Enroll(db.Model):
 
