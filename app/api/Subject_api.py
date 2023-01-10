@@ -5,13 +5,27 @@ from app.forms.forms import editSubjectForm
 from app.models.models import Subject,Faculty
 
 # API FOR CHECKING SUBJECT
-@app.route('/api/subject/<int:id>/<string:subject>', methods=['GET'])
-def check_subject(id,subject):
-    query = Subject.query.filter_by(section_id = id,subject_name = subject).first()
-    if query:
-        return jsonify({'avail':False})
-    else:
+@app.route('/api/subject/<int:id>', methods=['GET'])
+def check_subject(id):
+
+    query_subject = request.args.get('subject')
+    query_day = request.args.get('day')
+    query_start = Subject.changeTime(Subject,request.args.get('start')) 
+    query_end = Subject.changeTime(Subject, request.args.get('end'))
+
+
+    query = Subject.query.filter_by(section_id = id,subject_name = query_subject).first()
+    subject_start = Subject.query.filter_by(section_id = id , subject_day = query_day,subject_start = query_start).first()
+    subject_end = Subject.query.filter_by(section_id = id , subject_day = query_day,subject_end = query_end).first()
+
+    # Checks if data exists in the database. If none, return True then user can proceed
+    if all(avail is None for avail in (query,subject_start,subject_end)):
         return jsonify({'avail':True})
+    else:
+        return jsonify({'avail':False})
+
+                    
+    
 
 # TODO: ADD SUBJECT IMAGE.
 # API FOR EDITING SUBJECT
