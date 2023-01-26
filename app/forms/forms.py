@@ -154,7 +154,7 @@ class SubjectForm(FlaskForm):
     days= ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
    
   
-    name = StringField(validators = [Length(min = 5, max = 50),DataRequired()])
+    name = StringField(validators = [Length(min = 5, max = 50),InputRequired('')])
     day = SelectField(choices = days,validators = [DataRequired()])
     start = TimeField(validators = [DataRequired()])
     end = TimeField(validators = [DataRequired()])
