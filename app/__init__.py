@@ -9,11 +9,17 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_cors import CORS
 
+# Testing purposes. Exposing the localhost via ngrok.
+from flask_ngrok import run_with_ngrok
+
 
 app = Flask(__name__,template_folder = 'template')
 
 # Cross Origin Referencing for API!
 CORS(app=app)
+
+# #Ngrok for testing purposes
+# run_with_ngrok(app)
 
 # Initialize secret key for user session protection
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
