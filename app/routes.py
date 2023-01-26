@@ -18,7 +18,7 @@ from werkzeug.utils import secure_filename
 @app.route('/')
 @app.route('/home')
 def home_page():
-    return render_template('Landing/landing_page.html')
+    return render_template('Landing/landing.html')
 
 # TODO: ADD FLASHES, ERROR HANDLING
 # ISSUE DATE: DECEMBER 17 2022
