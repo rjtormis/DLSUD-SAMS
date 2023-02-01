@@ -26,6 +26,7 @@ def delete_section(id):
 
     return redirect(url_for('section_list'))
 
+
 # TODO: FILE HANDLING
 # API FOR UPDATING SECTION
 @app.route('/api/section/update/<int:id>',methods = ['GET','PATCH'])
@@ -50,4 +51,4 @@ def update_section(id):
     return redirect(url_for('section_page',section_name = toEditSection.section_name))
 
 
-    
+

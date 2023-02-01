@@ -17,7 +17,7 @@ const modal_body = document.querySelector('.modal-body');
 // 							FETCH API FOR BACKEND QUERY
 // ============================================================================
 
-// TODO: REFACTOR
+// TODO: MOVE TO STRUCTURED API
 const querySectionAvailability = async () => {
 	try {
 		const response = await axios.post(
@@ -32,6 +32,16 @@ const querySectionAvailability = async () => {
 		return response.data.avail;
 	} catch (err) {
 		console.log(err);
+	}
+};
+
+// STRUCTURED
+const queryMe = async (course, year, section) => {
+	try {
+		const response = await axios.get(`/api/section/${course} ${year}${section}`);
+		return console.log(response.data);
+	} catch (e) {
+		console.log(e);
 	}
 };
 
@@ -72,6 +82,7 @@ querySectionAvailability().then((res) => {
 });
 
 submit.addEventListener('click', (e) => {
+	queryMe(current_courseName, current_year, current_section);
 	if (result === false) {
 		e.preventDefault();
 		error.innerHTML = `<div class="alert alert-danger" role="alert"><b>${current_courseName} ${current_year}${current_section}</b> already exists! </div>`;
