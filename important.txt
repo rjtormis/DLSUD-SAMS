@@ -18,6 +18,7 @@ Flask-Bcrypt==1.0.1             FLASK BCRYPT ALGORITHM
 Flask-Cors==3.0.10              FLASK CORS HEADER FOR JS
 Flask-Login==0.6.2              FLASK LOGIN MANAGER
 flask-ngrok==0.0.25             FLASK NGROK FOR TESTING DEPLOYMENT
+Flask-RESTful==0.3.9            FLASK RESTFUL API (FOR STRUCTURED API)
 Flask-Session==0.4.0            FLASK SESSION ( IN CASE )
 Flask-SQLAlchemy==3.0.2         FLASK DATABASE
 Flask-WTF==1.0.1                FLASK FORMS
@@ -39,6 +40,7 @@ PyMySQL==1.0.2                  PYMYSQL CONNECTOR FOR MYSQL DATABASE
 python-dateutil==2.8.2
 python-dotenv==0.21.0
 python-dotenv==0.21.0           PYTHON .ENV (hiding keys)
+pytz==2022.7.1
 PyYAML==6.0
 regex==2022.10.31
 requests==2.28.1
