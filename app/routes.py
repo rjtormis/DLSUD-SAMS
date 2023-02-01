@@ -220,8 +220,10 @@ def section_page(section_name):
 
     # GET METHOD
     if request.method == 'GET':
-
-        return render_template('Dashboard/Subject Page.html',section = section,subject_form = subject_form,editSubject_form = editSubject_form,editSection_form = editSection_form,subjects = subjects)
+        handled = request.args.get('handled');
+        if handled == 'true':
+            return render_template('Dashboard/Subject Page.html',section = section,subject_form = subject_form,editSubject_form = editSubject_form,editSection_form = editSection_form,subjects = subjects,flag = True)
+        return render_template('Dashboard/Subject Page.html',section = section,subject_form = subject_form,editSubject_form = editSubject_form,editSection_form = editSection_form,subjects = subjects,flag = False)
 
     # POST METHOD
     if request.method == 'POST':
@@ -271,6 +273,11 @@ def section_page(section_name):
         if subject_form.errors != {}:
              for err_msg in subject_form.errors.values():
                 print(err_msg)
+        
+        if editSection_form.validate_on_submit():
+            print('TEST')
+
+
         # Redirect back.
         return redirect(url_for('section_page',section_name = section_name))
 
