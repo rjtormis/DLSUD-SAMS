@@ -29,16 +29,17 @@ const debounce_subject = debounce(async (id, subject_input, day, start, end) => 
 	}
 });
 
-async function getData(id, subject_input, day, start, end) {
+let section_avail;
+const debounce_section = debounce(async (name) => {
 	try {
-		const response = await axios.get(`/api/subject/${id}`, {
-			params: { subject: subject_input, day: day, start: start, end: end },
+		const response = await axios.get(`/api/section/check_section`, {
+			params: { query: name },
 		});
-		return (avail = response.data.avail);
+		return (section_avail = response.data.avail);
 	} catch (e) {
 		console.log(e);
 	}
-}
+});
 
 // CREATE EVENT LISTENERS
 createSubjectBtn.addEventListener('click', (e) => {
@@ -56,16 +57,24 @@ createForm.addEventListener('input', async (e) => {
 	const start = createStart.value;
 	const end = createEnd.value;
 	if (name !== '' && start !== '' && end !== '') {
-		getData(sectionid, name, day, start, end);
+		debounce_subject(sectionid, name, day, start, end);
 	}
 });
 
 createForm.addEventListener('submit', (e) => {
 	if (!avail) {
 		e.preventDefault();
-		error.innerHTML = `<div class="alert alert-danger" role="alert">Subject alreadty exists or there is time conflict!</div>`;
+		error.innerHTML = `<div class="alert alert-danger" role="alert">Subject already exists or there is time conflict!</div>`;
 		createBody.insertBefore(error, createBody.childNodes.item(1));
-	} else {
-		createBody.remove(error);
+	}
+});
+
+// EDIT
+const editSectionForm = document.querySelector('#editSectionModal');
+const editSectionName = document.querySelector('#section_name');
+
+editSectionForm.addEventListener('input', async (e) => {
+	const value = editSectionName.value;
+	if (value !== '') {
 	}
 });
