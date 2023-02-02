@@ -153,19 +153,20 @@
 				method="PATCH"
 				enctype="multipart/form-data"
 				id="editSectionModal">
-				<div class="modal-body">
+				<div class="modal-body" id="editBody">
 					{{editSection_form.hidden_tag()}}
 					<div class="form-floating mb-3">
 						{{editSection_form.section_name(class = "form-control",id = 'section_name',value = section.section_name)}}
 						<label for="courseName"><b>Section</b></label>
 					</div>
 					<div class="form-floating mb-3">
-						{{editSection_form.section_adviser(class = "form-control",id = 'section_adivser',value =
+						{{editSection_form.section_adviser(class = "form-control",id = 'section_adviser',value =
 						section.handle_section.fullName)}}
 						<label for="section_adivser"><b>Section Adviser</b></label>
 					</div>
 					<div class="form-floating mb-3">
-						{{editSection_form.section_collegiate(class = "form-select",id = 'section_collegiate')}}
+						{{editSection_form.section_collegiate(class = "form-select",id = 'section_collegiate' ,value =
+						section.section_collegiate.collegiate_shorten)}}
 						<label for="section_collegiate"><b>Section Collegiate</b></label>
 					</div>
 					<div class="form-check mt-3">
