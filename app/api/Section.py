@@ -5,7 +5,7 @@ from flask_restful import Api,Resource,fields,marshal_with
 # Section Model
 from app.models.models import Section
 
-api = Api(app)
+section_api = Api(app)
 
 
 
@@ -51,6 +51,15 @@ class SectionByName(Resource):
                 'Available':True
             }
             return result
-    
 
-api.add_resource(SectionByName,"/api/section/<string:section_name>")
+class SectionEdit(Resource):
+    """
+    API Resource for Updating Section Details
+    https://flask-restful.readthedocs.io/en/latest/index.html
+
+    """
+    def patch(self,id):
+        pass
+
+section_api.add_resource(SectionByName,"/api/section/<string:section_name>")
+section_api.add_resource(SectionEdit,"/api/section/<int:id>")
