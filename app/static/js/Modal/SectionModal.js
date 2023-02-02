@@ -1,3 +1,5 @@
+import { debounce } from '../utils.js';
+const createForm = document.getElementById('createClassroom');
 const customBG = document.getElementById('customBG');
 const file = document.querySelector('.disabled');
 const submit = document.querySelector('#create');
@@ -17,33 +19,18 @@ const modal_body = document.querySelector('.modal-body');
 // 							FETCH API FOR BACKEND QUERY
 // ============================================================================
 
-// TODO: MOVE TO STRUCTURED API
-const querySectionAvailability = async () => {
-	try {
-		const response = await axios.post(
-			'/api/section/check_section',
-			{ query: `${current_courseName} ${current_year}${current_section}` },
-			{
-				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-				},
-			}
-		);
-		return response.data.avail;
-	} catch (err) {
-		console.log(err);
-	}
-};
-
+let isAvail;
 // STRUCTURED
-const queryMe = async (course, year, section) => {
+const debounce_section = debounce(async (course, year, section) => {
 	try {
 		const response = await axios.get(`/api/section/${course} ${year}${section}`);
-		return console.log(response.data);
+		return (isAvail = response.data.Available);
 	} catch (e) {
 		console.log(e);
 	}
-};
+}, 350);
+// Query the default value.
+debounce_section(current_courseName, current_year, current_section);
 
 file.required = false;
 
@@ -59,35 +46,22 @@ customBG.addEventListener('click', (e) => {
 
 courseName.addEventListener('change', (e) => {
 	current_courseName = e.target.value;
-	querySectionAvailability().then((res) => {
-		result = res;
-	});
 });
 year.addEventListener('change', (e) => {
 	current_year = e.target.value;
-	querySectionAvailability().then((res) => {
-		result = res;
-	});
 });
 section.addEventListener('change', (e) => {
 	current_section = e.target.value;
-	querySectionAvailability().then((res) => {
-		result = res;
-	});
 });
 
-let result = true;
-querySectionAvailability().then((res) => {
-	result = res;
+createForm.addEventListener('change', async (e) => {
+	debounce_section(current_courseName, current_year, current_section);
 });
 
-submit.addEventListener('click', (e) => {
-	queryMe(current_courseName, current_year, current_section);
-	if (result === false) {
+createForm.addEventListener('submit', (e) => {
+	if (isAvail === 'False') {
 		e.preventDefault();
 		error.innerHTML = `<div class="alert alert-danger" role="alert"><b>${current_courseName} ${current_year}${current_section}</b> already exists! </div>`;
 		modal_body.insertBefore(error, modal_body.childNodes.item(3));
-	} else {
-		modal_body.removeChild(error);
 	}
 });
