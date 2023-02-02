@@ -1,4 +1,4 @@
-import { debounce } from './utils.js';
+import { debounce } from '../utils.js';
 
 // CREATE
 const createForm = document.getElementById('createForm');
@@ -18,6 +18,7 @@ const error = document.createElement('div');
 // ============================================================================
 let avail;
 
+// TODO:FIX THIS!
 const debounce_subject = debounce(async (id, subject_input, day, start, end) => {
 	try {
 		const response = await axios.get(`/api/subject/${id}`, {
@@ -29,19 +30,7 @@ const debounce_subject = debounce(async (id, subject_input, day, start, end) => 
 	}
 });
 
-let section_avail;
-const debounce_section = debounce(async (name) => {
-	try {
-		const response = await axios.get(`/api/section/check_section`, {
-			params: { query: name },
-		});
-		return (section_avail = response.data.avail);
-	} catch (e) {
-		console.log(e);
-	}
-});
-
-// CREATE EVENT LISTENERS
+// CREATE SUBJECT EVENT LISTENERS
 createSubjectBtn.addEventListener('click', (e) => {
 	if (createBody.contains(error)) {
 		createBody.removeChild(error);
@@ -69,12 +58,71 @@ createForm.addEventListener('submit', (e) => {
 	}
 });
 
-// EDIT
-const editSectionForm = document.querySelector('#editSectionModal');
-const editSectionName = document.querySelector('#section_name');
+// EDIT SECTION LISTENER
+//TODO: Handle File change
+const editSectionForm = document.getElementById('editSectionModal');
+const editSectionName = document.getElementById('section_name');
+const editSectionAdviser = document.getElementById('section_adviser');
+const editSectionCollegiate = document.getElementById('section_collegiate');
 
-editSectionForm.addEventListener('input', async (e) => {
-	const value = editSectionName.value;
-	if (value !== '') {
+let isAvailName;
+let isAvailableAdviser;
+
+let current_name = editSectionName.value;
+let flag_name = editSectionName.value;
+let current_adviser = editSectionAdviser.value;
+let flag_adviser = editSectionAdviser.value;
+let current_collegiate = editSectionCollegiate.value;
+
+const editBodyModal = document.querySelector('#editBody');
+
+const debounce_section = debounce(async (name) => {
+	try {
+		if (name !== '') {
+			const response = await axios.get(`/api/section/${name}`);
+			return (isAvailName = response.data.Available);
+		}
+	} catch (e) {
+		console.log(e);
 	}
+}, 350);
+
+const debounce_adviser = debounce(async (name) => {
+	try {
+		if (name !== '') {
+			const response = await axios.get(`/api/user/${name}`);
+			return (isAvailableAdviser = response.data.Available);
+		}
+	} catch (e) {
+		console.log(e);
+	}
+}, 350);
+
+debounce_section(current_name);
+debounce_adviser(current_adviser);
+
+editSectionForm.addEventListener('input', (e) => {
+	debounce_section(current_name);
+	debounce_adviser(current_adviser);
+});
+editSectionForm.addEventListener('submit', (e) => {
+	if (isAvailName === 'False' || isAvailableAdviser === 'True') {
+		e.preventDefault();
+		if (isAvailName === 'False') {
+			error.innerHTML = `<div class="alert alert-danger" role="alert"><b>${current_name}</b> already exists! </div>`;
+		} else if (isAvailableAdviser === 'True') {
+			error.innerHTML = `<div class="alert alert-danger" role="alert"><b>${current_adviser}</b> does not exists! </div>`;
+		}
+		editBodyModal.insertBefore(error, editBodyModal.childNodes.item(3));
+	}
+});
+
+editSectionName.addEventListener('input', (e) => {
+	current_name = e.target.value;
+});
+editSectionAdviser.addEventListener('input', (e) => {
+	current_adviser = e.target.value;
+});
+editSectionCollegiate.addEventListener('input', (e) => {
+	current_collegiate = e.target.value;
 });
