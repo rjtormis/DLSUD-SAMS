@@ -8,27 +8,41 @@ const createName = document.getElementById('createsubjectName');
 const createDay = document.getElementById('createDay');
 const createStart = document.getElementById('createStart');
 const createEnd = document.getElementById('createEnd');
+const createButton = document.getElementById('createSubmit');
 
 const sectionid = createSubjectBtn.dataset.sectionid;
 
 const error = document.createElement('div');
 
+// EDIT
+const editSectionForm = document.getElementById('editSectionModal');
+const editSectionName = document.getElementById('section_name');
+const editSectionAdviser = document.getElementById('section_adviser');
+const editSectionCollegiate = document.getElementById('section_collegiate');
+
+let isAvailName;
+let isAvailableAdviser;
+
+let flag_name = editSectionName.value;
+let flag_adviser = editSectionAdviser.value;
+
+const editBodyModal = document.querySelector('#editBody');
+
 // ============================================================================
 // 							FETCH API FOR BACKEND QUERY
 // ============================================================================
-let avail;
+let isAvailSubject;
 
-// TODO:FIX THIS!
-const debounce_subject = debounce(async (id, subject_input, day, start, end) => {
+const db_subject = debounce(async (name, day, start = '', end = '') => {
 	try {
-		const response = await axios.get(`/api/subject/${id}`, {
-			params: { subject: subject_input, day: day, start: start, end: end },
+		const response_subject = await axios.get(`/api/subject/${sectionid}/${name}`, {
+			params: { day: day, start: start, end: end },
 		});
-		return (avail = response.data.avail);
+		return (isAvailSubject = response_subject.data.Available);
 	} catch (e) {
 		console.log(e);
 	}
-});
+}, 350);
 
 // CREATE SUBJECT EVENT LISTENERS
 createSubjectBtn.addEventListener('click', (e) => {
@@ -40,18 +54,19 @@ createSubjectBtn.addEventListener('click', (e) => {
 	createEnd.value = '';
 });
 
-createForm.addEventListener('input', async (e) => {
+createForm.addEventListener('input', (e) => {
 	const name = createName.value;
 	const day = createDay.value;
 	const start = createStart.value;
 	const end = createEnd.value;
-	if (name !== '' && start !== '' && end !== '') {
-		debounce_subject(sectionid, name, day, start, end);
+	if (end !== '') {
+		createButton.disabled = false;
+		db_subject(name, day, start, end);
 	}
 });
 
 createForm.addEventListener('submit', (e) => {
-	if (!avail) {
+	if (isAvailSubject === 'False') {
 		e.preventDefault();
 		error.innerHTML = `<div class="alert alert-danger" role="alert">Subject already exists or there is time conflict!</div>`;
 		createBody.insertBefore(error, createBody.childNodes.item(1));
@@ -59,33 +74,19 @@ createForm.addEventListener('submit', (e) => {
 });
 
 // EDIT SECTION LISTENER
+
 //TODO: Handle File change
-const editSectionForm = document.getElementById('editSectionModal');
-const editSectionName = document.getElementById('section_name');
-const editSectionAdviser = document.getElementById('section_adviser');
-const editSectionCollegiate = document.getElementById('section_collegiate');
-
-let isAvailName;
-let isAvailableAdviser;
-
-let current_name = editSectionName.value;
-let flag_name = editSectionName.value;
-let current_adviser = editSectionAdviser.value;
-let flag_adviser = editSectionAdviser.value;
-let current_collegiate = editSectionCollegiate.value;
-
-const editBodyModal = document.querySelector('#editBody');
-
 const debounce_section = debounce(async (name) => {
 	try {
 		if (name !== '') {
 			const response = await axios.get(`/api/section/${name}`);
+			console.log(response.data);
 			return (isAvailName = response.data.Available);
 		}
 	} catch (e) {
 		console.log(e);
 	}
-}, 350);
+}, 750);
 
 const debounce_adviser = debounce(async (name) => {
 	try {
@@ -96,15 +97,20 @@ const debounce_adviser = debounce(async (name) => {
 	} catch (e) {
 		console.log(e);
 	}
-}, 350);
+}, 750);
 
-debounce_section(current_name);
-debounce_adviser(current_adviser);
+debounce_section(flag_adviser);
+debounce_adviser(flag_adviser);
 
 editSectionForm.addEventListener('input', (e) => {
-	debounce_section(current_name);
-	debounce_adviser(current_adviser);
+	const section_name = editSectionName.value;
+	const section_adviser = editSectionAdviser.value;
+	const section_collegiate = editSectionCollegiate.value;
+
+	debounce_section(section_name);
+	debounce_adviser(section_adviser);
 });
+
 editSectionForm.addEventListener('submit', (e) => {
 	if (isAvailName === 'False' || isAvailableAdviser === 'True') {
 		e.preventDefault();
@@ -115,14 +121,4 @@ editSectionForm.addEventListener('submit', (e) => {
 		}
 		editBodyModal.insertBefore(error, editBodyModal.childNodes.item(3));
 	}
-});
-
-editSectionName.addEventListener('input', (e) => {
-	current_name = e.target.value;
-});
-editSectionAdviser.addEventListener('input', (e) => {
-	current_adviser = e.target.value;
-});
-editSectionCollegiate.addEventListener('input', (e) => {
-	current_collegiate = e.target.value;
 });

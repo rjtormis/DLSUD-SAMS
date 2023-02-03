@@ -47,7 +47,6 @@ class SectionByName(Resource):
             return result
         else:
             result = {
-                'Section':{},
                 'Available':True
             }
             return result
