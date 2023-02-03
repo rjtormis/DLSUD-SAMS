@@ -77,7 +77,6 @@ class UserFaculty(Resource):
             return result
         else:
             result = {
-                'Faculty':{},
                 'Available':True
             }
             return result
