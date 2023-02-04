@@ -1,4 +1,4 @@
-import { debounce } from '../utils.js';
+import { debounce, emailRegex } from '../utils.js';
 
 // CREATE
 const createForm = document.getElementById('createForm');
@@ -15,17 +15,30 @@ const sectionid = createSubjectBtn.dataset.sectionid;
 const error = document.createElement('div');
 
 // EDIT
-const editSectionForm = document.getElementById('editSectionModal');
-const editSectionName = document.getElementById('section_name');
+const editSection = document.getElementById('currentSection').textContent.split(' ');
+const editSectionYearAndSection = editSection[1].split('');
+const editSectionForm = document.getElementById('editSectionModalForm');
+const editSectionName = document.getElementById('editCourseName');
+const editSectionYear = document.getElementById('editCourseYear');
+const editSectionSection = document.getElementById('editCourseSection');
 const editSectionAdviser = document.getElementById('section_adviser');
 const editSectionCollegiate = document.getElementById('section_collegiate');
+const editSectionBtn = document.getElementById('editSection');
+const editSectionFile = document.getElementById('editSectionFile');
+
+editSectionForm.action = `/api/sections/${sectionid}/edit`;
+
+editSectionBtn.disabled = true;
+
+editSectionName.value = editSection[0];
+editSectionYear.value = editSectionYearAndSection[0];
+editSectionSection.value = editSectionYearAndSection[1];
 
 let isAvailName;
 let isAvailableAdviser;
 
-let flag_name = editSectionName.value;
+let flag_name = `${editSection.join(' ')}`;
 let flag_adviser = editSectionAdviser.value;
-
 const editBodyModal = document.querySelector('#editBody');
 
 // ============================================================================
@@ -35,7 +48,7 @@ let isAvailSubject;
 
 const db_subject = debounce(async (name, day, start = '', end = '') => {
 	try {
-		const response_subject = await axios.get(`/api/subject/${sectionid}/${name}`, {
+		const response_subject = await axios.get(`/api/subjects/${sectionid}/${name}`, {
 			params: { day: day, start: start, end: end },
 		});
 		return (isAvailSubject = response_subject.data.Available);
@@ -79,46 +92,63 @@ createForm.addEventListener('submit', (e) => {
 const debounce_section = debounce(async (name) => {
 	try {
 		if (name !== '') {
-			const response = await axios.get(`/api/section/${name}`);
-			console.log(response.data);
+			const response = await axios.get(`/api/sections/${name}`);
 			return (isAvailName = response.data.Available);
 		}
 	} catch (e) {
 		console.log(e);
 	}
-}, 750);
+});
 
 const debounce_adviser = debounce(async (name) => {
 	try {
 		if (name !== '') {
-			const response = await axios.get(`/api/user/${name}`);
+			const response = await axios.get(`/api/users/faculty/${name}`);
 			return (isAvailableAdviser = response.data.Available);
 		}
 	} catch (e) {
 		console.log(e);
 	}
-}, 750);
+}, 350);
 
-debounce_section(flag_adviser);
+const debounce_request = debounce(async (link, data) => {
+	try {
+		const request = await axios.patch(link, data);
+		console.log(request.data);
+	} catch (e) {
+		console.log(e);
+	}
+});
+debounce_section(flag_name);
 debounce_adviser(flag_adviser);
 
 editSectionForm.addEventListener('input', (e) => {
-	const section_name = editSectionName.value;
+	const section_name = `${editSectionName.value} ${editSectionYear.value}${editSectionSection.value}`;
 	const section_adviser = editSectionAdviser.value;
 	const section_collegiate = editSectionCollegiate.value;
 
 	debounce_section(section_name);
-	debounce_adviser(section_adviser);
+	if (emailRegex(section_adviser) && section_name !== flag_name) {
+		debounce_adviser(section_adviser);
+		editSectionBtn.disabled = false;
+	}
 });
 
 editSectionForm.addEventListener('submit', (e) => {
 	if (isAvailName === 'False' || isAvailableAdviser === 'True') {
 		e.preventDefault();
 		if (isAvailName === 'False') {
-			error.innerHTML = `<div class="alert alert-danger" role="alert"><b>${current_name}</b> already exists! </div>`;
+			error.innerHTML = `<div class="alert alert-danger" role="alert"><b>${editSectionName.value} ${editSectionYear.value}${editSectionSection.value}</b> already exists! </div>`;
 		} else if (isAvailableAdviser === 'True') {
-			error.innerHTML = `<div class="alert alert-danger" role="alert"><b>${current_adviser}</b> does not exists! </div>`;
+			error.innerHTML = `<div class="alert alert-danger" role="alert"> User does not exists! </div>`;
 		}
 		editBodyModal.insertBefore(error, editBodyModal.childNodes.item(3));
+	} else {
+		e.preventDefault();
+		const data = new FormData(editSectionForm);
+		for (const [key, val] of data.entries()) {
+			console.log(`${key}:${val}`);
+		}
+		debounce_request(editSectionForm.action, data);
 	}
 });
