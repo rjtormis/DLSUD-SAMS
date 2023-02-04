@@ -1,4 +1,4 @@
-import { debounce } from './utils.js';
+import { debounce } from '../utils.js';
 import { firstName, firstNameLabel, middleName, middleNameLabel, lastName, lastNameLabel } from './register_utils.js';
 import {
 	id,
