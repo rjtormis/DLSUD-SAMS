@@ -50,7 +50,7 @@ class User(db.Model,UserMixin):
         return bcrypt.check_password_hash(self.passwordHash,input_password)
     
     def __repr__(self): 
-        return f'User: {self.name}, Type: {self.type}'
+        return f'User: {self.fullName}, Type: {self.type}'
     
 # Student Model
 class Student(User):
