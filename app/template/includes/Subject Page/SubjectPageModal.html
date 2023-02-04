@@ -148,21 +148,31 @@
 				<h1 class="modal-title fs-5" id="exampleModalLabel"><b>EDIT SECTION</b></h1>
 				<img class="modal-img" src="{{url_for('static',filename = 'img/logo.png')}}" alt="" />
 			</div>
-			<form
-				action="{{url_for('update_section',id = section.section_id)}}"
-				method="PATCH"
-				enctype="multipart/form-data"
-				id="editSectionModal">
+			<form action="" enctype="multipart/form-data" id="editSectionModalForm">
 				<div class="modal-body" id="editBody">
 					{{editSection_form.hidden_tag()}}
 					<div class="form-floating mb-3">
-						{{editSection_form.section_name(class = "form-control",id = 'section_name',value = section.section_name)}}
-						<label for="courseName"><b>Section</b></label>
+						{{editSection_form.courseName(class = "form-select",id = 'editCourseName')}}
+						<label for="floatingSelect"><b>Course</b></label>
+					</div>
+					<div class="row">
+						<div class="col">
+							<div class="form-floating mb-3">
+								{{editSection_form.year(class = "form-select",id = 'editCourseYear')}}
+								<label for="floatingSelect"><b>Year Level</b></label>
+							</div>
+						</div>
+						<div class="col">
+							<div class="form-floating mb-3">
+								{{editSection_form.section(class = "form-select",id = 'editCourseSection')}}
+								<label for="floatingSelect"><b>Section</b></label>
+							</div>
+						</div>
 					</div>
 					<div class="form-floating mb-3">
-						{{editSection_form.section_adviser(class = "form-control",id = 'section_adviser',value =
-						section.handle_section.fullName)}}
-						<label for="section_adivser"><b>Section Adviser</b></label>
+						{{editSection_form.section_adviser_email(class = "form-control",id = 'section_adviser',value =
+						section.handle_section.emailAddress)}}
+						<label for="section_adivser"><b>Section Adviser Email</b></label>
 					</div>
 					<div class="form-floating mb-3">
 						{{editSection_form.section_collegiate(class = "form-select",id = 'section_collegiate' ,value =
@@ -173,11 +183,11 @@
 						<input class="form-check-input" type="checkbox" value="" id="editBG" />
 						<label class="form-check-label" for="editBG"> Custom Background </label>
 					</div>
-					{{editSection_form.file(class = "disabled form-control" ,id='edit_section')}}
+					{{editSection_form.file(class = "disabled form-control" ,id='editSectionFile')}}
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-danger" data-bs-dismiss="modal">CLOSE</button>
-					{{editSection_form.submit(class = "btn btn-warning",id = 'edit')}}
+					{{editSection_form.submit(class = "btn btn-warning",id = 'editSection')}}
 				</div>
 			</form>
 		</div>
