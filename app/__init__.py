@@ -41,5 +41,5 @@ login_manager = LoginManager(app)
 
 # Essential imports!
 from app import routes
-from app.api import Section_api,User_api,Subject_api,Section,User,Subject
+from app.api import Section_api,User_api,Subject_api,Section,User,Subject,Collegiate
 from app.models.models import User,Student
