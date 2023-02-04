@@ -57,8 +57,13 @@ class SectionEdit(Resource):
     https://flask-restful.readthedocs.io/en/latest/index.html
 
     """
-    def patch(self,id):
-        pass
 
-section_api.add_resource(SectionByName,"/api/section/<string:section_name>")
-section_api.add_resource(SectionEdit,"/api/section/<int:id>")
+
+    def patch(self,id):
+        data = request.form
+        file = request.files.get('file');
+        print(file)
+        return {'HELO':'WERLD'}
+
+section_api.add_resource(SectionByName,"/api/sections/<string:section_name>")
+section_api.add_resource(SectionEdit,"/api/sections/<int:id>/edit")
