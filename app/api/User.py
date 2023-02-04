@@ -10,6 +10,7 @@ user_api = Api(app);
 class UserFaculty(Resource):
     """
     API Resource for checking Faculty Users
+    Query can be done by either their name or email.
     https://flask-restful.readthedocs.io/en/latest/index.html
     """
     section_field = {
@@ -38,11 +39,14 @@ class UserFaculty(Resource):
 
     @marshal_with(user_field)
     def get(self,name):
-        faculty = Faculty.query.filter_by(fullName = name).first()
-        if (faculty):
 
-            handle_section = Section.query.filter_by(faculty_id = faculty.faculty_id).order_by(Section.section_id.asc())
-            handle_subject = Subject.query.filter_by(faculty_id = faculty.faculty_id ).order_by(Subject.subject_id.asc())
+        faculty_name = Faculty.query.filter_by(fullName = name).first()
+        faculty_email = Faculty.query.filter_by(emailAddress = name).first()
+     
+        if (faculty_name):
+
+            handle_section = Section.query.filter_by(faculty_id = faculty_name.faculty_id).order_by(Section.section_id.asc())
+            handle_subject = Subject.query.filter_by(faculty_id = faculty_name.faculty_id ).order_by(Subject.subject_id.asc())
 
             allSection = []
             allSubject = []
@@ -63,11 +67,50 @@ class UserFaculty(Resource):
                     'schedule':f'{subjects.subject_day}-{subjects.subject_start} TO {subjects.subject_end} ' ,
                 }
                 allSubject.append(subject)
+
             result = {
                 'Faculty':{
-                    'id':faculty.faculty_id,
-                    'name':faculty.fullName,
-                    'collegiate':faculty.faculty_collegiate.collegiate_name,
+                    'id':faculty_name.faculty_id,
+                    'name':faculty_name.fullName,
+                    'collegiate':faculty_name.faculty_collegiate.collegiate_name,
+                    'section handled': allSection,
+                    'subject handled': allSubject
+                },
+                'Available':False
+                
+            }
+
+            return result
+        elif (faculty_email):
+
+            handle_section = Section.query.filter_by(faculty_id = faculty_email.faculty_id).order_by(Section.section_id.asc())
+            handle_subject = Subject.query.filter_by(faculty_id = faculty_email.faculty_id ).order_by(Subject.subject_id.asc())
+
+            allSection = []
+            allSubject = []
+
+            for sections in handle_section:
+                section = {
+                    'id':sections.section_id,
+                    'name':sections.section_name,
+                    'collegiate':sections.section_collegiate.collegiate_name
+                }
+                allSection.append(section)
+            
+            for subjects in handle_subject:
+                subject = {
+                    'id':subjects.subject_id,
+                    'name':subjects.subject_name,
+                    'section':subjects.section_subject.section_name,
+                    'schedule':f'{subjects.subject_day}-{subjects.subject_start} TO {subjects.subject_end} ' ,
+                }
+                allSubject.append(subject)
+
+            result = {
+                'Faculty':{
+                    'id':faculty_email.faculty_id,
+                    'name':faculty_email.fullName,
+                    'collegiate':faculty_email.faculty_collegiate.collegiate_name,
                     'section handled': allSection,
                     'subject handled': allSubject
                 },
@@ -75,15 +118,14 @@ class UserFaculty(Resource):
                 
             }
             return result
+
         else:
             result = {
                 'Available':True
             }
             return result
 
-
-
         
 
 
-user_api.add_resource(UserFaculty,'/api/user/<string:name>')
+user_api.add_resource(UserFaculty,'/api/users/faculty/<string:name>')
