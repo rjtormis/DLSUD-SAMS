@@ -23,7 +23,7 @@ let isAvail;
 // STRUCTURED
 const debounce_section = debounce(async (course, year, section) => {
 	try {
-		const response = await axios.get(`/api/section/${course} ${year}${section}`);
+		const response = await axios.get(`/api/sections/${course} ${year}${section}`);
 		return (isAvail = response.data.Available);
 	} catch (e) {
 		console.log(e);
