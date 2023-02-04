@@ -3,7 +3,7 @@ const customBG = document.getElementById('customBG');
 const editBG = document.getElementById('editBG');
 const file1 = document.querySelector('#create_subject');
 const file2 = document.querySelector('#edit_subject');
-const file3 = document.querySelector('#edit_section');
+const file3 = document.querySelector('#editSectionFile');
 const submit = document.querySelector('#create');
 
 // DELETE SUBJECT MODAL
