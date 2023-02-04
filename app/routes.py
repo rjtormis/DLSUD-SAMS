@@ -274,8 +274,6 @@ def section_page(section_name):
              for err_msg in subject_form.errors.values():
                 print(err_msg)
         
-        if editSection_form.validate_on_submit():
-            print('TEST')
 
 
         # Redirect back.
