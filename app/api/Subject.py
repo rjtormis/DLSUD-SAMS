@@ -48,6 +48,6 @@ class SubjectAvailability(Resource):
                 }
                 return result
 
-subject_api.add_resource(SubjectAvailability,'/api/subject/<int:section_id>/<string:subject_name>')
+subject_api.add_resource(SubjectAvailability,'/api/subjects/<int:section_id>/<string:subject_name>')
 
 
