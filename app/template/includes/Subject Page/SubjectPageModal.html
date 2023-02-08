@@ -70,12 +70,12 @@
 				{{editSubject_form.hidden_tag()}}
 				<div class="modal-body">
 					<div class="form-floating mb-3">
-						{{editSubject_form.subject_name(class = "form-control", id = "editsubjectName" , value = 'tesst')}}
-						<label for="editsubjectName"><b>Subject Name</b></label>
+						{{editSubject_form.subject_name(class = "form-control", id = "editSubjectName")}}
+						<label for="editSubjectName"><b>Subject Name</b></label>
 					</div>
 					<div class="form-floating mb-3">
-						{{editSubject_form.subject_teacher(class = "form-control", id = "editsubjectTeacher")}}
-						<label for="editsubjectName"><b>Subject Teacher</b></label>
+						{{editSubject_form.subject_teacher(class = "form-control", id = "editSubjectTeacher")}}
+						<label for="editSubjectTeacher"><b>Subject Teacher Email</b></label>
 					</div>
 					<b style="color: #198754">Edit Schedule</b>
 					<div class="row mt-1">
@@ -131,7 +131,7 @@
 
 			<div class="modal-footer d-flex justify-content-center border-0">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<form action="" method="DELETE" id="deleteForm">
+				<form action="" method="POST" id="deleteForm">
 					<button type="submit " class="btn btn-danger d-flex align-items-center">Delete</button>
 				</form>
 			</div>
@@ -148,7 +148,11 @@
 				<h1 class="modal-title fs-5" id="exampleModalLabel"><b>EDIT SECTION</b></h1>
 				<img class="modal-img" src="{{url_for('static',filename = 'img/logo.png')}}" alt="" />
 			</div>
-			<form action="" enctype="multipart/form-data" id="editSectionModalForm">
+			<form
+				action="{{url_for('section_edit',id = section.section_id)}}"
+				method="post"
+				enctype="multipart/form-data"
+				id="editSectionModalForm">
 				<div class="modal-body" id="editBody">
 					{{editSection_form.hidden_tag()}}
 					<div class="form-floating mb-3">
@@ -209,7 +213,7 @@
 			</div>
 			<div class="modal-footer d-flex justify-content-center border-0">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<form action="{{url_for('delete_section',id = section.section_id )}}" method="DELETE">
+				<form action="{{url_for('section',section_name = section.section_name)}}" method="POST">
 					<button type="submit " class="btn btn-danger d-flex align-items-center">Delete</button>
 				</form>
 			</div>
