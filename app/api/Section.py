@@ -1,36 +1,19 @@
 from app import app,db
-from flask import Flask,jsonify,request
-from flask_restful import Api,Resource,fields,marshal_with
-
-# Section Model
-from app.models.models import Section
-
-section_api = Api(app)
+from flask import request,jsonify,redirect,url_for
+from app.models.models import Section,Faculty,Collegiate
+from app.forms.forms import editSectionForm
+from datetime import datetime
 
 
-
-class SectionByName(Resource):
+@app.route('/api/sections/<string:section_name>',methods = ['GET','POST'])
+def section(section_name):
     """
-    API Resource for checking Section Availability.
-    https://flask-restful.readthedocs.io/en/latest/index.html
+    REST API for querying availability of the section and for deleting section.
     """
-    section_field = {
-    'Section':fields.Nested({
-        'id':fields.Integer,
-        'name':fields.String,
-        'faculty':fields.String,
-        'collegiate': fields.String,
-        'created date': fields.String,
-        'updated date': fields.String,
-    }),
-        'Available':fields.String,
-    
-    }
 
-    @marshal_with(section_field)
-    def get(self,section_name):
-        
-        section= Section.query.filter_by(section_name = section_name).first()
+    section= Section.query.filter_by(section_name = section_name).first()
+
+    if request.method == 'GET':
         if section:
             result ={
                 'Section':{
@@ -42,7 +25,7 @@ class SectionByName(Resource):
                     'updated date':section.updatedAt
                 },
                 'Available':False,
-                
+
             }
             return result
         else:
@@ -50,20 +33,36 @@ class SectionByName(Resource):
                 'Available':True
             }
             return result
+        
+    if request.method == 'POST':
 
-class SectionEdit(Resource):
+        if section:
+
+            db.session.delete(section)
+            db.session.commit()
+
+            return redirect(url_for('section_list'))
+
+
+# TODO: File handling
+@app.route('/api/sections/<int:id>/edit', methods=['POST'])
+def section_edit(id):
     """
-    API Resource for Updating Section Details
-    https://flask-restful.readthedocs.io/en/latest/index.html
-
+    REST API for editing particular section.
     """
-
-
-    def patch(self,id):
+    
+    if request.method == 'POST':
         data = request.form
-        file = request.files.get('file');
-        print(file)
-        return {'HELO':'WERLD'}
 
-section_api.add_resource(SectionByName,"/api/sections/<string:section_name>")
-section_api.add_resource(SectionEdit,"/api/sections/<int:id>/edit")
+        file = request.files.get('file');
+        course,year,course_section,adviser,collegiate = data['courseName'],data['year'],data['section'],data['section_adviser_email'],data['section_collegiate']
+        section = Section.query.filter_by(section_id = id).first()
+        faculty = Faculty.query.filter_by(emailAddress = adviser).first();
+        collegiate = Collegiate.query.filter_by(collegiate_name =collegiate ).first();
+        section.faculty_id = faculty.faculty_id
+        section.section_name = f'{course} {year}{course_section}'
+        section.collegiate_id = collegiate.collegiate_id
+        section.updatedAt = datetime.utcnow();
+        db.session.commit();
+        return redirect(url_for('section_page',section_name =section.section_name ))
+    
