@@ -13,8 +13,8 @@ const deleteform = document.querySelector('#deleteForm');
 
 // EDIT SUBJECT MODAL
 const editModal = document.getElementById('editSubjectModal');
-const editName = document.getElementById('editsubjectName');
-const editTeacher = document.getElementById('editsubjectTeacher');
+const editName = document.getElementById('editSubjectName');
+const editTeacher = document.getElementById('editSubjectTeacher');
 const editForm = document.getElementById('editForm');
 const editDay = document.getElementById('editDay');
 const editStart = document.getElementById('editStart');
@@ -49,8 +49,9 @@ editBG.addEventListener('click', (e) => {
 // Pass the subject ID to be deleted
 deleteModal.addEventListener('show.bs.modal', (e) => {
 	const button = e.relatedTarget;
-	const subjectID = button.dataset.subjectid;
-	deleteform.action = `/api/subject/delete/${subjectID}`;
+	const subjectName = button.dataset.subjectname;
+	const sectionID = button.dataset.section;
+	deleteform.action = `/api/subjects/${sectionID}/${subjectName}`;
 });
 
 editModal.addEventListener('show.bs.modal', (e) => {
