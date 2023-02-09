@@ -3,7 +3,7 @@ const customBG = document.getElementById('customBG');
 const editBG = document.getElementById('editBG');
 const file1 = document.querySelector('#create_subject');
 const file2 = document.querySelector('#edit_subject');
-const file3 = document.querySelector('#edit_section');
+const file3 = document.querySelector('#editSectionFile');
 const submit = document.querySelector('#create');
 
 // DELETE SUBJECT MODAL
@@ -13,8 +13,8 @@ const deleteform = document.querySelector('#deleteForm');
 
 // EDIT SUBJECT MODAL
 const editModal = document.getElementById('editSubjectModal');
-const editName = document.getElementById('editsubjectName');
-const editTeacher = document.getElementById('editsubjectTeacher');
+const editName = document.getElementById('editSubjectName');
+const editTeacher = document.getElementById('editSubjectTeacher');
 const editForm = document.getElementById('editForm');
 const editDay = document.getElementById('editDay');
 const editStart = document.getElementById('editStart');
@@ -49,8 +49,9 @@ editBG.addEventListener('click', (e) => {
 // Pass the subject ID to be deleted
 deleteModal.addEventListener('show.bs.modal', (e) => {
 	const button = e.relatedTarget;
-	const subjectID = button.dataset.subjectid;
-	deleteform.action = `/api/subject/delete/${subjectID}`;
+	const subjectName = button.dataset.subjectname;
+	const sectionID = button.dataset.section;
+	deleteform.action = `/api/subjects/${sectionID}/${subjectName}`;
 });
 
 editModal.addEventListener('show.bs.modal', (e) => {

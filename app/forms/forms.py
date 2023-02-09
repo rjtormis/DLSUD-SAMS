@@ -126,8 +126,10 @@ class SectionForm(FlaskForm):
 
 class editSectionForm(FlaskForm):
 
-    section_name = StringField(validators = [InputRequired()])
-    section_adviser = StringField(validators = [InputRequired()])
+    courseName = SelectField(choices = ['BCS','IT','CLACTEST'],validators = [DataRequired()])
+    year = SelectField(choices = [1,2,3,4],validators = [DataRequired()])
+    section = SelectField(choices = [1,2,3,4],validators =[DataRequired()])
+    section_adviser_email = StringField(validators = [InputRequired()])
     section_collegiate = SelectField(choices = [])
     file = FileField("File",validators = [FileAllowed(['jpg','png','jpeg'],'Only JPG,JPEG & PNG are allowed.')])
     submit = SubmitField(label = 'EDIT')

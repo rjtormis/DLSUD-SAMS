@@ -202,7 +202,7 @@ def section_list():
         return render_template('Dashboard/Classroom.html',section_form = section_form,sections = section,searched = searched)
 
 # API END POINT FOR SPECIFIC SECTION
-@app.route('/section/<string:section_name>',methods = ['GET','POST'])
+@app.route('/section/<string:section_name>',methods = ['GET','POST','PATCH'])
 @login_required
 def section_page(section_name):
 
@@ -274,11 +274,13 @@ def section_page(section_name):
              for err_msg in subject_form.errors.values():
                 print(err_msg)
         
-        if editSection_form.validate_on_submit():
-            print('TEST')
 
 
         # Redirect back.
+        return redirect(url_for('section_page',section_name = section_name))
+    
+    if request.method == 'PATCH':
+        print('received')
         return redirect(url_for('section_page',section_name = section_name))
 
 
