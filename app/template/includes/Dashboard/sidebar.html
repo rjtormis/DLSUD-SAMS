@@ -1,0 +1,32 @@
+<div class="sidebar-logo">
+    <img src="{{ url_for('static', filename = 'img/landing/resized-logo.png') }}" alt="dlsu-d logo">
+    <div class="close-btn" id="close-btn">
+        <span class="close material-symbols-rounded add">close</span>
+    </div>
+</div>
+<div class="sidebar-list">
+    <a href="{{ url_for('student_dashboard') }}" class="sidebar-link active">
+        <span class="material-symbols-rounded">dashboard</span>
+        <h3>Dashboard</h3>
+    </a>
+    <a href="{{ url_for('student_classroom') }}" class="sidebar-link">
+        <span class="material-symbols-rounded">book</span>
+        <h3>Classroom</h3>
+    </a>
+    <a href="{{ url_for('student_profile') }}" class="sidebar-link">
+        <span class="material-symbols-rounded">account_circle</span>
+        <h3>Profile</h3>
+    </a>
+    <a href="{{ url_for('student_upload') }}" class="sidebar-link">
+        <span class="material-symbols-rounded">add_photo_alternate</span>
+        <h3>Upload Image</h3>
+    </a>
+    <a href="{{ url_for('student_settings') }}" class="sidebar-link">
+        <span class="material-symbols-rounded">settings</span>
+        <h3>Settings</h3>
+    </a>
+    <a href="{{ url_for('logout_page') }}" class="sidebar-link logout">
+        <span class="material-symbols-rounded ">logout</span>
+        <h3>Logout</h3>
+    </a>
+</div>

@@ -1,0 +1,48 @@
+{% extends 'Dashboard/Student/student_base.html' %}
+
+<section class="main-welcome">
+    <h2 class="main-greeting">Welcome back, {{ current_user.fullName }}!
+        <span>
+            <p class="small-date">Wednesday, 31 Jan</p>
+        </span>
+    </h2>
+    <div class="dashboard-form">
+        <form class="enroll-class" action="" method="">
+            <input class="classroom-code-input" type="text" placeholder="Join a Classroom" required>
+            <button class="classroom-code-btn" type="submit">
+                <span class="material-symbols-rounded add">add_circle</span>
+            </button>
+        </form>
+    </div>
+</section>
+<section class="main-cards">
+    <h3>Insights</h3>
+    <div class="card-container">
+        <div class="card">
+            <a href="{{ url_for('student_classroom') }}" class="card-link">
+                <i class="fa fa-users" aria-hidden="true"></i>
+                <h3 class="card-title">Total Classroom</h3>
+                <p class="card-body">10</p>
+            </a>
+        </div>
+        <div class="card">
+            <a href="" class="card-link">
+                <i class="fa fa-suitcase" aria-hidden="true"></i>
+                <h3 class="card-title">Juan's Classroom</h3>
+                <p class="card-body">12</p>
+            </a>
+        </div>
+        <div class="card">
+            <i class="fa fa-book" aria-hidden="true"></i>
+            <h3 class="card-title">Total Lectures Attended</h3>
+            <p class="card-body">10</p>
+        </div>
+        <div class="card">
+            <i class="fa fa-line-chart" aria-hidden="true"></i>
+            <h3 class="card-title">Attendance of Juan</h3>
+            <p class="card-body">75%</p>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

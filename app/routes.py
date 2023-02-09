@@ -300,6 +300,32 @@ def profile_page():
 def upload_page():
     return render_template('Dashboard/upload.html')
 
+
+"""
+Student Dashboard
+=======
+"""
+
+@app.route('/student-dashboard')
+@login_required 
+def student_dashboard():
+    return render_template('Dashboard/Student/student_dashboard')
+
+@app.route('/student-profile')
+@login_required
+def student_profile():
+    return render_template('Dashboard/Student/student_profile')
+
+@app.route('/student-classroom')
+@login_required
+def student_classroom():
+    return render_template('Dashboard/Student/student_classroom')
+
+@app.route('/student-upload')
+@login_required
+def student_upload():
+    return render_template('Dashboard/Student/student_upload')
+
 @app.route('/logout')
 def logout_page():
     logout_user()

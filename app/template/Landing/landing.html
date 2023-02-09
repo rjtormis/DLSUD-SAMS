@@ -24,8 +24,8 @@
             </div>
             <ul class="mobile-links">
                 <li><a href="#features">Features</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Log in</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="{{url_for('login_page')}}">Log in</a></li>
             </ul>
         </section>
         <a class="img-link" href="#"><img class="logo" src="{{url_for('static', filename = 'img/landing/dlsu-d.png')}}"
@@ -33,7 +33,7 @@
         <nav class="menu hide-element">
             <ul>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
         <div class="nav-btn hide-element">
@@ -143,7 +143,7 @@
                 <a class="link-1" href="#">Home</a>
                 <a href="#">FAQs</a>
                 <a href="#">Privacy Policy</a>
-                <a href="mailto:dlsud_sams@gmail.com">Contact Us</a>
+                <a id="contact" href="mailto:dlsud_sams@gmail.com">Contact Us</a>
             </p>
             <p>DLSU-D SAMS &copy; 2023</p>
         </div>
