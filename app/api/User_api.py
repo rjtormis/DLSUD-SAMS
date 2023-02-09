@@ -2,7 +2,7 @@ import re
 
 from app import app,db,bcrypt
 from flask import request,jsonify
-from app.models.models import Student,Faculty,User
+from app.models.models import Student,Faculty,User,Section,Subject
 
 """
 API FOR CHECKING STUDENT INPUT 
@@ -75,3 +75,121 @@ def check_login():
     #     return jsonify({'pass':True})
     # elif not(checkPassword):
     #     return jsonify({'pass':False})
+
+
+@app.route('/api/users/<string:name>', methods=['GET'])
+def api_users(name):
+    """
+    REST API to query user availability.
+    """
+    if request.method == 'GET':
+
+        query_name  = User.query.filter_by(fullName = name).first()
+        query_email = User.query.filter_by(emailAddress = name).first()
+
+        if (query_name):
+
+            if query_name.type == 'Faculty':
+
+                handle_section = Section.query.filter_by(faculty_id = query_name.faculty_id).order_by(Section.section_id.asc())
+                handle_subject = Subject.query.filter_by(faculty_id = query_name.faculty_id ).order_by(Subject.subject_id.asc())
+
+                allSection = []
+                allSubject = []
+
+                for sections in handle_section:
+                    section = {
+                        'id':sections.section_id,
+                        'name':sections.section_name,
+                        'collegiate':sections.section_collegiate.collegiate_name
+                    }
+                    allSection.append(section)
+                
+                for subjects in handle_subject:
+                    subject = {
+                        'id':subjects.subject_id,
+                        'name':subjects.subject_name,
+                        'section':subjects.section_subject.section_name,
+                        'schedule':f'{subjects.subject_day}-{subjects.subject_start} TO {subjects.subject_end} ' ,
+                    }
+                    allSubject.append(subject)
+
+                result = {
+                    'Faculty':{
+                        'id':query_name.faculty_id,
+                        'name':query_name.fullName,
+                        'collegiate':query_name.faculty_collegiate.collegiate_name,
+                        'section handled': allSection,
+                        'subject handled': allSubject
+                    },
+                    'Available':False
+                    
+                }
+                return result
+            
+            elif query_name.type == 'Student':
+                result = {
+                    'Student': {
+                        'id':query_name.student_id,
+                        'name':query_name.fullName,
+                        'section':'TODO',
+                        'collegiate':query_name.student_collegiate.collegiate_name,
+                    },
+                    'Available':True
+                }
+
+                return result
+            
+        elif (query_email):
+
+            if query_email.type == 'Faculty':
+
+                handle_section = Section.query.filter_by(faculty_id = query_email.faculty_id).order_by(Section.section_id.asc())
+                handle_subject = Subject.query.filter_by(faculty_id = query_email.faculty_id ).order_by(Subject.subject_id.asc())
+
+                allSection = []
+                allSubject = []
+
+                for sections in handle_section:
+                    section = {
+                        'id':sections.section_id,
+                        'name':sections.section_name,
+                        'collegiate':sections.section_collegiate.collegiate_name
+                    }
+                    allSection.append(section)
+                
+                for subjects in handle_subject:
+                    subject = {
+                        'id':subjects.subject_id,
+                        'name':subjects.subject_name,
+                        'section':subjects.section_subject.section_name,
+                        'schedule':f'{subjects.subject_day}-{subjects.subject_start} TO {subjects.subject_end} ' ,
+                    }
+                    allSubject.append(subject)
+
+                result = {
+                    'Faculty':{
+                        'id':query_email.faculty_id,
+                        'name':query_email.fullName,
+                        'collegiate':query_email.faculty_collegiate.collegiate_name,
+                        'section handled': allSection,
+                        'subject handled': allSubject
+                    },
+                    'Available':False
+                    
+                }
+                return result
+            
+            elif query_email.type == 'Student':
+                result = {
+                    'Student': {
+                        'id':query_email.student_id,
+                        'name':query_email.fullName,
+                        'section':'TODO',
+                        'collegiate':'TODO',
+                    },
+                    'Available':True
+
+                }
+
+                return result

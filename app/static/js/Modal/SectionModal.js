@@ -23,7 +23,7 @@ let isAvail;
 // STRUCTURED
 const debounce_section = debounce(async (course, year, section) => {
 	try {
-		const response = await axios.get(`/api/section/${course} ${year}${section}`);
+		const response = await axios.get(`/api/sections/${course} ${year}${section}`);
 		return (isAvail = response.data.Available);
 	} catch (e) {
 		console.log(e);
@@ -44,22 +44,22 @@ customBG.addEventListener('click', (e) => {
 	}
 });
 
-courseName.addEventListener('change', (e) => {
-	current_courseName = e.target.value;
-});
-year.addEventListener('change', (e) => {
-	current_year = e.target.value;
-});
-section.addEventListener('change', (e) => {
-	current_section = e.target.value;
+createForm.addEventListener('change', (e) => {
+	submit.disabled = true;
+	setTimeout(() => {
+		submit.disabled = false;
+	}, 750);
 });
 
-createForm.addEventListener('change', async (e) => {
-	debounce_section(current_courseName, current_year, current_section);
+createForm.addEventListener('input', async (e) => {
+	const course = courseName.value;
+	const cyear = year.value;
+	const csection = section.value;
+	debounce_section(course, cyear, csection);
 });
 
 createForm.addEventListener('submit', (e) => {
-	if (isAvail === 'False') {
+	if (isAvail === false) {
 		e.preventDefault();
 		error.innerHTML = `<div class="alert alert-danger" role="alert"><b>${current_courseName} ${current_year}${current_section}</b> already exists! </div>`;
 		modal_body.insertBefore(error, modal_body.childNodes.item(3));
