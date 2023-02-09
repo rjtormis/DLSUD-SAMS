@@ -29,12 +29,13 @@ is-invalid",placeholder = "First name",id = "first_name")}}
 {% endif %} {% endmacro %}
 
 <!-- MACRO FOR LAST NAME -->
-{% macro lastName_field(lastName_field) %} {% if 'Missing' in lastName_field.lastName.errors %}
+{% macro lastName_field(lastName_field) %}
+{% if 'Missing' in lastName_field.lastName.errors %}
 {{lastName_field.lastName(class = "form-control",style = 'border-color:red',placeholder = "Last name",id =
 "last_name")}}
 <label for="last_name">Last na..<b style="color: red">*</b></label>
-{% elif 'Too long' in lastName_field.lastName.errors %} {{lastName_field.lastName(class = "form-control
-is-invalid",placeholder = "Last name",id = "last_name")}}
+{% elif 'Too long' in lastName_field.lastName.errors %}
+{{lastName_field.lastName(class = "form-control is-invalid",placeholder = "Last name",id = "last_name")}}
 <label for="last_name" style="color: red">Too long</label>
 {% elif 'Too short' in lastName_field.lastName.errors %} {{lastName_field.lastName(class = "form-control
 is-invalid",placeholder = "Last name",id = "last_name")}}
@@ -208,7 +209,8 @@ is-invalid",placeholder = "Last name",id = "last_name")}}
 	<img src="{{url_for('static',filename ='img/calendar-date.svg')}}" alt="" />
 </span>
 <div class="form-floating">
-	{{birthDate_field.birthDate(type = "date",style='border-color:red',class = "form-control border-start-0",placeholder =
+	{{birthDate_field.birthDate(type = "date",style='border-color:red',class = "form-control border-start-0",placeholder
+	=
 	"Last name",id = "date_input")}}
 	<label for="date_input">Birthdate <b style="color: red">*</b></label>
 </div>
