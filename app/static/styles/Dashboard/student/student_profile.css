@@ -35,7 +35,6 @@ header
     position: relative;
 }
 
-
 .dashboard-navigation {
     display: flex;
     flex-direction: row;
