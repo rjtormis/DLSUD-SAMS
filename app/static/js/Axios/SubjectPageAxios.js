@@ -16,6 +16,7 @@ const error = document.createElement('div');
 
 // EDIT SUBJECT
 const editSubjectForm = document.getElementById('editForm');
+const editSubjectBody = document.getElementById('editSubjectBody');
 const editSubjectName = document.getElementById('editSubjectName');
 const editSubjectTeacher = document.getElementById('editSubjectTeacher');
 const editSubjectDay = document.getElementById('editDay');
@@ -34,8 +35,6 @@ const editSectionAdviser = document.getElementById('section_adviser');
 const editSectionCollegiate = document.getElementById('section_collegiate');
 const editSectionBtn = document.getElementById('editSection');
 const editSectionFile = document.getElementById('editSectionFile');
-
-const patch_request = `/api/sections/${sectionid}/edit`;
 
 editSectionName.value = editSection[0];
 editSectionYear.value = editSectionYearAndSection[0];
@@ -63,7 +62,18 @@ const db_subject = debounce(async (name, day, start = '', end = '') => {
 		const response_subject = await axios.get(`/api/subjects/${sectionid}/${name}`, {
 			params: { day: day, start: start, end: end },
 		});
-		console.log(response_subject);
+		return (isAvailSubject = response_subject.data.Available);
+	} catch (e) {
+		console.log(e);
+	}
+}, 350);
+
+const db_subject_edit = debounce(async (id, day, start = '', end = '', name) => {
+	try {
+		const response_subject = await axios.get(`/api/subjects/${sectionid}/${id}/edit`, {
+			params: { day: day, start: start, end: end, name: name },
+		});
+		console.log(response_subject.data);
 		return (isAvailSubject = response_subject.data.Available);
 	} catch (e) {
 		console.log(e);
@@ -92,7 +102,7 @@ createForm.addEventListener('input', (e) => {
 });
 
 createForm.addEventListener('submit', (e) => {
-	if (isAvailSubject === 'False') {
+	if (isAvailSubject === false) {
 		e.preventDefault();
 		error.innerHTML = `<div class="alert alert-danger" role="alert">Subject already exists or there is time conflict!</div>`;
 		createBody.insertBefore(error, createBody.childNodes.item(1));
@@ -100,17 +110,21 @@ createForm.addEventListener('submit', (e) => {
 });
 
 editSubjectForm.addEventListener('input', (e) => {
+	const subID = `${editSubjectForm.action.slice(-2)}`;
 	const name = editSubjectName.value;
 	const day = editSubjectDay.value;
 	const start = editSubjectStart.value;
 	const end = editSubjectEnd.value;
 	editSubjectBtn.disabled = false;
-	db_subject(name, day, start, end);
+	db_subject_edit(subID, day, start, end, name);
 });
 
 editSubjectForm.addEventListener('submit', (e) => {
-	e.preventDefault();
-	console.log(isAvailSubject);
+	if (isAvailSubject === false) {
+		e.preventDefault();
+		error.innerHTML = `<div class="alert alert-danger" role="alert">Subject already exists or there is time conflict!</div>`;
+		editSubjectBody.insertBefore(error, editSubjectBody.childNodes.item(1));
+	}
 });
 
 // ============================================================================
