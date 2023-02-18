@@ -214,7 +214,7 @@ class Subject(db.Model):
             input_time = input_time.strftime("%I:%M %p")
 
         return input_time
-    
+  
     def revertTime(self,input_time):
         
         input_time = datetime.strptime(input_time,'%I:%M %p')
