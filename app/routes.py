@@ -309,22 +309,22 @@ Student Dashboard
 @app.route('/student-dashboard')
 @login_required 
 def student_dashboard():
-    return render_template('Dashboard/Student/student_dashboard')
+    return render_template('Dashboard/Student/student_dashboard.html')
 
 @app.route('/student-profile')
 @login_required
 def student_profile():
-    return render_template('Dashboard/Student/student_profile')
+    return render_template('Dashboard/Student/student_profile.html')
 
 @app.route('/student-classroom')
 @login_required
 def student_classroom():
-    return render_template('Dashboard/Student/student_classroom')
+    return render_template('Dashboard/Student/student_classroom.html')
 
 @app.route('/student-upload')
 @login_required
 def student_upload():
-    return render_template('Dashboard/Student/student_upload')
+    return render_template('Dashboard/Student/student_upload.html')
 
 @app.route('/logout')
 def logout_page():
