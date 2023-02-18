@@ -66,9 +66,9 @@
 				<h1 class="modal-title fs-5" id="editSubjectModalLabel"><b>EDIT SUBJECT</b></h1>
 				<img class="modal-img" src="{{url_for('static',filename = 'img/logo.png')}}" alt="" />
 			</div>
-			<form action="" method="PATCH" enctype="multipart/form-data" id="editForm">
+			<form action="" method="POST" enctype="multipart/form-data" id="editForm">
 				{{editSubject_form.hidden_tag()}}
-				<div class="modal-body">
+				<div class="modal-body" id="editSubjectBody">
 					<div class="form-floating mb-3">
 						{{editSubject_form.subject_name(class = "form-control", id = "editSubjectName")}}
 						<label for="editSubjectName"><b>Subject Name</b></label>
